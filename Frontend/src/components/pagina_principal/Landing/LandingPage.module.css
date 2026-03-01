@@ -1,0 +1,2123 @@
+.main-container {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Capa Fija */
+.fixed-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+}
+
+.fixed-image-container {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.fixed-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Capa Scroll */
+.scroll-layer {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+}
+
+/* ============================================== */
+/* HEADER */
+/* ============================================== */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 3rem;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  color: #ffffff;
+}
+
+/* Elementos del header */
+.logo-nav-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  margin-right: 2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.navigation {
+  margin-top: -1.7%;
+  display: none;
+}
+
+.nav-link {
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 1.5rem;
+}
+
+.order-button {
+  margin-top: -1.7%;
+  margin-left: -6%;
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border: 2px solid white;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+}
+
+/* Estados del header */
+.header-white {
+  background-color: white;
+  color: #adce26;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem 3rem;
+}
+
+.header-white .logo {
+  color: #2e7d32;
+}
+
+.header-white .nav-link {
+  color: #7d990b;
+}
+
+.header-white .order-button {
+  color: #2e7d32;
+  border-color: #2e7d32;
+}
+
+/* ============================================== */
+/* SECCIONES ESPECÍFICAS */
+/* ============================================== */
+
+/* Sección de video */
+.video-section {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.7)
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 0 1.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 0.9;
+}
+
+.hero-subtitle {
+  color: white;
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+
+/* Secciones blancas */
+.white-section {
+  position: relative;
+  background-color: white;
+  padding: 6rem 1.5rem;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.white-section2 {
+  position: relative;
+  background-color: white;
+  display: flex;
+  align-items: center;
+}
+
+.white-section3 {
+  position: relative;
+  background-color: white;
+  display: flex;
+  align-items: center;
+}
+
+.white-section4 {
+  position: relative;
+  background-color: white;
+  padding: 6rem 0;
+  margin-top: 100px;
+  z-index: 3;
+}
+
+.white-section5 {
+  position: relative;
+  background-color: white;
+  display: flex;
+}
+
+.white-section6 {
+  margin-top: 53%;
+  position: relative;
+  background-color: white;
+  padding: 6rem 1.5rem;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.content-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.content-container2 {
+  width: 100%;
+  max-width: 1900px;
+  margin: 0 auto;
+}
+
+.content-container3 {
+  width: 100%;
+  max-width: 1900px;
+  margin: 0 auto;
+}
+
+.content-container4 {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+}
+.content-container5 {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.content-container6 {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #2e7d32;
+}
+
+.section-lead {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+/* Secciones transparentes */
+.transparent-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  color: white;
+  z-index: 2;
+}
+.transparent-content {
+  max-width: 600px;
+  padding: 2rem;
+}
+
+.transparent-title {
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+}
+
+.transparent-text {
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  max-width: 500px;
+}
+
+/* Menú Slider */
+.menu-slider-section {
+  padding: 4rem 0;
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+}
+
+.menu-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #2e7d32;
+}
+
+.menu-controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.menu-control-button {
+  background: none;
+  border: 2px solid #2e7d32;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #2e7d32;
+}
+
+.menu-control-button:hover {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.menu-items-container {
+  display: flex;
+  gap: 2rem;
+  overflow-x: hidden;
+  padding: 1rem 0;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.menu-items-container::-webkit-scrollbar {
+  display: none;
+}
+
+.menu-item {
+  flex: 0 0 auto;
+  min-width: 250px;
+}
+
+.menu-item-image-container {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.menu-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.menu-item:hover .menu-item-image {
+  transform: scale(1.05);
+}
+
+.menu-item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-item-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.menu-item-icon {
+  color: #2e7d32;
+}
+
+/* Grid de valores */
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.value-item {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 10px;
+  background-color: #f5f5f5;
+  transition: transform 0.3s ease;
+}
+
+.value-item:hover {
+  transform: translateY(-5px);
+}
+
+.value-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2e7d32;
+  margin: 1rem 0;
+}
+
+.value-description {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Grid de restaurantes */
+.restaurants-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.restaurant-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.restaurant-item:hover .restaurant-image {
+  transform: scale(1.05);
+}
+
+.restaurant-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.restaurant-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2e7d32;
+  margin: 1rem 0;
+}
+
+.restaurant-address {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+/* Hover states */
+.nav-link:hover {
+  color: #adce26;
+}
+
+.order-button:hover {
+  background-color: white;
+  color: #2e7d32;
+}
+
+.header-white .nav-link:hover {
+  color: #2e7d32;
+}
+
+.header-white .order-button:hover {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.download-button,
+.menu-button {
+  background: none;
+  border: 2px solid white;
+  color: white;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.download-button:hover,
+.menu-button:hover {
+  background-color: white;
+  color: #000;
+}
+
+.contact-button {
+  background: none;
+  border: 2px solid #2e7d32;
+  color: #2e7d32;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.contact-button:hover {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.contact-text {
+  font-size: 1.125rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+/* Footer */
+/* .footer-section {
+  background-color: #f5f5f5;
+  padding: 4rem 0;
+  margin-top: 4rem;
+} */
+
+/* NUEVOS ESTILOS PARA EL IPHONE CON PDF */
+
+/* Estilos para el layout dividido en la sección transparente */
+.split-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.transparent-content {
+  flex: 0 0 35%;
+  max-width: 35%;
+}
+
+/* Estilos para el contenedor del iPhone */
+.phones-container {
+  flex: 1;
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Estilos base compartidos para ambos contenedores de iPhone */
+.phone-container,
+.static-phone-container {
+  flex: 0 0 auto;
+  position: relative;
+  width: fit-content;
+}
+
+/* Estilos compartidos para los wrappers de ambos iPhones */
+.phone-frame-wrapper {
+  position: relative;
+  width: fit-content;
+}
+
+/* Estilos compartidos para los frames de ambos iPhones */
+.phone-frame {
+  width: 350px;
+  height: auto;
+  position: relative;
+  z-index: 3;
+  display: block;
+}
+
+.static-phone-container .phone-frame {
+  position: relative;
+  z-index: 1;
+}
+
+.static-phone-container .static-content {
+  z-index: 10;
+}
+
+.static-phone-container .phone-logo {
+  z-index: 11;
+}
+
+/* Contenedor del slider del menú */
+.menu-slider-container {
+  position: absolute;
+  top: 0;
+  left: 11.5%;
+  width: 77%;
+  height: 86%;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: 35px;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Ajustes para las slides del menú */
+.menu-slides {
+  height: 85%;
+  width: 1000%;
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+.menu-slide-wrapper {
+  flex: 0 0 10%;
+  width: 10%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border-radius: 35px;
+  overflow: hidden;
+}
+
+.menu-slide {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  padding: 0;
+  border-radius: 35px;
+}
+
+/* Estilos para los controles */
+.slider-controls {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 4;
+  width: 60%;
+  justify-content: center;
+}
+
+.slider-button {
+  background: none;
+  border: 2px solid #000;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #000;
+  font-size: 1.2rem;
+}
+
+.slider-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.slider-button:hover:not(:disabled) {
+  background-color: #000;
+  color: #fff;
+}
+
+.slide-info {
+  font-size: 1rem;
+  color: #000;
+  min-width: 60px;
+  text-align: center;
+}
+
+/* Media Queries */
+@media (min-width: 768px) {
+  .header {
+    padding: 1rem 3rem;
+  }
+
+  .navigation {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .hero-content {
+    padding: 0 3rem;
+  }
+
+  .hero-title {
+    font-size: 6rem;
+  }
+
+  .white-section {
+    padding: 6rem 3rem;
+  }
+
+  .values-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .restaurants-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .transparent-title {
+    font-size: 5rem;
+  }
+}
+
+@media (max-width: 1400px) {
+  .phones-container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .phone-container .phone-frame,
+  .static-phone-container .phone-frame {
+    width: 350px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .split-layout {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .transparent-content {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .phones-container {
+    margin: 2rem auto 0;
+  }
+
+  .phone-frame {
+    max-width: 320px;
+  }
+
+  .menu-slider-container {
+    top: 1.5%;
+    left: 11.5%;
+    width: 77%;
+    height: 86%;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem 1.5rem;
+  }
+
+  .transparent-title {
+    font-size: 3rem;
+  }
+
+  .transparent-text {
+    font-size: 1rem;
+  }
+
+  .menu-title {
+    font-size: 2.5rem;
+  }
+
+  .menu-item {
+    min-width: 200px;
+  }
+
+  .menu-item-image-container {
+    height: 150px;
+  }
+
+  .split-layout {
+    padding: 0 1rem;
+  }
+
+  .phone-frame {
+    max-width: 300px;
+  }
+
+  .slider-button {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+
+  .slide-info {
+    font-size: 0.875rem;
+  }
+
+  .menu-slide {
+    padding: 6px;
+  }
+
+  .phone-container .phone-frame,
+  .static-phone-container .phone-frame {
+    width: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 3rem;
+  }
+
+  .transparent-title {
+    font-size: 2.5rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .menu-title {
+    font-size: 2rem;
+  }
+
+  .phone-frame {
+    max-width: 250px;
+  }
+
+  .slider-button {
+    width: 30px;
+    height: 30px;
+  }
+
+  .slide-info {
+    font-size: 0.875rem;
+  }
+
+  .menu-slide {
+    padding: 4px;
+  }
+
+  .phone-container .phone-frame,
+  .static-phone-container .phone-frame {
+    width: 250px;
+  }
+}
+
+/* Estilos para la segunda imagen */
+.second-phone-container {
+  flex: 0 0 auto;
+  position: relative;
+  width: fit-content;
+}
+
+.second-phone-frame {
+  margin-top: 12%;
+  max-width: 804px; /* O el tamaño que necesites */
+  height: auto;
+  position: relative;
+  z-index: 2;
+  display: block;
+}
+
+/* Estilos para el segundo iPhone estático */
+.static-phone-container {
+  margin-top: -6%;
+  flex: 0 0 auto;
+  position: relative;
+  width: fit-content;
+}
+
+/* Ajuste del contenedor del contenido estático */
+.static-content {
+  position: absolute;
+  top: 1.5%;
+  left: 11.5%;
+  width: 77%;
+  height: 86%;
+  z-index: 10;
+  overflow: hidden;
+  border-radius: 35px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+/* Ajustes del logo */
+.phone-logo {
+  max-width: 65%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  z-index: 11;
+  position: relative;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 1400px) {
+  .static-content {
+    top: 1.5%;
+    left: 11.5%;
+    width: 77%;
+    height: 86%;
+  }
+
+  .phone-logo {
+    max-width: 60%;
+  }
+}
+
+@media (max-width: 768px) {
+  .static-content {
+    top: 1.5%;
+    left: 11.5%;
+    width: 77%;
+    height: 86%;
+  }
+
+  .phone-logo {
+    max-width: 55%;
+  }
+}
+
+/* Media queries para TV y pantallas grandes */
+@media screen and (min-width: 1920px) {
+  .phones-container {
+    gap: 4rem; /* Más espacio entre los iPhones en pantallas grandes */
+  }
+
+  .phone-container .phone-frame,
+  .static-phone-container .phone-frame {
+    width: 500px; /* Tamaño más grande para TV */
+  }
+
+  /* Ajustes para el contenido dentro de los iPhones */
+  .menu-slider-container,
+  .static-content {
+    border-radius: 45px; /* Bordes más suaves para pantallas grandes */
+  }
+
+  /* Ajustes para los controles del slider */
+  .slider-controls {
+    margin-top: 2rem;
+  }
+
+  .slider-button {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+
+  .slide-info {
+    font-size: 1.2rem;
+  }
+}
+
+/* Media query para pantallas aún más grandes */
+@media screen and (min-width: 2560px) {
+  .phones-container {
+    gap: 5rem;
+  }
+
+  .phone-container .phone-frame,
+  .static-phone-container .phone-frame {
+    width: 600px; /* Tamaño más grande para pantallas 4K */
+  }
+}
+
+/* Ajustes adicionales para el contenido dentro de los iPhones */
+.menu-slider-container,
+.static-content {
+  background-color: TRANSPARENT;
+  position: absolute;
+  top: 1.5%;
+  left: 8.5%;
+  width: 77%;
+  height: 86%;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 35px;
+}
+
+/* Ajustes para el contenido del menú */
+.menu-slide {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 35px;
+}
+
+/* Ajustes para el logo en el iPhone estático */
+.phone-logo {
+  margin-left: -1%;
+  margin-top: -9%;
+  max-width: 112%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Ajustes para la sección transparente */
+.transparent-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+/* Ajustes para el layout dividido */
+.split-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  max-width: 1920px; /* Ajustado para TV */
+  margin: 0 auto;
+  padding: 0 4rem;
+}
+
+/* Pantallas grandes (1400px y más) */
+@media (min-width: 1400px) {
+  .phone-frame {
+    max-width: 804px;
+  }
+
+  .static-phone-container {
+}
+  .static-phone-container .static-content {
+    margin-top: 13%;
+    margin-left: -6%;
+    width: 151%;
+}
+
+.slider-controls {
+  top: 94% !important;
+}
+
+.menu-items-container {
+  margin-left: -14% !important;
+  width: 127% !important;
+}
+.white-section  {
+  margin-left: -1% 
+}
+
+.section-lead{
+  margin-left: -14% !important;
+}
+
+.menu-title {
+  margin-left: -14% !important;
+}
+
+.content-container5 {
+  max-width: 1579px !important;
+}
+
+.menu-slider-container, .static-content {
+    margin-top: -14%;
+    width: 201%;
+    margin-left: -59%;
+    height: 132%;
+}
+
+  .phones-container {
+    gap: 3rem;
+    margin-left: 12%;
+  }
+}
+
+/* Pantallas medianas-grandes (1200px a 1399px) */
+@media (max-width: 1399px) {
+  .split-layout {
+    max-width: 1200px;
+  }
+
+  .phone-frame {
+    max-width: 700px;
+  }
+
+  .transparent-title {
+    font-size: 3.5rem;
+  }
+}
+
+/* Pantallas medianas (992px a 1199px) */
+@media (max-width: 1199px) {
+  .split-layout {
+    padding: 0 1.5rem;
+  }
+
+  .phone-frame {
+    max-width: 600px;
+  }
+
+  .phones-container {
+    gap: 2rem;
+  }
+
+  .transparent-title {
+    font-size: 3rem;
+  }
+}
+
+/* Tablets (768px a 991px) */
+@media (max-width: 991px) {
+  .split-layout {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .transparent-content {
+    max-width: 100%;
+    padding: 2rem 1rem;
+  }
+
+  .phones-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .phone-frame {
+    max-width: 500px;
+  }
+
+  .menu-slider-container {
+    top: 14.5%;
+  }
+
+  /* Ajustes de navegación */
+  .navigation {
+    display: none;
+  }
+
+  .order-button {
+    margin-left: 0;
+  }
+
+  .phone-container .phone-frame,
+  .static-phone-container .phone-frame {
+    width: 300px;
+  }
+}
+
+/* Tablets pequeñas y móviles grandes (576px a 767px) */
+@media (max-width: 767px) {
+  .split-layout {
+    padding: 0 1rem;
+  }
+
+  .phone-frame {
+    max-width: 400px;
+  }
+
+  .transparent-title {
+    font-size: 2.5rem;
+  }
+
+  .transparent-text {
+    font-size: 1rem;
+  }
+
+  .slider-controls {
+    margin-top: 0.5rem;
+  }
+
+  .slider-button {
+    width: 35px;
+    height: 35px;
+  }
+
+  /* Ajustes del header */
+  .header {
+    padding: 1rem;
+  }
+
+  .logo img {
+    width: 120px;
+  }
+}
+
+/* Móviles (hasta 575px) */
+@media (max-width: 575px) {
+  .phone-frame {
+    max-width: 320px;
+  }
+
+  .transparent-title {
+    font-size: 2rem;
+  }
+
+  .transparent-text {
+    font-size: 0.9rem;
+  }
+
+  .slider-button {
+    width: 30px;
+    height: 30px;
+  }
+
+  .slide-info {
+    font-size: 0.875rem;
+  }
+
+  /* Ajustes de botones */
+  .menu-button,
+  .download-button {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Móviles pequeños */
+@media (max-width: 360px) {
+  .phone-frame {
+    max-width: 280px;
+  }
+
+  .transparent-title {
+    font-size: 1.8rem;
+  }
+
+  .slider-controls {
+    gap: 0.5rem;
+  }
+}
+
+/* Ajustes específicos para el contenido del slider */
+@media (max-width: 991px) {
+  .menu-slider-container {
+    width: 90%;
+    left: 5%;
+  }
+
+  .menu-slide {
+    width: 96%;
+  }
+}
+
+/* Ajustes para la sección de video */
+@media (max-width: 767px) {
+  .video-section {
+    height: 80vh;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* Ajustes para las secciones blancas */
+@media (max-width: 991px) {
+  .white-section,
+  .white-section2,
+  .white-section3,
+  .white-section4 {
+    padding: 3rem 1rem;
+  }
+
+  .content-container,
+  .content-container2,
+  .content-container3,
+  .content-container4 {
+    padding: 0 1rem;
+  }
+}
+
+/* Ajustes para el menú slider */
+@media (max-width: 767px) {
+  .menu-items-container {
+    gap: 1rem;
+  }
+
+  .menu-item {
+    min-width: 200px;
+  }
+
+  .menu-item-image-container {
+    height: 150px;
+  }
+}
+
+/* Ajustes para el grid de valores y restaurantes */
+@media (max-width: 991px) {
+  .values-grid,
+  .restaurants-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .values-grid,
+  .restaurants-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Contenedor principal que mantiene los iPhones juntos visualmente */
+.phones-section {
+  position: relative;
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Contenedor independiente para el primer iPhone (menú) */
+.menu-phone-container {
+  position: relative;
+  width: fit-content;
+  flex: 0 0 auto;
+}
+
+/* Contenedor independiente para el segundo iPhone (logo) */
+.logo-phone-container {
+  position: relative;
+  width: fit-content;
+  flex: 0 0 auto;
+}
+
+/* Estilos para el segundo iPhone (phone-frame1) */
+.phone-frame1 {
+  position: relative;
+  width: 100%;
+  height: auto;
+  max-width: 375px;
+  border-radius: 40px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  z-index: 2;
+  transform: rotate(0deg); /* Eliminamos la rotación */
+}
+
+.static-phone-container .phone-frame1 {
+  margin-left: 0; /* Eliminamos el margen negativo */
+}
+
+/* Media queries para phone-frame1 */
+@media (max-width: 2000px) {
+  .phone-container .phone-frame1,
+  .static-phone-container .phone-frame1 {
+    width: 375px;
+    height: auto;
+  }
+}
+
+@media (max-width: 1800px) {
+  .phone-frame1 {
+    width: 350px;
+  }
+}
+
+@media (max-width: 1600px) {
+  .phone-container .phone-frame1,
+  .static-phone-container .phone-frame1 {
+    width: 294px;
+    margin-top: 17%;
+    min-width: 119%;
+  }
+}
+
+@media (max-width: 1440px) {
+  .phone-frame1 {
+    width: 300px;
+  }
+}
+
+@media (max-width: 1366px) {
+  .phone-container .phone-frame1,
+  .static-phone-container .phone-frame1 {
+    width: 280px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .phone-frame1 {
+    width: 260px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .phone-container .phone-frame1,
+  .static-phone-container .phone-frame1 {
+    width: 240px;
+  }
+}
+
+@media (max-width: 960px) {
+  .phone-frame1 {
+    width: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .phone-container .phone-frame1,
+  .static-phone-container .phone-frame1 {
+    width: 200px;
+  }
+}
+
+@media (max-width: 640px) {
+  .phone-frame1 {
+    width: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .phone-container .phone-frame1,
+  .static-phone-container .phone-frame1 {
+    width: 160px;
+  }
+}
+
+/* Estilos para pantallas grandes */
+@media (min-width: 2000px) {
+  .phone-frame1 {
+    max-width: 450px;
+    border-radius: 50px;
+  }
+
+  .static-phone-container .phone-frame1 {
+    transform: scale(1.2);
+    width: 84%;
+    margin-top: 67%;
+  }
+}
+
+.static-phone-container .static-content {
+  background-color: transparent;
+}
+/* Ajustes para el contenedor del segundo teléfono */
+.static-phone-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ajustes para el contenido estático del segundo teléfono */
+.static-content {
+  position: absolute;
+  top: 1.5%;
+  left: 11.5%;
+  width: 77%;
+  height: 86%;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: 35px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ajustes del logo en el segundo teléfono */
+.phone-logo {
+  max-width: 65%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 1400px) {
+  .phones-section {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+
+/* Estilos específicos para cada slide */
+.menu-slide-1 {
+  /* Estilos específicos para la primera imagen */
+  object-position: center;
+}
+
+.menu-slide-2 {
+  /* Estilos específicos para la segunda imagen */
+  object-position: center;
+}
+
+.menu-slide-3 {
+  /* Estilos específicos para la tercera imagen */
+  object-position: center;
+}
+
+.menu-slide-4 {
+  /* Estilos específicos para la cuarta imagen */
+  object-position: center;
+}
+
+.menu-slide-5 {
+  /* Estilos específicos para la quinta imagen */
+  object-position: center;
+}
+
+.menu-slide-6 {
+  /* Estilos específicos para la sexta imagen */
+  object-position: center;
+}
+
+.menu-slide-7 {
+  /* Estilos específicos para la séptima imagen */
+  object-position: center;
+}
+
+.menu-slide-8 {
+  /* Estilos específicos para la octava imagen */
+  object-position: center;
+}
+
+.menu-slide-9 {
+  /* Estilos específicos para la novena imagen */
+  object-position: center;
+}
+
+.menu-slide-10 {
+  /* Estilos específicos para la décima imagen */
+  object-position: center;
+}
+
+/* Media queries para responsividad manteniendo estilos individuales */
+@media (max-width: 1400px) {
+  .menu-slide {
+    /* Estilos responsivos generales */
+  }
+
+  /* Puedes añadir ajustes específicos para cada slide en diferentes tamaños */
+  .menu-slide-1 {
+    /* Ajustes responsivos específicos */
+  }
+  /* ... y así sucesivamente para cada slide */
+}
+
+/* Media query para pantallas de 1280px */
+@media (max-width: 1280px) {
+  /* Contenedores principales */
+  .content-container,
+  .content-container2,
+  .content-container3,
+  .content-container4,
+  .content-container5,
+  .content-container6,
+  .content-container10 {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* Contenedor con split layout */
+  .content-container10.split-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  /* Ajustes específicos para cada contenedor */
+  .content-container {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .content-container2 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .content-container3 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .content-container4 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .content-container5 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  /* Ajustes para el contenedor con los teléfonos */
+  .content-container10 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .content-container10 .transparent-content {
+    flex: 1;
+    max-width: 45%;
+  }
+
+  .content-container10 .phones-container {
+    flex: 1;
+    max-width: 55%;
+  }
+
+  /* Ajustes de espaciado interno */
+  .content-container .section-heading,
+  .content-container2 .section-heading,
+  .content-container3 .section-heading,
+  .content-container4 .section-heading {
+    margin-bottom: 2rem;
+  }
+
+  /* Ajustes de texto dentro de los contenedores */
+  .content-container h1,
+  .content-container2 h1,
+  .content-container3 h1,
+  .content-container4 h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .content-container p,
+  .content-container2 p,
+  .content-container3 p,
+  .content-container4 p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+}
+
+/* Media query adicional para ajuste fino en 1279px */
+@media (max-width: 1279px) {
+  .content-container10.split-layout {
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .content-container10 .transparent-content,
+  .content-container10 .phones-container {
+    max-width: 100%;
+  }
+
+  /* Ajuste de márgenes para mejor espaciado vertical */
+  .content-container,
+  .content-container2,
+  .content-container3,
+  .content-container4,
+  .content-container5,
+  .content-container6 {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+}
+
+/* Media query para pantallas de 1100px y menores */
+@media (max-width: 1100px) {
+  /* Header ajustes adicionales */
+  .navigation {
+    display: none; /* Considerar agregar un menú hamburguesa */
+  }
+
+  /* Contenido principal */
+  .hero-title {
+    font-size: 3.5rem;
+  }
+
+  /* Phones section */
+  .phones-container {
+    flex-direction: column;
+    transform: scale(0.7);
+    margin: -10% 0;
+  }
+
+  .static-phone-container {
+    margin-top: -20%;
+  }
+
+  /* Grid layout */
+  .grid-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .grid-item {
+    min-height: 500px;
+  }
+
+  /* Menu slider */
+  .menu-title {
+    font-size: 3.5rem;
+    margin-left: -5% !important;
+  }
+
+  .menu-items-container {
+    margin-left: -5%;
+    width: 110%;
+  }
+
+  /* Frases sections */
+  .container {
+    flex-direction: column;
+  }
+
+  .sectionContainer {
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Media query para pantallas de 768px y menores */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 3rem;
+  }
+  
+  .white-section4 {
+    padding: 4rem 0;
+    margin-top: 50px;
+  }
+  
+  .content-container4 {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .white-section4 {
+    padding: 3rem 0;
+    margin-top: 30px;
+  }
+}
+
+/* Media query para pantallas de 480px y menores */
+@media (max-width: 480px) {
+  /* Header */
+  .order-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  /* Hero section */
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  /* Menu slider */
+  .menu-title {
+    font-size: 2.2rem;
+  }
+
+  .menu-item {
+    min-width: 200px;
+  }
+
+  /* Phones section */
+  .phones-container {
+    transform: scale(0.5);
+    margin: -20% 0;
+  }
+
+  /* Grid sections */
+  .grid-item {
+    min-height: 300px;
+  }
+
+  .text-content h1 {
+    font-size: 1.8rem;
+  }
+
+  /* Tiered Collapsible */
+  .section-header.bg-starter {
+    font-size: 2rem;
+  }
+
+  .section-header.bg-champ,
+  .section-header.bg-star,
+  .section-header.bg-legend {
+    font-size: 1.3rem;
+  }
+}
+
+/* Media query para pantallas grandes de 2000px y superiores */
+@media (min-width: 2000px) {
+  /* Contenedores principales */
+  /* .content-container,
+  .content-container2,
+  .content-container3,
+  .content-container4,
+  .content-container5,
+  .content-container6,
+  .content-container10 {
+    max-width: 2537px;
+
+  } */
+  .content-container{
+    min-width: 2132px;
+}
+
+.content-container2{
+  min-width: 2536px !important;
+}
+.content-container3{
+  min-width: 2539px;
+  padding-bottom: 8%;
+}
+.content-container4{
+  margin-top: 39.4%;
+  min-width: 2543px;
+}
+.content-container5{
+
+}
+.content-container6{
+
+}
+
+
+
+  /* Header y navegación */
+  .header {
+    padding: 1.5rem 4rem;
+  }
+
+  .logo img {
+    width: 180px;
+  }
+
+  .navigation {
+    gap: 3rem;
+  }
+
+  .nav-link {
+    font-size: 1.2rem;
+  }
+
+  .order-button {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+  }
+
+  /* Sección de video y hero */
+  .hero-content {
+    padding: 0 4rem;
+  }
+
+  .hero-title {
+    font-size: 7rem;
+  }
+
+  .hero-subtitle {
+    font-size: 2rem;
+  }
+
+  /* Menu Slider */
+  .menu-title {
+    font-size: 8rem;
+    margin-left: 0% !important;
+  }
+
+  .menu-items-container {
+    margin-left: 0% !important;
+    width: 100% !important;
+  }
+
+  .menu-item {
+    min-width: 500px;
+  }
+
+  .menu-item-image-container {
+    height: 400px;
+  }
+
+  .menu-item-title {
+    font-size: 2rem;
+  }
+
+  .section-lead {
+    font-size: 106% !important;
+    margin-left: 3% !important;
+  }
+
+  /* Sección de phones */
+  .phones-container {
+    transform: scale(1.2);
+    margin: 5% 0;
+    margin-left: 18%;
+  }
+
+  .content-container10.split-layout {
+    width: 1968px;
+        margin-top: -34%;
+        gap: 4rem;
+  }
+
+  .phone-frame-wrapper {
+
+}
+  .content-container10 .transparent-content h1 {
+    font-size: 5rem;
+  }
+
+  .content-container10 .transparent-content p {
+    font-size: 1.5rem;
+    line-height: 1.8;
+  }
+
+  /* Grid Sections */
+  .grid-container {
+    height: 140vh;
+  }
+
+  .grid-item {
+    min-height: 1000px;
+  }
+
+  .text-content {
+    padding: 4rem;
+  }
+
+  .text-content h1 {
+    font-size: 4rem;
+  }
+
+  .text-content p {
+    font-size: 1.5rem;
+    line-height: 1.8;
+  }
+
+  /* Tiered Collapsible */
+  .section-header.bg-starter {
+    font-size: 6rem;
+  }
+
+  .section-header.bg-champ {
+    font-size: 3.5rem;
+  }
+
+  .section-header.bg-star {
+    font-size: 4rem;
+  }
+
+  .section-header.bg-legend {
+    font-size: 4.5rem;
+  }
+
+  .content-inner {
+    padding: 3rem;
+    max-width: 90rem;
+  }
+
+  .content-item {
+    font-size: 1.3rem;
+  }
+
+  /* Frases Component */
+  .container {
+    margin-left: -2%;
+    max-width: 2400px;
+  }
+
+  .sectionContainer {
+    min-height: 600px;
+    padding: 4rem;
+  }
+
+  .title {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+  }
+
+  .description {
+    font-size: 1.5rem;
+    line-height: 1.8;
+  }
+
+  /* Ajustes para el video de fondo */
+  .video-section {
+    height: 100vh;
+  }
+
+  .background-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Footer y sección final */
+  .footer-section {
+    min-height: 1%;
+        margin-top: -33%;
+
+  }
+
+  .section-title {
+    font-size: 4rem;
+  }
+
+  .contact-text {
+    font-size: 1.5rem;
+  }
+
+  .contact-button {
+    padding: 1.5rem 3rem;
+    font-size: 1.3rem;
+  }
+
+  /* Ajustes para el slider de eventos */
+  .eventos-slider {
+    max-width: 1800px;
+  }
+
+  .evento-card {
+    min-height: 600px;
+  }
+
+  .evento-title {
+    font-size: 2.5rem;
+  }
+
+  .evento-description {
+    font-size: 1.3rem;
+  }
+
+  .phone-container .phone-frame {
+    margin-top: 52%;
+    width: 458px;
+}
+
+.menu-slider-container{
+  margin-top: -14%;
+  margin-left: -60%;
+  width: 202%;
+  height: 131%;
+}
+
+.content-container5 {
+
+}
+.static-content {
+  margin-top: 8%;
+  width: 99%;
+  margin-left: -14%;
+}
+
+.slider-controls {
+  height: 6%;
+  margin-top: -5% !important;
+}
+
+.content-container4{
+  /* margin-top: 40%; */
+}
+
+.phone-logo{
+  margin-left: -1%;
+        width: 302px;
+        margin-top: 43%;
+}
+
+.slider-button {
+color: #000000;
+}
+
+.white-section5 {
+  margin-bottom: -34%;
+
+}
+}
+
+@media screen and (max-width: 1920px) and (max-height: 1080px) {
+  /* Aquí va el código CSS específico para esta resolución */
+  .frases-container{
+
+  }
+}
+
+@media (min-width: 1400px) {
+  .content-container {
+      mAX-width: 1557px;
+  }
+}
+
+.white-section6.footer-section {
+  background-color: #f0f0f0;
+  padding: 40px 0;  /* Reduce el espacio vertical del footer */
+  margin-top: 0;    /* Elimina el margen superior */
+}
+
+/* Ajustar las últimas dos secciones para evitar conflictos */
+.white-section5 {
+  margin-bottom: 0%;
+}

@@ -1,0 +1,135 @@
+/* Header Styles */
+.header {
+  height: 10%;
+  position: fixed;
+  top: 0;
+  /* bottom: 90px; */
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  transition: background-color 0.3s ease;
+  background-color: transparent;
+}
+
+.header.header-white {
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo-nav-container {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.logo img {
+  height: auto;
+      max-height: 151px;
+}
+
+.navigation {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.header-white .nav-link {
+  color: #718f04;
+}
+
+.nav-link:hover {
+  color: #4caf50;
+}
+
+.order-button {
+  background-color: transparent;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 32px;
+  text-decoration: none;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.order-button:hover {
+  background-color: #45a049;
+}
+
+.arrow-icon {
+  font-size: 18px;
+}
+
+/* Login Button Styles */
+.login-button {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 8px 20px;
+  border-radius: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 15px;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
+
+.login-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.header-white .login-button {
+  color: #718f04;
+  border-color: #718f04;
+}
+
+.header-white .login-button:hover {
+  background-color: rgba(113, 143, 4, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .navigation {
+    gap: 15px;
+  }
+
+  .nav-link {
+    font-size: 14px;
+  }
+
+  .header {
+    padding: 15px 30px;
+  }
+
+  .login-button {
+    padding: 6px 15px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navigation {
+    display: none; /* Hide navigation on mobile - you might want to add a hamburger menu */
+  }
+
+  .logo-nav-container {
+    gap: 0;
+  }
+
+  .login-button {
+    display: none; /* Hide login button on mobile or handle it differently */
+  }
+}

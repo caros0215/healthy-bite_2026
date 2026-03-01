@@ -1,0 +1,1888 @@
+/* ============================================== */
+/* ESTILOS BASE Y CONTENEDORES PRINCIPALES */
+/* ============================================== */
+  
+  body {
+
+    overflow-x: hidden;
+  }
+.main-container {
+  position: relative;
+}
+
+/* Capa Fija */
+.fixed-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+}
+
+.fixed-image-container {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.fixed-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Capa Scroll */
+.scroll-layer {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+}
+
+/* ============================================== */
+/* HEADER */
+/* ============================================== */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 3rem;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  color: #ffffff;
+}
+
+/* Elementos del header */
+.logo-nav-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  margin-right: 2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.navigation {
+  margin-top: -1.7%;
+  display: none;
+}
+
+.nav-link {
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 1.5rem;
+}
+
+.order-button {
+  margin-top: -1.7%;
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border: 2px solid white;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+}
+
+/* Estados del header */
+.header-white {
+  background-color: white;
+  color: #adce26;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem 3rem;
+}
+
+.header-white .logo {
+  color: #2e7d32;
+}
+
+.header-white .nav-link {
+  color: #7d990b;
+}
+
+.header-white .order-button {
+  color: #2e7d32;
+  border-color: #2e7d32;
+}
+
+/* Hover states */
+.nav-link:hover {
+  color: #adce26;
+}
+
+.order-button:hover {
+  background-color: white;
+  color: #2e7d32;
+}
+
+.header-white .nav-link:hover {
+  color: #2e7d32;
+}
+
+.header-white .order-button:hover {
+  background-color: #2e7d32;
+  color: white;
+}
+
+/* ============================================== */
+/* SECCIONES ESPECÍFICAS */
+/* ============================================== */
+
+/* Estilos para lista de valores con karaoke y checkmarks */
+.values-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  align-items: flex-start;
+  margin-top: 3rem;
+  width: 100%;
+  max-width: 700px;
+  margin-right: auto;
+}
+
+.value-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  width: 100%;
+  opacity: 0;
+  animation: fadeInValue 0.5s ease-out forwards;
+}
+
+.value-item:nth-child(1) {
+  animation-delay: 1s;
+}
+
+.value-item:nth-child(2) {
+  animation-delay: 5s;
+}
+
+.value-item:nth-child(3) {
+  animation-delay: 9s;
+}
+
+.value-item:nth-child(4) {
+  animation-delay: 13s;
+}
+
+@keyframes fadeInValue {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.checkmark-placeholder {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+}
+
+.checkmark {
+  width: 32px;
+  height: 32px;
+  color: #84cc16;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: checkmarkPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes checkmarkPop {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(-45deg);
+  }
+  70% {
+    transform: scale(1.15) rotate(10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.value-text {
+  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+  line-height: 1.6;
+  text-align: left;
+  font-weight: 500;
+  margin: 0;
+  color: white;
+  word-wrap: break-word;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .values-list {
+    gap: 1.2rem;
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+
+  .value-item {
+    gap: 1rem;
+  }
+
+  .value-text {
+    font-size: 0.9rem;
+  }
+
+  .checkmark {
+    width: 28px;
+    height: 28px;
+  }
+
+  .checkmark-placeholder {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content {
+    padding: 1rem;
+  }
+
+  .hero-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .values-list {
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .value-text {
+    font-size: 0.85rem;
+  }
+}
+
+
+/* Sección de video */
+.video-section {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 0 1.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 0.9;
+}
+
+.hero-subtitle {
+  color: white;
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+
+/* Secciones blancas */
+.white-section {
+  position: relative;
+  background-color: white;
+  padding: 6rem 1.5rem;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.white-section2,
+.white-section3,
+.white-section5 {
+  position: relative;
+  background-color: white;
+  display: flex;
+  align-items: center;
+}
+
+.white-section4 {
+  position: relative;
+}
+
+.white-section6 {
+  margin-top: 0%;
+  position: relative;
+  background-color: white;
+  display: flex;
+  align-items: center;
+}
+
+.content-container {
+  width: 100%;
+  max-width: 1576px;
+  margin: 0 auto;
+}
+
+.content-container2,
+.content-container3 {
+  width: 100%;
+  max-width: 1900px;
+  margin: 0 auto;
+}
+
+.content-container4,
+.content-container5,
+.content-container6 {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.content-container6 {
+  padding: 0 1.5rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #2e7d32;
+}
+
+.section-lead {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+/* Secciones transparentes */
+.transparent-section {
+    background-color: rgb(29 29 27 / 67%);
+    position: relative;
+    min-height: 100vh;
+    display: flex
+;
+    align-items: center;
+    color: white;
+    z-index: 2;
+}
+
+.transparent-content {
+  max-width: 600px;
+  padding: 2rem;
+}
+
+.transparent-title {
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+}
+
+.transparent-text {
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  max-width: 500px;
+}
+
+/* Menú Slider */
+.menu-slider-section {
+  padding: 4rem 0;
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+}
+
+.menu-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #2e7d32;
+}
+
+.menu-controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.menu-control-button {
+  background: none;
+  border: 2px solid #2e7d32;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #2e7d32;
+}
+
+.menu-control-button:hover {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.menu-items-container {
+  display: flex;
+  gap: 2rem;
+  overflow-x: hidden;
+  padding: 1rem 0;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.menu-items-container::-webkit-scrollbar {
+  display: none;
+}
+
+.menu-item {
+  flex: 0 0 auto;
+  min-width: 250px;
+}
+
+.menu-item-image-container {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.menu-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.menu-item:hover .menu-item-image {
+  transform: scale(1.05);
+}
+
+.menu-item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-item-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.menu-item-icon {
+  color: #2e7d32;
+}
+
+/* Grid de valores */
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.value-item {
+     text-align: center;
+    /* padding: 2rem; */
+    border-radius: 10px;
+    background-color: transparent;
+    transition: transform 0.3s ease;
+}
+
+.value-item:hover {
+  transform: translateY(-5px);
+}
+
+.value-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2e7d32;
+  margin: 1rem 0;
+}
+
+.value-description {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Grid de restaurantes */
+.restaurants-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.restaurant-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.restaurant-item:hover .restaurant-image {
+  transform: scale(1.05);
+}
+
+.restaurant-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.restaurant-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2e7d32;
+  margin: 1rem 0;
+}
+
+.restaurant-address {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+/* Botones */
+.download-button,
+.menu-button {
+  background: none;
+  border: 2px solid white;
+  color: white;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.menu-button {
+  margin-top: 1.5rem;
+  display: inline-block;
+}
+
+.download-button:hover,
+.menu-button:hover {
+  background-color: white;
+  color: #000;
+}
+
+.contact-button {
+  background: none;
+  border: 2px solid #2e7d32;
+  color: #2e7d32;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.contact-button:hover {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.contact-text {
+  font-size: 1.125rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+/* ============================================== */
+/* ESTILOS PARA EL IPHONE CON PDF */
+/* ============================================== */
+
+/* Estilos para el layout dividido en la sección transparente */
+.split-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Estilos para el contenedor del iPhone */
+.phones-container {
+  flex: 1;
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Estilos base compartidos para ambos contenedores de iPhone */
+.phone-container,
+.static-phone-container {
+  flex: 0 0 auto;
+  position: relative;
+  width: fit-content;
+}
+
+/* Estilos compartidos para los wrappers de ambos iPhones */
+.phone-frame-wrapper {
+  position: relative;
+  width: fit-content;
+}
+
+/* Estilos compartidos para los frames de ambos iPhones */
+.phone-frame {
+  width: 652px;
+  height: auto;
+  position: relative;
+  display: block;
+}
+
+.static-phone-container .phone-frame {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================== */
+/* SLIDER DEL MENÚ */
+/* ============================================== */
+
+/* Contenedor del slider del menú - CONFIGURACIÓN PRINCIPAL */
+.menu-slider-container {
+  position: absolute;
+  top: 1.5%;
+  left: 11.5%;
+  width: 77%;
+  height: 86%;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: 35px;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Contenedor estático */
+.static-content {
+  position: absolute;
+  top: 1.5%;
+  left: 11.5%;
+  width: 77%;
+  height: 86%;
+  z-index: 10;
+  overflow: hidden;
+  border-radius: 35px;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.static-phone-container .static-content {
+  z-index: 10;
+}
+
+.static-phone-container .phone-logo {
+  z-index: 11;
+}
+
+/* Ajustes para las slides del menú */
+.menu-slides {
+  height: 100%;
+  width: 1000%;
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+.menu-slide-wrapper {
+  flex: 0 0 10%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-slide {
+    margin-left: 31.6% !important;
+    margin-top: -6.5% !important;
+    height: 70%;
+    width: auto;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    padding: 0;
+    border-radius: 10px;
+}
+
+/* Estilos para los controles del slider */
+.slider-controls {
+  position: absolute;
+  bottom: 5%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  z-index: 10;
+}
+
+.slider-button1 {
+  position: absolute;
+  left: 32.6%;
+  top: 45%;
+  transform: translateY(-50%);
+  background: none;
+  border: 2px solid #000;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex
+;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #000;
+  font-size: 1.2rem;
+  z-index: 10;
+}
+
+.slider-button2 {
+  position: absolute;
+  right: 34.8%;
+  top: 45%;
+  transform: translateY(-50%);
+  background: none;
+  border: 2px solid #000;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex
+;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #000;
+  font-size: 1.2rem;
+  z-index: 10;
+
+}
+
+.slide-info {
+  font-size: 1rem;
+  color: #000;
+  min-width: 60px;
+  text-align: center;
+}
+
+.slider-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.slider-button:hover:not(:disabled) {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Ajustes para el logo en el iPhone estático */
+.phone-logo {
+  margin-left: -1%;
+  margin-top: -9%;
+  max-width: 112%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ============================================== */
+/* MENÚ PREVIEW Y LAYOUT HORIZONTAL */
+/* ============================================== */
+
+/* Estilos para la vista previa del menú */
+.menu-slides-preview {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.5rem 0;
+}
+
+.menu-preview-container {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  overflow-x: hidden;
+  padding: 1rem 0;
+  scroll-behavior: smooth;
+}
+
+.menu-preview-item {
+  flex: 0 0 auto;
+  width: 200px;
+  height: 280px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.menu-preview-item:hover {
+  transform: translateY(-5px);
+}
+
+.menu-preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Layout horizontal */
+.horizontal-layout {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Ajustar el contenedor del texto */
+.transparent-content2 {
+  flex: 0 0 45%;
+  text-align: left;
+  padding-right: 2rem;
+}
+
+/* ============================================== */
+/* ESTILOS PARA EL SEGUNDO IPHONE */
+/* ============================================== */
+
+/* Estilos para la segunda imagen */
+.second-phone-container {
+  flex: 0 0 auto;
+  position: relative;
+  width: fit-content;
+}
+
+.second-phone-frame {
+  margin-top: 12%;
+  max-width: 804px;
+  height: auto;
+  position: relative;
+  z-index: 2;
+  display: block;
+}
+
+/* Estilos para el segundo iPhone estático */
+.static-phone-container {
+  margin-top: -6%;
+  flex: 0 0 auto;
+  position: relative;
+  width: fit-content;
+}
+
+/* Contenedor principal que mantiene los iPhones juntos visualmente */
+.phones-section {
+  position: relative;
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Contenedor independiente para el primer iPhone (menú) */
+.menu-phone-container {
+  position: relative;
+  width: fit-content;
+  flex: 0 0 auto;
+}
+
+/* Contenedor independiente para el segundo iPhone (logo) */
+.logo-phone-container {
+  position: relative;
+  width: fit-content;
+  flex: 0 0 auto;
+}
+
+/* Estilos para el segundo iPhone (phone-frame1) */
+.phone-frame1 {
+  position: relative;
+  width: 100%;
+  height: auto;
+  max-width: 375px;
+  border-radius: 40px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  z-index: 2;
+  transform: rotate(0deg);
+}
+
+/* ============================================== */
+/* MEDIA QUERIES */
+/* ============================================== */
+
+/* Media Queries para pantallas grandes */
+@media (min-width: 2000px) {
+  .content-container {
+    max-width: 1843px;
+  }
+
+  .content-container2,
+  .content-container3,
+  .content-container4 {
+    max-width: 2538px;
+  }
+
+  .white-section3 {
+    padding-bottom: 8%;
+  }
+
+  .static-phone-container .phone-frame1 {
+    margin-top: 16%;
+    min-width: 149%;
+  }
+
+  .phone-frame {
+    max-width: 92%;
+  }
+
+  .menu-slide {
+    margin-left: 28%;
+    width: 40% !important;
+  }
+
+  .phone-logo {
+    margin-left: -1%;
+    max-width: 84%;
+  }
+
+  .slider-controls {
+    margin-left: -5%;
+    top: 91% !important;
+  }
+
+  .phones-container {
+    gap: 4rem;
+  }
+
+  .phone-container .phone-frame,
+  .static-phone-container .phone-frame {
+    width: 500px;
+  }
+
+  .menu-slider-container,
+  .static-content {
+    border-radius: 45px;
+  }
+
+  .slider-controls {
+    margin-top: 2rem;
+  }
+
+  .slider-button1, .slider-button2 {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+
+
+  .slide-info {
+    font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  .slider-controls {
+    top: 92% !important;
+  }
+
+  .menu-slider-container,
+  .static-content {
+    margin-top: -14%;
+    width: 201%;
+    margin-left: -59%;
+    height: 132%;
+  }
+
+  .content-container4 {
+    background-color: #ffffff;
+    min-width: 1585px;
+  }
+
+  .phones-container {
+    gap: 3rem;
+    margin-left: 12%;
+  }
+
+  .split-layout {
+    max-width: 1600px;
+  }
+
+  .transparent-content2 {
+    margin-left: 2%;
+    min-width: 49%;
+  }
+
+  .static-phone-container .static-content {
+    margin-top: 13%;
+    margin-left: -6%;
+    width: 151%;
+  }
+
+  .menu-items-container {
+    margin-left: 0%;
+    width: 108%;
+  }
+
+  .section-lead {
+    margin-left: 1% !important;
+  }
+
+  .content-container5 {
+    max-width: 1579px !important;
+  }
+}
+
+@media (min-width: 1500px) and (max-width: 1600px) {
+  .menu-items-container {
+    width: 130% !important;
+  }
+}
+
+/* Pantallas medianas-grandes */
+@media (max-width: 1399px) {
+  .split-layout {
+    max-width: 1200px;
+  }
+
+  .phone-frame {
+    max-width: 700px;
+  }
+
+  .transparent-title {
+    font-size: 3.5rem;
+  }
+}
+
+/* Pantallas medianas */
+@media (max-width: 1199px) {
+  .split-layout {
+    padding: 0 1.5rem;
+  }
+
+  .phone-frame {
+    max-width: 600px;
+  }
+
+  .phones-container {
+    gap: 2rem;
+  }
+
+  .transparent-title {
+    font-size: 3rem;
+  }
+}
+
+/* Media Queries para tablets */
+@media (min-width: 768px) {
+  .header {
+    padding: 1rem 3rem;
+  }
+
+  .navigation {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .hero-content {
+    padding: 0 3rem;
+  }
+
+  .hero-title {
+    font-size: 6rem;
+  }
+
+  .white-section {
+    padding: 6rem 3rem;
+  }
+
+  .values-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .restaurants-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .transparent-title {
+    font-size: 5rem;
+  }
+}
+
+/* Tablets */
+@media (max-width: 991px) {
+  .split-layout {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .transparent-content {
+    max-width: 100%;
+    padding: 2rem 1rem;
+  }
+
+  .phones-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .phone-frame {
+    max-width: 500px;
+  }
+
+  .menu-slider-container {
+    top: 14.5%;
+    width: 90%;
+    left: 5%;
+  }
+
+  .menu-slide {
+    width: 96%;
+  }
+
+  /* Ajustes de navegación */
+  .navigation {
+    display: none;
+  }
+
+  .order-button {
+    margin-left: 0;
+  }
+
+  .phone-container .phone-frame,
+  .static-phone-container .phone-frame {
+    width: 300px;
+  }
+
+  .white-section,
+  .white-section2,
+  .white-section3,
+  .white-section4 {
+    padding: 3rem 1rem;
+  }
+
+  .content-container,
+  .content-container2,
+  .content-container3,
+  .content-container4 {
+    padding: 0 1rem;
+  }
+
+  .values-grid,
+  .restaurants-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  /* Ajustes para el layout horizontal */
+  .horizontal-layout {
+    flex-direction: column !important;
+    text-align: center;
+  }
+
+  .transparent-content2 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding-right: 0;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .phone-container {
+    flex: 0 0 100%;
+    margin: 0 auto;
+  }
+}
+
+/* Tablets pequeñas y móviles grandes */
+@media (max-width: 767px) {
+  .split-layout {
+    padding: 0 1rem;
+  }
+
+  .phone-frame {
+    max-width: 400px;
+  }
+
+  .transparent-title {
+    font-size: 2.5rem;
+  }
+
+  .transparent-text {
+    font-size: 1rem;
+  }
+
+  .slider-controls {
+    margin-top: 0.5rem;
+  }
+
+  .slider-button1 {
+    width: 35px;
+    height: 35px;
+  }
+  .slider-button2 {
+    width: 35px;
+    height: 35px;
+  }
+
+  /* Ajustes del header */
+  .header {
+    padding: 1rem;
+  }
+
+  .logo img {
+    width: 120px;
+  }
+
+  .video-section {
+    height: 80vh;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .menu-items-container {
+    gap: 1rem;
+  }
+
+  .menu-item {
+    min-width: 200px;
+  }
+
+  .menu-item-image-container {
+    height: 150px;
+  }
+}
+
+/* Móviles */
+@media (max-width: 575px) {
+  .phone-frame {
+    max-width: 320px;
+  }
+
+  .transparent-title {
+    font-size: 2rem;
+  }
+
+  .transparent-text {
+    font-size: 0.9rem;
+  }
+
+  .slider-button {
+    width: 30px;
+    height: 30px;
+  }
+
+  .slide-info {
+    font-size: 0.875rem;
+  }
+
+  /* Ajustes de botones */
+  .menu-button,
+  .download-button {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .values-grid,
+  .restaurants-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-preview-container {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .menu-preview-item {
+    width: 130px;
+    height: 180px;
+  }
+}
+
+/* Móviles pequeños */
+@media (max-width: 360px) {
+  .phone-frame {
+    max-width: 280px;
+  }
+
+  .transparent-title {
+    font-size: 1.8rem;
+  }
+
+  .slider-controls {
+    gap: 0.5rem;
+  }
+}
+
+/* Ajustes específicos para el contenido del slider */
+@media (max-width: 991px) {
+  .menu-slider-container {
+    width: 90%;
+    left: 5%;
+  }
+
+  .menu-slide {
+    width: 96%;
+  }
+}
+
+/* Ajustes para la sección de video */
+@media (max-width: 767px) {
+  .video-section {
+    height: 80vh;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* Ajustes para las secciones blancas */
+@media (max-width: 991px) {
+  .white-section,
+  .white-section2,
+  .white-section3,
+  .white-section4 {
+    padding: 3rem 1rem;
+  }
+
+  .content-container,
+  .content-container2,
+  .content-container3,
+  .content-container4 {
+    padding: 0 1rem;
+  }
+}
+
+/* Ajustes para el menú slider */
+@media (max-width: 767px) {
+  .menu-items-container {
+    gap: 1rem;
+  }
+
+  .menu-item {
+    min-width: 200px;
+  }
+
+  .menu-item-image-container {
+    height: 150px;
+  }
+}
+
+/* Ajustes para el grid de valores y restaurantes */
+@media (max-width: 991px) {
+  .values-grid,
+  .restaurants-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .values-grid,
+  .restaurants-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Contenedor principal que mantiene los iPhones juntos visualmente */
+.phones-section {
+  position: relative;
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Contenedor independiente para el primer iPhone (menú) */
+.menu-phone-container {
+  position: relative;
+  width: fit-content;
+  flex: 0 0 auto;
+}
+
+/* Contenedor independiente para el segundo iPhone (logo) */
+.logo-phone-container {
+  position: relative;
+  width: fit-content;
+  flex: 0 0 auto;
+}
+
+/* Estilos para el segundo iPhone (phone-frame1) */
+.phone-frame1 {
+  position: relative;
+  width: 100%;
+  height: auto;
+  max-width: 375px;
+  border-radius: 40px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  z-index: 2;
+  transform: rotate(0deg);
+}
+
+.static-phone-container .phone-frame1 {
+  margin-left: 0;
+}
+
+/* Media queries para phone-frame1 */
+@media (max-width: 2000px) {
+  .phone-container .phone-frame1,
+  .static-phone-container .phone-frame1 {
+    width: 375px;
+    height: auto;
+  }
+}
+
+@media (max-width: 1800px) {
+  .phone-frame1 {
+    width: 350px;
+  }
+}
+
+/* Ajustes para el posicionamiento en pantallas grandes */
+@media (min-width: 1600px) {
+  .split-layout {
+    max-width: 1600px;
+  }
+
+  .menu-slides-preview {
+    max-width: 1200px;
+  }
+}
+
+/* Mantener compatibilidad con estilos existentes */
+.content-container10 {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media (max-width: 1440px) {
+  .phone-frame1 {
+    width: 300px;
+  }
+}
+
+@media (max-width: 1366px) {
+  .phone-container .phone-frame1,
+  .static-phone-container .phone-frame1 {
+    width: 280px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .phone-frame1 {
+    width: 260px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .phone-container .phone-frame1,
+  .static-phone-container .phone-frame1 {
+    width: 240px;
+  }
+}
+
+@media (max-width: 960px) {
+  .phone-frame1 {
+    width: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .phone-container .phone-frame1,
+  .static-phone-container .phone-frame1 {
+    width: 200px;
+  }
+}
+
+.static-phone-container .static-content {
+  background-color: transparent;
+}
+
+.static-phone-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.static-content {
+  position: absolute;
+  top: 1.5%;
+  left: 11.5%;
+  width: 77%;
+  height: 86%;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: 35px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.phone-logo {
+  max-width: 65%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Media query para pantallas grandes de 2000px y superiores */
+@media (min-width: 2000px) {
+  .content-container {
+    max-width: 1843px;
+  }
+
+  .content-container2 {
+    max-width: 2538px;
+  }
+
+  .content-container3 {
+    max-width: 2538px;
+  }
+
+  .white-section3 {
+    padding-bottom: 8%;
+  }
+
+  .content-container4 {
+    max-width: 2538px;
+  }
+
+  .white-section6 {
+  }
+
+  .static-phone-container .phone-frame1 {
+    margin-top: 16%;
+    min-width: 149%;
+  }
+
+  .phone-frame {
+    max-width: 92%;
+  }
+
+  .menu-slide {
+    margin-left: 28%;
+    width: 40% !important;
+  }
+
+  .phone-logo {
+    margin-left: -1%;
+    max-width: 84%;
+  }
+
+  .slider-controls {
+    margin-left: -5%;
+    top: 91% !important;
+  }
+}
+
+.white-section5 {
+  margin-bottom: 0%;
+}
+
+.horizontal-layout {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Ajustar el contenedor del texto */
+.transparent-content2 {
+  flex: 0 0 45%;
+  text-align: left;
+  padding-right: 2rem;
+}
+
+/* Ajustar el contenedor del iPad */
+.phone-container {
+  flex: 0 0 50%;
+  position: relative;
+  max-width: 760px;
+}
+
+/* Media queries para asegurar responsividad */
+@media (max-width: 1024px) {
+  .horizontal-layout {
+    flex-direction: column !important;
+    text-align: center;
+  }
+
+  .transparent-content2 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding-right: 0;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .phone-container {
+    flex: 0 0 100%;
+    margin: 0 auto;
+  }
+}
+
+/* Media queries adicionales para ajustar tamaños en pantallas grandes */
+@media (min-width: 1400px) {
+  .horizontal-layout {
+    max-width: 1600px;
+  }
+
+  .transparent-content2 {
+    padding-right: 4rem;
+  }
+}
+
+/* Media (max-width: 575px) */
+@media (max-width: 575px) {
+  .slider-button1, .slider-button2 {
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+  }
+  
+  .slide-info {
+    font-size: 0.875rem;
+  }
+}
+
+/* Botón de zoom */
+.zoom-button {
+  position: absolute;
+  bottom: 15%;
+  right: 15%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 9999; /* Z-index muy elevado */
+  transition: all 0.3s ease;
+}
+
+.zoom-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.zoom-button:hover .zoom-arrow {
+  border-color: white;
+}
+
+.zoom-icon {
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+
+.zoom-arrow {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-style: solid;
+  border-color: #000;
+}
+
+.zoom-arrow-tl {
+  top: 0;
+  left: 0;
+  border-width: 2px 0 0 2px;
+}
+
+.zoom-arrow-br {
+  bottom: 0;
+  right: 0;
+  border-width: 0 2px 2px 0;
+}
+
+/* Modal de zoom */
+.zoom-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000; /* Z-index extremadamente alto */
+}
+
+.zoom-modal-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.zoom-modal-image {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  border: 5px solid white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.zoom-close-button {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+  border: 2px solid #000;
+  color: #000;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10001; /* Z-index aún más alto que el modal */
+  transition: all 0.3s ease;
+}
+
+.zoom-close-button:hover {
+  background-color: #000;
+  color: white;
+}
+
+/* Ajustes responsivos para el zoom */
+@media (max-width: 768px) {
+  .zoom-button {
+    width: 30px;
+    height: 30px;
+    bottom: 10%;
+    right: 10%;
+  }
+
+  .zoom-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .zoom-arrow {
+    width: 6px;
+    height: 6px;
+  }
+
+  .zoom-close-button {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    top: -15px;
+    right: -15px;
+  }
+}

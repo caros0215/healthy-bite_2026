@@ -1,0 +1,938 @@
+/* RealFoodRevolution.module.css */
+
+.container {
+min-height: 100vh;
+    background: linear-gradient(135deg, #f0f9ff, #ecfdf5, #f0fdf4);
+    /* padding: 2rem; */
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Animaciones */
+@keyframes bubbleUp {
+  0% {
+    transform: translateY(100px) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-50px) scale(1);
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-150px) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% { transform: translateY(0); }
+  40%, 43% { transform: translateY(-10px); }
+  70% { transform: translateY(-5px); }
+}
+
+.bubbleAnimation {
+  animation: bubbleUp 4s infinite ease-in-out;
+}
+
+.bubble1 { animation-delay: 0s; }
+.bubble2 { animation-delay: 0.8s; }
+.bubble3 { animation-delay: 1.6s; }
+.bubble4 { animation-delay: 2.4s; }
+.bubble5 { animation-delay: 3.2s; }
+.bubble6 { animation-delay: 0.4s; }
+.bubble7 { animation-delay: 1.2s; }
+.bubble8 { animation-delay: 2s; }
+.bubble9 { animation-delay: 2.8s; }
+.bubble10 { animation-delay: 3.6s; }
+.bubble11 { animation-delay: 0.6s; }
+.bubble12 { animation-delay: 1.4s; }
+.bubble13 { animation-delay: 2.2s; }
+.bubble14 { animation-delay: 3s; }
+.bubble15 { animation-delay: 3.8s; }
+.bubble16 { animation-delay: 1s; }
+.bubble17 { animation-delay: 1.8s; }
+.bubble18 { animation-delay: 2.6s; }
+
+/* Elementos decorativos de fondo */
+.backgroundDecorations {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.bgShape {
+  position: absolute;
+  opacity: 0.05;
+  animation: pulse 6s infinite;
+}
+
+.bgShape1 {
+  top: 5%;
+  left: -8%;
+  width: 16rem;
+  height: 10rem;
+  background: linear-gradient(45deg, #22c55e, #16a34a);
+  border-radius: 50% 40% 60% 30%;
+}
+
+.bgShape2 {
+  top: 60%;
+  right: -10%;
+  width: 12rem;
+  height: 9rem;
+  background: linear-gradient(45deg, #84cc16, #65a30d);
+  border-radius: 30% 60% 40% 50%;
+  animation-delay: 3s;
+}
+
+.bgShape3 {
+  bottom: 2%;
+  left: -5%;
+  width: 14rem;
+  height: 8rem;
+  background: linear-gradient(45deg, #10b981, #059669);
+  border-radius: 60% 30% 50% 40%;
+  animation-delay: 6s;
+}
+
+.bgShape4 {
+  bottom: 5%;
+  right: -6%;
+  width: 11rem;
+  height: 7rem;
+  background: linear-gradient(45deg, #14b8a6, #0d9488);
+  border-radius: 40% 60% 30% 50%;
+  animation-delay: 9s;
+}
+
+/* Grid principal */
+.mainGrid {
+    display: grid
+;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 90rem;
+    /* margin: 0 auto; */
+    align-items: center;
+    min-height: 80vh;
+    position: relative;
+    z-index: 20;
+}
+
+@media (min-width: 1024px) {
+  .mainGrid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+/* iPhone Section */
+.iphoneSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.iphoneDecorations {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.decorativeElement {
+  position: absolute;
+  opacity: 0.3;
+  font-size: 1.875rem;
+}
+
+.decorativeElementSmall {
+  position: absolute;
+  opacity: 0.4;
+  font-size: 1.25rem;
+}
+
+.decorativeElementTiny {
+  position: absolute;
+  opacity: 0.6;
+  font-size: 1.125rem;
+}
+
+.iphoneContainer {
+  position: relative;
+  max-width: 24rem;
+  width: 100%;
+}
+
+.iphoneWrapper {
+  position: relative;
+  width: 100%;
+  height: 37.5rem;
+}
+
+.iphoneImage {
+width: 98%;
+    height: 100%;
+    border-radius: 3rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    display: flex
+;
+    align-items: center;
+    justify-content: center;
+    color: #4b5563;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.iphoneImage img {
+margin-left: 25%;
+    min-width: 136%;
+    height: 173%;
+    object-fit: cover;
+    border-radius: 3rem;
+    margin-top: 12%;
+}
+
+/* Isla dinámica del iPhone */
+.dynamicIsland {
+    position: absolute;
+    top: -25%;
+    left: 61%;
+    transform: translateX(-50%);
+    width: 8rem;
+    height: 2rem;
+    background-color: #000;
+    border-radius: 9999px;
+    z-index: 50;
+    display: flex
+;
+    align-items: center;
+    justify-content: center;
+}
+
+.islandDot1 {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #4b5563;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.islandDot2 {
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: #374151;
+  border-radius: 50%;
+}
+
+/* Formulario sobrepuesto */
+.formOverlay {
+position: absolute;
+    top: -35%;
+    left: -0.8%;
+    width: 101%;
+    height: 141%;
+    z-index: 20;
+}
+
+.statusBar {
+    margin-left: 4%;
+    width: 117%;
+    margin-top: 12%;
+    height: 3.75rem;
+    display: flex
+;
+    justify-content: space-between;
+    padding: 0 1.25rem;
+    /* padding: 0 1.25rem; */
+    background: rgba(255, 255, 255, 0.95);
+    /* backdrop-filter: blur(4px); */
+    border-bottom: 1px solid #f3f4f6;
+    border-radius: 3.5rem 3.5rem 0 0;
+}
+
+.statusTime {
+margin-left: 2%;
+    margin-top: 3%;
+    font-weight: 800;
+    font-size: 1.575rem;
+    color: #000;
+}
+
+.statusIcons {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.statusLogo {
+margin-left: -7%;
+    height: 3rem;
+    width: auto;
+    border-radius: 0.125rem;
+}
+
+.appContent {
+margin-top: 0%;
+    margin-left: 4%;
+    padding: 1rem;
+    height: 108.5%;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 0 0 3.5rem 3.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    width: 116%;
+}
+
+.formHeader {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.headerLogo {
+  margin-bottom: 0.5rem;
+}
+
+.logoImage {
+width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+    margin: 0 auto;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.headerTitle {
+margin-top: 4%;
+    font-size: 2.025rem;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.headerSubtitle {
+font-size: 1.15rem;
+    color: #4b5563;
+}
+
+.orderForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.formInput, .formSelect, .formTextarea {
+width: 100%;
+    padding: 0.625rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-size: 1.15rem;
+    background: #fff;
+    transition: all 0.3s;
+}
+
+.formInput:focus, .formSelect:focus, .formTextarea:focus {
+  outline: none;
+  border-color: #16a34a;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.1);
+}
+
+.formSelect {
+  padding-right: 2rem;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 12px;
+}
+
+.formTextarea {
+  resize: vertical;
+  min-height: 3.125rem;
+}
+
+.submitButton {
+  width: 100%;
+  background: #16a34a;
+  color: #fff;
+  border: 2px solid #16a34a;
+  padding: 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.submitButton:hover {
+  background: #fff;
+  color: #16a34a;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+}
+
+/* Mensaje de confirmación */
+.confirmationMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.confirmationIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: bounce 1s infinite;
+}
+
+.confirmationTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.confirmationText {
+  font-size: 0.75rem;
+  color: #4b5563;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.loadingDots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.loadingDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: #16a34a;
+  border-radius: 50%;
+  animation: pulse 1s infinite;
+}
+
+.loadingDot:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.loadingDot:nth-child(3) {
+  animation-delay: 0.32s;
+}
+
+/* Badges flotantes del iPhone */
+.floatingBadge {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  padding: 0.5rem 0.75rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #16a34a;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.badgeIcon {
+  font-size: 1rem;
+}
+
+.iphoneBadge1 {
+  top: 10%;
+  left: -20%;
+}
+
+.iphoneBadge2 {
+  bottom: 20%;
+  right: -25%;
+}
+
+/* Center Content */
+.centerContent {
+    margin-left: 5%;
+    min-width: 99%;
+    display: flex
+;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+}
+
+.mainTitle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.titleIcon {
+  font-size: 2.25rem;
+  animation: spin 4s linear infinite;
+}
+
+.titleIcon2 {
+  animation-delay: 2s;
+}
+
+.titleText {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  background: linear-gradient(45deg, #16a34a, #22c55e);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: #4b5563;
+  margin-bottom: 2rem;
+}
+
+.iconRow {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.iconRow .bubbleAnimation {
+  font-size: 2.25rem;
+}
+
+.stepsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 28rem;
+  margin-bottom: 2rem;
+}
+
+.stepItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(4px);
+  border-radius: 1rem;
+  transition: transform 0.3s;
+}
+
+.stepItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.stepNumber {
+  width: 2rem;
+  height: 2rem;
+  background: linear-gradient(45deg, #16a34a, #22c55e);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.stepContent {
+  text-align: left;
+}
+
+.stepTitle {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
+
+.stepText {
+  font-size: 0.875rem;
+  color: #4b5563;
+  line-height: 1.4;
+}
+
+.motivationalQuote {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: #dcfce7;
+  border-radius: 9999px;
+  margin-top: 1rem;
+}
+
+.quoteIcon {
+  font-size: 1.5rem;
+  animation: pulse 2s infinite;
+}
+
+.quoteText {
+  font-style: italic;
+  color: #16a34a;
+  font-weight: 500;
+}
+
+/* Tablet Section */
+.tabletSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.tabletDecorations {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.tabletContainer {
+  position: relative;
+  max-width: 28rem;
+  width: 100%;
+}
+
+.tabletWrapper {
+  position: relative;
+  width: 100%;
+  height: 31.25rem;
+}
+
+.tabletImage {
+margin-left: -11%;
+    width: 135%;
+    height: 100%;
+    /* background: #1f2937; */
+    border-radius: 1.5rem;
+    /* box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); */
+    display: flex
+;
+    align-items: center;
+    /* color: #fff; */
+    ent: center;
+    color: #fff;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.tabletImage img {
+
+    min-width: 104%;
+    height: 209%;
+    margin-left: 2%;
+    margin-top: 9%;
+}
+
+/* Slider sobrepuesto */
+.sliderOverlay {
+    position: absolute;
+    top: -43%;
+    left: -4.6%;
+    width: 133%;
+    height: 198%;
+    z-index: 20;
+    overflow: hidden;
+    border-radius: 0.5rem;
+}
+
+.sliderContainer {
+  display: flex;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.sliderSlide {
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+.sliderImage {
+width: 10%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+/* Botones de navegación del slider */
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  border: none;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: #374151;
+  transition: all 0.2s;
+  z-index: 30;
+}
+
+.navButton:hover {
+  background: #fff;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prevButton {
+  left: 0.5rem;
+}
+
+.nextButton {
+  right: 0.5rem;
+}
+
+.zoomButton {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  border: none;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 30;
+}
+
+.zoomButton:hover {
+  background: #fff;
+  transform: scale(1.1);
+}
+
+.zoomIcon {
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+}
+
+.zoomCorner1, .zoomCorner2 {
+  position: absolute;
+  width: 0.375rem;
+  height: 0.375rem;
+  border: 2px solid #374151;
+}
+
+.zoomCorner1 {
+  top: 0;
+  left: 0;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.zoomCorner2 {
+  bottom: 0;
+  right: 0;
+  border-left: 0;
+  border-top: 0;
+}
+
+/* Controles del slider */
+.sliderControls {
+  position: absolute;
+  bottom: -3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.slideCounter {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Badges flotantes del tablet */
+.tabletBadge1 {
+  top: 15%;
+  right: -25%;
+}
+
+.tabletBadge2 {
+  bottom: 25%;
+  left: -30%;
+}
+
+/* Footer */
+.footer {
+  margin-top: 4rem;
+  position: relative;
+}
+
+.footerTop {
+  height: 6rem;
+  background: linear-gradient(45deg, #16a34a, #22c55e);
+  border-radius: 50% 50% 0 0;
+  margin: 0 -2rem;
+}
+
+.footerContent {
+  background: linear-gradient(45deg, #16a34a, #22c55e);
+  padding: 2rem;
+  text-align: center;
+  margin: 0 -2rem;
+}
+
+.footerIcons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 2.25rem;
+}
+
+.footerText {
+  color: #fff;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+/* Modal de zoom */
+.zoomModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.zoomModalContent {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zoomedImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.closeButton {
+  position: absolute;
+  top: -3rem;
+  right: -1rem;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  border: none;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #374151;
+  transition: all 0.2s;
+}
+
+.closeButton:hover {
+  background: #fff;
+  transform: scale(1.1);
+}
+
+/* Estados ocultos */
+.hidden {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .mainGrid {
+    gap: 1rem;
+  }
+  
+  .titleText {
+    font-size: 1.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  .stepsContainer {
+    max-width: 100%;
+  }
+}

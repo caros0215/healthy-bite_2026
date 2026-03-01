@@ -1,0 +1,374 @@
+.mainContainer {
+  position: relative;
+  overflow-anchor: none;
+}
+
+/* Primera capa: Imagen de fondo fija */
+.backgroundLayer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.backgroundLayerImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Segunda capa: Imágenes superpuestas */
+.fixedLayer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.fixedImageContainer {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.firstFixedImage,
+.secondFixedImage {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.fixedImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Tercera capa: Todo el contenido scrolleable */
+.scrollLayer {
+  position: relative;
+  z-index: 2;
+}
+
+.videoSection {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.backgroundImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 999;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+}
+
+/* Contenedor de la línea verde con marquee */
+.greenMarqueeContainer {
+  width: 100%;
+  background-color: #7f9b17;
+  color: white;
+  overflow: hidden;
+  padding: 23px 0;
+  position: relative;
+  font-weight: 500;
+  white-space: nowrap;
+  z-index: 1000;
+}
+
+.marqueeWrapper {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+
+.marqueeContent {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marquee 40s linear infinite;
+}
+
+.separator {
+  margin: 0 15px;
+  font-weight: bold;
+}
+
+.marqueeContent span {
+  display: inline-block;
+  padding: 0 10px;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.heroContent {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 0 1.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.heroTitle {
+  font-size: 4rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 0.9;
+}
+
+.heroSubtitle {
+  color: white;
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+
+/* Estilos del calendario */
+.calendarSection {
+  width: 100%;
+  height: 100vh;
+  background-color: white;
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.calendarContainer {
+  width: 100%;
+  height: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem 0;
+}
+
+.navButton {
+  background: none;
+  border: 2px solid #7f9b17;
+  color: #7f9b17;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.navButton:hover {
+  background-color: #7f9b17;
+  color: white;
+}
+
+.monthYear {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+  text-align: center;
+  min-width: 300px;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background-color: #e0e0e0;
+  border: 1px solid #e0e0e0;
+  flex: 1;
+  height: 100%;
+}
+
+.dayHeader {
+  background-color: #7f9b17;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendarDay {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+  min-height: 80px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.activeDay {
+  color: #333;
+}
+
+.activeDay:hover {
+  background-color: #f0f8e8;
+  border-color: #7f9b17;
+}
+
+.emptyDay {
+  background-color: #f9f9f9;
+  cursor: default;
+}
+
+/* Sección transparente final */
+.transparentSection {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  color: white;
+  z-index: 2;
+  background-color: transparent !important;
+  margin-top: -4%;
+  padding-bottom: 50px;
+}
+
+.contentContainer {
+  width: 100%;
+}
+
+.transparentContent {
+  max-width: 600px;
+  padding: 2rem;
+  position: relative;
+  z-index: 10;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.transparentTitle {
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 3rem;
+  }
+
+  .calendarSection {
+    padding: 1rem;
+  }
+
+  .monthYear {
+    font-size: 2rem;
+    min-width: 200px;
+  }
+
+  .navButton {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .calendarDay {
+    min-height: 60px;
+    font-size: 1rem;
+  }
+
+  .dayHeader {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+
+  .monthYear {
+    font-size: 1.5rem;
+  }
+
+  .calendarDay {
+    min-height: 50px;
+    font-size: 0.9rem;
+  }
+
+  .marqueeContent span {
+    font-size: 12px;
+  }
+}
+
+.hoverModal {
+  position: fixed !important;
+  z-index: 9999 !important;
+  background: white !important;
+  border: 1px solid #ddd !important;
+  border-radius: 8px !important;
+  padding: 15px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  max-width: 250px !important;
+  pointer-events: none !important;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.hoverModal.visible {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+}
+
+.modalImage {
+  width: 200px !important;
+  height: 150px !important;
+  object-fit: cover !important;
+  border-radius: 8px !important;
+  margin-top: 10px !important;
+  display: block !important;
+}

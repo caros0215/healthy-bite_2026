@@ -1,0 +1,149 @@
+/* Contenedor principal */
+.container {
+    display: flex
+    ;
+        flex-direction: column;
+        width: 164%;
+        background-color: #f5f5f0;
+        font-family: sans-serif;
+  }
+  
+  /* Sección de texto (izquierda) */
+  .textSection {
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .subtitle {
+    font-size: 0.875rem;
+    font-weight: 300;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .mainTitle {
+    font-size: 3.75rem;
+    font-weight: 900;
+    color: #1a1a1a;
+    margin-bottom: 2rem;
+    line-height: 1.1;
+  }
+  
+  .description {
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+  
+  .description:last-of-type {
+    margin-bottom: 2rem;
+  }
+  
+  .actionButton {
+    background-color: #1a1a1a;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .actionButton:hover {
+    background-color: #333;
+  }
+  
+  /* Sección de imagen (derecha) */
+  .imageSection {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .imageContainer {
+    background-color: #e5e5e0;
+    height: 16rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  
+  .imageWrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .cateringImage {
+    margin-right: 34%;
+    width: 66%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  
+  .imageWrapper:hover .overlay {
+    opacity: 1;
+  }
+  
+  .gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.1), transparent);
+  }
+  
+  /* Media query para pantallas medianas y grandes */
+  @media (min-width: 768px) {
+    .container {
+      flex-direction: row;
+      height: 500px;
+    }
+    
+    .textSection {
+      width: 50%;
+      padding: 3rem;
+    }
+    
+    .imageSection {
+      width: 50%;
+    }
+    
+    .imageContainer {
+      height: 100%;
+    }
+    
+    .actionButton {
+      width: 16rem;
+    }
+  }
+
+  @media (min-width:1400px) {
+    .container {
+
+      min-height: 700px;
+    }
+    .textSection {
+      width: 42%;
+  }
+ 
+  }

@@ -1,0 +1,653 @@
+/* Estilos originales del usuario */
+.mainContainer {
+  position: relative;
+  overflow-anchor: none;
+}
+
+.fixedLayer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none; /* Permite hacer clic a través de las imágenes */
+}
+
+.fixedImageContainer {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.firstFixedImage,
+.secondFixedImage {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.fixedImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scrollLayer {
+  position: relative;
+  z-index: 2;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 3rem;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  color: #ffffff;
+}
+
+.logoNavContainer {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  margin-right: 2rem;
+  transition: all 0.3s ease;
+}
+
+.navigation {
+  display: none;
+  gap: 1.5rem;
+  margin-top: -1.7%;
+}
+
+.navLink {
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.orderButton {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1.25rem;
+  border: 2px solid white;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  margin-top: -1.7%;
+  margin-left: -6%;
+}
+
+.headerWhite {
+  background-color: white;
+  color: #adce26;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem 3rem;
+}
+
+.headerWhite .navLink {
+  color: #7d990b;
+}
+
+.headerWhite .orderButton {
+  color: #2e7d32;
+  border-color: #2e7d32;
+}
+
+.videoSection {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.backgroundImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 999;
+}
+
+.backgroundVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  /* background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.7)
+  ); */
+}
+
+.greenMarqueeContainer {
+  width: 100%;
+  background-color: #7f9b17;
+  color: white;
+  overflow: hidden;
+  padding: 23px 0;
+  position: relative;
+  font-weight: 500;
+  white-space: nowrap;
+  position: relative;
+  z-index: 1000; /* Muy alto para que siempre esté visible */
+}
+
+.marqueeWrapper {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+
+.marqueeContent {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marquee 40s linear infinite;
+}
+
+.separator {
+  margin: 0 15px;
+  font-weight: bold;
+}
+
+.marqueeContent span {
+  display: inline-block;
+  padding: 0 10px;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.heroContent {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 0 1.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.heroTitle {
+  font-size: 4rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 0.9;
+}
+
+.heroSubtitle {
+  color: white;
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+
+.whiteSection {
+  margin-top: -4%;
+  position: relative;
+  background-color: white;
+  min-height: 148vh;
+  display: flex;
+  align-items: center;
+}
+
+.whiteSection3 {
+  margin-top: -4%;
+  position: relative;
+  background-color: white;
+  display: flex;
+  align-items: center;
+}
+
+.contentContainer {
+  width: 100%;
+}
+
+.whiteSection4 {
+  margin-top: -4%;
+  position: relative;
+  background-color: white;
+  display: flex;
+  align-items: center;
+}
+
+.contentContainer4 {
+  width: 100%;
+}
+
+.whiteSection6 {
+  margin-left: -24%;
+  margin-top: -4%;
+  position: relative;
+  background-color: white;
+  padding: 6rem 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.contentContainer6 {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sectionHeading {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.sectionLead {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.transparentSection {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  color: white;
+  z-index: 2;
+  background-color: transparent !important;
+  margin-top: -4%;
+  padding-bottom: 50px;
+}
+
+.transparentContent {
+  max-width: 600px;
+  padding: 2rem;
+  position: relative;
+  z-index: 10;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.transparentTitle {
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+}
+
+.transparentText {
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  max-width: 500px;
+}
+
+.downloadButton {
+  background: none;
+  border: 2px solid white;
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.downloadButton:hover {
+  background-color: white;
+  color: #000;
+}
+
+.splitLayout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0 4rem;
+}
+
+.phonesContainer {
+  flex: 1;
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.phoneFrame {
+  width: 350px;
+  height: auto;
+  position: relative;
+  z-index: 3;
+}
+
+.menuSliderContainer {
+  position: absolute;
+  top: 0;
+  left: 11.5%;
+  width: 77%;
+  height: 86%;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: 35px;
+}
+
+.menuSlides {
+  height: 85%;
+  width: 1000%;
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.menuSlideWrapper {
+  flex: 0 0 10%;
+  width: 10%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menuSlide {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 35px;
+}
+
+.sliderControls {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 4;
+}
+
+.sliderButton {
+  background: none;
+  border: 2px solid #000;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sliderButton:hover {
+  background-color: #000;
+  color: white;
+}
+
+.slideInfo {
+  font-size: 1rem;
+  color: #000;
+  min-width: 60px;
+  text-align: center;
+}
+
+.footerSection {
+  background-color: #f5f5f5;
+  padding: 4rem 0;
+  position: relative;
+  z-index: 3;
+}
+
+.contactButton {
+  background: none;
+  border: 2px solid #2e7d32;
+  color: #2e7d32;
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.contactButton:hover {
+  background-color: #2e7d32;
+  color: white;
+}
+
+/* NUEVOS ESTILOS PARA SECCIONES AGREGADAS Y CORRECCIONES */
+
+/* Sección con video a la izquierda y texto a la derecha */
+.videoTextSection {
+  background: #fff; /* Fondo blanco */
+  padding: 100px 0;
+  position: relative;
+  z-index: 3; /* Asegura que esté por encima de las imágenes fijas y se vea correctamente */
+  /* margin-top: -4%; -- ELIMINADO para evitar que se oculte detrás de la cinta verde */
+}
+
+.videoTextContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.videoContainer {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.sectionVideo {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  display: block;
+}
+
+.textContainer {
+  padding: 20px 0;
+}
+
+.sectionTitle {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #2c3e50; /* Color de texto oscuro */
+  margin-bottom: 30px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase; /* Mayúsculas */
+}
+
+.sectionDescription {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #666; /* Color de texto secundario */
+  margin-bottom: 20px;
+}
+
+/* Sección del iPhone */
+.iphoneSection {
+  /* margin-top: -4%; -- ELIMINADO para que se posicione correctamente después de la sección anterior */
+  position: relative;
+  background-color: white; /* Fondo blanco */
+  /* min-height: 100vh; -- ELIMINADO para que la altura sea determinada por el contenido */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centrar contenido */
+  z-index: 3; /* Asegura que esté por encima de las imágenes fijas y se vea correctamente */
+}
+
+.iphoneContentContainer {
+    width: 100%;
+    max-width: 1743px;
+    margin: 0 auto;
+    /* padding: 6rem 1.5rem; */
+    text-align: center;
+}
+
+.iphoneSectionHeader {
+  margin-bottom: 3rem; /* Margen consistente */
+}
+
+.iphoneSectionTitle {
+  font-size: 4rem; /* Tamaño de fuente como tu heroTitle */
+  font-weight: 700;
+  color: #000; /* Color de texto principal (negro) */
+  line-height: 0.9; /* Line-height como tu heroTitle */
+  margin-bottom: 1rem;
+  text-transform: uppercase; /* Mayúsculas */
+  letter-spacing: 0.05em; /* Espaciado de letras */
+}
+
+.iphoneSectionSubtitle {
+  font-size: 1.25rem; /* Tamaño de fuente como tu heroSubtitle */
+  color: #666; /* Color de texto secundario */
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Media Queries */
+@media (max-width: 1024px) {
+  .videoTextContainer {
+    grid-template-columns: 1fr;
+    gap: 60px;
+    padding: 0 20px;
+  }
+
+  .sectionTitle {
+    font-size: 2.8rem;
+  }
+
+  .iphoneSectionTitle {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+  }
+
+  .navigation {
+    display: none;
+  }
+
+  .heroTitle {
+    font-size: 3rem;
+  }
+
+  .splitLayout {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+
+  .phonesContainer {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .phoneFrame {
+    width: 280px;
+  }
+
+  .videoTextSection {
+    padding: 60px 0;
+  }
+
+  .iphoneSection {
+    padding: 60px 0;
+  }
+
+  .videoTextContainer {
+    gap: 40px;
+  }
+
+  .sectionVideo {
+    height: 300px;
+  }
+
+  .sectionTitle {
+    font-size: 2.2rem;
+  }
+
+  .iphoneSectionTitle {
+    font-size: 2rem;
+  }
+
+  .iphoneSectionSubtitle {
+    font-size: 1.1rem;
+  }
+
+  .iphoneContentContainer {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+
+  .iphoneSectionTitle {
+    font-size: 1.6rem;
+  }
+
+  .sectionDescription {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 2000px) {
+  .phoneFrame {
+    width: 500px;
+  }
+
+  .transparentTitle {
+    font-size: 5rem;
+  }
+
+  .iphoneSectionTitle {
+    font-size: 5rem;
+  }
+}

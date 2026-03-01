@@ -1,0 +1,120 @@
+/* HonestCatering.module.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  margin-top: -33%;
+  margin-left: -1.2%;
+  width: 2109px;
+  height: 758px;
+}
+
+.banner {
+  display: flex;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.bannerVideo {
+  flex: 1;
+  min-height: 1258px;
+  position: relative;
+  overflow: hidden;
+}
+
+.videoElement {
+margin-left: 2%;
+    position: absolute;
+    max-width: 73%;
+    object-fit: cover;
+}
+
+.bannerContent {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.serviceLabel {
+  margin-left: -74%;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.title {
+  margin-left: -74%;
+  font-size: 64px;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.title span {
+  display: block;
+}
+
+.description {
+  margin-left: -12%;
+  width: 524px;
+  text-align: center;
+  padding: 40px;
+  font-size: 20px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.ctaButton {
+    margin-left: 7%;
+    display: inline-flex
+;
+    align-items: center;
+    background-color: #000;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+    max-width: fit-content;
+}
+
+.ctaButton:hover {
+  background-color: #333;
+}
+
+.arrow {
+  margin-left: 8px;
+}
+
+@media (max-width: 768px) {
+  .banner {
+    flex-direction: column;
+  }
+  
+  .bannerVideo {
+    min-height: 250px;
+  }
+  
+  .videoElement {
+    min-height: 250px;
+  }
+  
+  .bannerContent {
+    padding: 30px;
+  }
+  
+  .title {
+    font-size: 42px;
+  }
+}

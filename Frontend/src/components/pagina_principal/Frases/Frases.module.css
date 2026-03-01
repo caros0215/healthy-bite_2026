@@ -1,0 +1,287 @@
+/* Footer.module.css - Actualizado con estilos para Spotify QR */
+.container {
+  margin-left: -0.5%;
+  display: flex;
+  gap: 0;
+  max-width: 2118px;
+  flex-direction: row;
+}
+
+.sectionContainer {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 400px;
+  padding: 30px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.greenContainer {
+  max-width: 36%;
+  color: #fff;
+}
+
+.grayContainer {
+  color: #333;
+  background-size: cover;
+  background-position: center;
+  background-image: url('../../../assets/images/logo_oscillate.gif');
+  /* 👆 Descomenta y reemplaza con la ruta real a tu GIF */
+}
+
+.backgroundLoader {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+}
+
+.animate .backgroundLoader {
+  animation: slideIn 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.greenContainer .backgroundLoader {
+  background: #27ae60;
+}
+
+.grayContainer .backgroundLoader {
+
+  /* background: rgba(236, 240, 241, 0.75); */
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+}
+
+.animate .content {
+  animation: fadeIn 0.8s 2.2s forwards;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: 800;
+}
+
+.description {
+  color: #ffffff;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  opacity: 0.95;
+  clear: both;
+}
+
+/* Estilos para las dos subcolumnas */
+.twoColumns {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.leftSubColumn, .rightSubColumn {
+  flex: 1;
+}
+
+.subTitle {
+  font-size: 1.2rem;
+  margin-bottom: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.socialIconsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  gap: 10px;
+  transition: transform 0.3s ease;
+}
+
+.socialLink:hover {
+  transform: translateX(5px);
+}
+
+.smallText {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-top: 15px;
+}
+
+.infoLinksContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.infoLink {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+.infoLink:hover {
+  transform: translateX(5px);
+}
+
+/* Estilos para la sección de Spotify */
+.spotifyContainer {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.qrCodeSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.qrIcon {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.qrText {
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 10px 0 0 0;
+  font-weight: 500;
+}
+
+.spotifyInstructions {
+  margin-left: 38%;
+  flex: 1 1;
+  max-width: 42%;
+}
+
+.instructionTitle {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #1DB954; /* Color verde de Spotify */
+  font-weight: 600;
+}
+
+.instructionStep {
+  color: #ffffff;
+  display: flex
+;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 10px 15px;
+  background-color: rgb(255 255 255 / 19%);
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.instructionStep:hover {
+  transform: translateX(5px);
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.stepNumber {
+  width: 28px;
+  height: 28px;
+  background-color: #1DB954;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.stepContent {
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stepIcon {
+  margin-left: 6px;
+  color: #1DB954;
+}
+
+/* Animaciones */
+@keyframes slideIn {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (min-width: 2000px) {
+  .container {
+    margin-left: -31%;
+    min-width: 2547px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  
+  .sectionContainer {
+    min-height: 350px;
+    padding: 25px;
+  }
+  
+  .greenContainer {
+    border-radius: 20px 20px 0 0;
+  }
+  
+  .grayContainer {
+    border-radius: 0 0 20px 20px;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .twoColumns {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .spotifyContainer {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .qrCodeSection {
+    align-self: center;
+  }
+}

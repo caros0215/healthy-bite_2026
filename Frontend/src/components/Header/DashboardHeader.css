@@ -1,0 +1,77 @@
+.dashboard-header {
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dashboard-navigation {
+    display: flex;
+    gap: 30px;
+  }
+
+  
+  
+  .menu-option {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+  
+  .menu-option:hover {
+    color: #718f04;
+    background-color: rgba(113, 143, 4, 0.1);
+  }
+  
+  .menu-option.active {
+    color: #718f04;
+    font-weight: 700;
+    border-bottom: 3px solid #718f04;
+  }
+  
+  .user-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .username {
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .logout-button {
+    background-color: transparent;
+    color: #718f04;
+    border: 2px solid #718f04;
+    padding: 8px 16px;
+    border-radius: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .logout-button:hover {
+    background-color: rgba(113, 143, 4, 0.1);
+  }
+  
+  @media (max-width: 768px) {
+    .dashboard-navigation {
+      display: flex;
+      gap: 10px;
+    }
+  
+    .menu-option {
+      font-size: 14px;
+      padding: 6px 12px;
+    }
+  
+    .username {
+      display: none;
+    }
+  }
+  

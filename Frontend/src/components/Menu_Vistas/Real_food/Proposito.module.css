@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Kumbh+Sans:wght@100..900&display=swap');
+.layoutContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: auto;
+    padding: 4rem 2rem;
+  }
+  
+  .imageContainer {
+    margin-top: -42%;
+    MARGIN-LEFT: -35%;
+    display: flex
+;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 50%;
+  }
+  
+  .imageWrapper {
+    position: relative;
+    transform: rotate(-5deg); /* Inclinación */
+  }
+  
+  .imageWrapper:nth-child(even) {
+    transform: rotate(5deg);
+  }
+  
+  .image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* 🏳 Espacio en el centro */
+  .emptySpace {
+    width: 10%; /* Ajusta el ancho del espacio entre imágenes y texto */
+  }
+  
+  /* 📌 Ajuste del texto */
+  .textContainer {
+    MARGIN-TOP: -35%;
+    MARGIN-RIGHT: -37%;
+    width: 71%;
+    text-align: justify;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #89b94c;
+    text-transform: uppercase;
+  }
+  
+  .subtitle {
+    font-family: "Kumbh Sans", sans-serif;
+    font-size: 6rem;
+    font-weight: BOLD;
+    color: #7d990b;
+    margin-bottom: 1rem;
+  }
+  
+  .paragraph {
+    font-family: "Kumbh Sans", sans-serif;
+    font-size: 205%;
+    line-height: 1.8;
+    color: #000000;
+  }
+  
+  /* 📱 Responsividad */
+  @media (max-width: 768px) {
+    .layoutContainer {
+      flex-direction: column-reverse;
+      text-align: center;
+    }
+  
+    .imageContainer,
+    .textContainer {
+      width: 100%;
+      text-align: center;
+    }
+  
+    .imageWrapper {
+      transform: none;
+    }
+  
+    .emptySpace {
+      width: 0%; /* Elimina el espacio en móviles */
+    }
+  }
+  

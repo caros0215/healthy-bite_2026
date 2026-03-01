@@ -1,0 +1,92 @@
+/* ============================================== */
+/* DIBUJOS FLOTANTES - AÑADIR AL FINAL DE home.css */
+/* ============================================== */
+
+/* Contenedor principal para los dibujos flotantes */
+.floating-drawings-container {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 50; /* Por encima de las secciones pero debajo de elementos interactivos */
+}
+
+/* Estilos base para cada dibujo flotante */
+.floating-drawing {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  transition: none;
+}
+
+/* Asegurar que elementos críticos estén por encima de los dibujos */
+.header {
+  z-index: 100 !important;
+}
+
+.zoom-modal {
+  z-index: 10000 !important;
+}
+
+.zoom-button,
+.slider-button1,
+.slider-button2 {
+  z-index: 9999 !important;
+}
+
+/* Contenido interactivo por encima de los dibujos */
+.hero-content,
+.transparent-content,
+.transparent-content2,
+.content-container,
+.content-container2,
+.content-container3,
+.content-container4,
+.content-container5,
+.content-container6,
+.content-container10,
+.section-heading,
+.phone-container,
+.menu-slider-container {
+  position: relative;
+  z-index: 60; /* Por encima de los dibujos flotantes */
+}
+
+/* Texto y botones específicos */
+.hero-title,
+.hero-subtitle,
+.transparent-title,
+.transparent-text,
+.section-lead,
+.download-button,
+.menu-button {
+  position: relative;
+  z-index: 70;
+}
+
+/* Media queries para optimización */
+@media (max-width: 768px) {
+  .floating-drawings-container {
+    opacity: 0.6; /* Menos intenso en móviles */
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-drawings-container {
+    opacity: 0.4; /* Aún menos intenso en pantallas pequeñas */
+  }
+}
+
+/* Prevenir cualquier interferencia */
+.floating-drawings-container * {
+  pointer-events: none !important;
+}

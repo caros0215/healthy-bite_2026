@@ -1,0 +1,215 @@
+.menuSliderSection {
+  width: 100%;
+  padding: 4rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.menuHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 4rem;
+  position: relative;
+  z-index: 5;
+}
+
+.menuTitle {
+  color: #000000;
+  font-size: 6rem;
+  font-weight: 900;
+  line-height: 0.9;
+  text-transform: uppercase;
+  margin-left: 4%;/* Agregado un pequeño margen negativo para alinear con el diseño original */
+}
+
+.menuControls {
+  display: flex;
+  gap: 1rem;
+  align-self: center;
+}
+
+.menuControlButton {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 2rem;
+  transition: all 0.3s ease;
+  margin-top: 2rem;
+}
+
+.menuControlButton:hover:not(:disabled) {
+  background-color: #e0e0e0;
+  transform: scale(1.05);
+}
+
+.menuControlButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.menuItemsContainer {
+  display: flex
+  ;
+      gap: 2.5rem;
+      overflow-x: auto;
+      padding: 1rem 0;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      margin: 0;
+      width: 110%;
+      margin-left: 4%;/* Añadido margen negativo para aproximar al diseño original */
+}
+
+.menuItemsContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.menuItem {
+  flex: 0 0 auto;
+  min-width: 600px;
+  max-width: 600px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.menuItemImageContainer {
+  position: relative;
+  width: 100%;
+  height: 850px;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+/* Texto grande en la parte superior */
+.imageTitle {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 3.5rem;
+  font-weight: 900;
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  z-index: 2;
+  width: 90%;
+}
+
+/* Texto pequeño en la parte inferior */
+.imageDescription {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 1.6rem;
+  font-weight: 400;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  z-index: 2;
+  width: 90%;
+}
+
+.menuItemImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.menuItem:hover .menuItemImage {
+  transform: scale(1.05);
+}
+
+.menuItemFooter {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.menuItemIcon {
+  font-size: 1.5rem;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 1600px) {
+  .menuTitle {
+    font-size: 5rem;
+  }
+  
+  .menuItem {
+    min-width: 500px;
+    max-width: 500px;
+  }
+  
+  .menuItemImageContainer {
+    height: 700px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .menuTitle {
+    font-size: 4rem;
+  }
+  
+  .menuItem {
+    min-width: 450px;
+    max-width: 450px;
+  }
+  
+  .menuItemImageContainer {
+    height: 600px;
+  }
+  
+  .imageTitle {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .menuSliderSection {
+    padding: 1rem;
+  }
+  
+  .menuTitle {
+    font-size: 2.5rem;
+    margin-left: 0;
+  }
+  
+  .menuItemsContainer {
+    margin-left: 0;
+  }
+  
+  .menuItem {
+    min-width: 280px;
+    max-width: 280px;
+  }
+  
+  .menuItemImageContainer {
+    height: 300px;
+  }
+  
+  .imageTitle {
+    font-size: 2rem;
+  }
+  
+  .imageDescription {
+    font-size: 1rem;
+  }
+  
+  .menuControlButton {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    margin-top: 0;
+  }
+}

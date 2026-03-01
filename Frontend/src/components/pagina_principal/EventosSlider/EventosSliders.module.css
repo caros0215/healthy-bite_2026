@@ -1,0 +1,203 @@
+/* Estilos principales de la sección */
+.menuslidersection {
+  width: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.menuslidersection.visible {
+  opacity: 1;
+}
+
+/* Contenedor dividido para fondos animados */
+.splitContainer {
+  display: flex;
+  width: 100%;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.leftHalf,
+.rightHalf {
+  flex: 1;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animación de fondos */
+.leftHalf::before,
+.rightHalf::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+}
+
+/* Fondo verde - 1 segundo */
+.leftHalf.filled::before {
+  background-color: #7d990b;
+  width: 100%;
+  transition: width 1s ease-in-out;
+}
+
+/* Fondo gris - 1.5 segundos */
+.rightHalf.filled::before {
+  background-color: #f0f0f0;
+  width: 100%;
+  transition: width 1.5s ease-in-out;
+}
+
+/* Animación del texto */
+.menutitle {
+  color: white;
+  font-size: 6rem;
+  font-weight: 900;
+  line-height: 0.9;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: all 1s ease-in-out 1.5s;
+  position: relative;
+  z-index: 1;
+}
+
+.menutitle.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Animación del logo */
+.logo {
+    height: 275px;
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 1s ease-in-out 2.5s;
+    position: relative;
+    z-index: 1;
+}
+
+.logo.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Estilos del slider de contenido */
+.menuitemscontainer {
+  display: flex
+  ;
+      margin-left: 1%;
+      width: 98%;
+      gap: 2rem;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 1rem 0;
+}
+
+.menuitemscontainer::-webkit-scrollbar {
+  display: none;
+}
+
+/* Elementos individuales del slider - Ajustado para imágenes alargadas */
+.menuitem {
+  min-width: 400px;
+  height: 550px; /* Altura total del card */
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.menuitemimagecontainer {
+  width: 100%;
+  height: 500px; /* Altura aumentada para efecto alargado */
+  overflow: hidden;
+  border-radius: 8px;
+  position: relative;
+}
+
+/* Configuración del tamaño interno de la imagen/video */
+.menuitemimage, .menuitemvideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Controla cómo se ajusta la imagen al contenedor */
+  object-position: center center; /* Controla qué parte de la imagen se muestra */
+  transition: transform 0.3s ease;
+}
+
+/* Para mostrar más la parte inferior de la imagen */
+.menuitemimage.vertical-bottom {
+  object-position: center bottom;
+}
+
+/* Para mostrar más la parte superior de la imagen */
+.menuitemimage.vertical-top {
+  object-position: center top;
+}
+
+/* Para contenido horizontal */
+.menuitemimage.horizontal-center {
+  object-position: center center;
+}
+
+.menuitem:hover .menuitemimage {
+  transform: scale(1.05);
+}
+
+/* Pie de cada item */
+.menuitemfooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  flex-grow: 1;
+}
+
+.menuitemtitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.menuitemicon {
+  font-size: 1.5rem;
+}
+
+/* Controles del slider */
+.menucontrols {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+.menucontrolbutton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 2rem;
+  transition: background-color 0.3s ease;
+}
+
+.menucontrolbutton:hover {
+  background-color: #e0e0e0;
+}
+
+@media (min-width: 2000px) {
+  .menuslidersection.visible {
+    margin-top: 3% !important;
+    padding-bottom: 2%;
+    background-color: #ffffff;
+  }
+
+}

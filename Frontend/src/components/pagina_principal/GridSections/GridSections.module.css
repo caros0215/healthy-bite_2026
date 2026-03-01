@@ -1,0 +1,277 @@
+.wellnessSection {
+  position: relative;
+  min-height: 100vh;
+  /* Changed to dark background instead of white */
+  background: linear-gradient(135deg, #e7eaf1 0%, #ffffff 100%);
+  overflow: hidden;
+}
+
+.matrixCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* New typing animation container */
+.typingContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* Typing word style with left to right animation */
+.typingWord {
+  position: absolute;
+  left: 0;
+  color: #1d1d1d;
+  font-family: monospace;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  animation: slideAndFade linear forwards;
+  text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+@keyframes slideAndFade {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+.content {
+  position: relative;
+  z-index: 10;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.title {
+  font-size: 48px;
+  font-weight: 800;
+  color: #000000;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+  font-size: 20px;
+  color: #000000;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.statCard {
+  background: #b7d15ae8;
+  border: 2px solid #b5be00;
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(16, 185, 129, 0.6);
+  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
+}
+
+.statNumber {
+  font-size: 48px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.statLabel {
+  font-size: 16px;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-bottom: 80px;
+}
+
+.featureCard {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 40px 30px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.featureCard:hover {
+  transform: translateY(-8px);
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 0 15px 40px rgba(16, 185, 129, 0.2);
+}
+
+.iconWrapper {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #b5be00 0%, #b5be00 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  color: #ffffff;
+}
+
+.featureTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 15px;
+}
+
+.featureDescription {
+  font-size: 16px;
+  color: #000000;
+  line-height: 1.6;
+}
+
+.ctaSection {
+  text-align: center;
+ background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 60px 40px;
+  backdrop-filter: blur(10px);
+}
+
+.ctaTitle {
+  font-size: 36px;
+  font-weight: 800;
+  color: #000000;
+  margin-bottom: 20px;
+}
+
+.ctaText {
+  font-size: 18px;
+  color: #000000;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #b5be00 0%, #b8d15a 100%);
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 16px 40px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5);
+}
+
+.secondaryButton {
+  background: transparent;
+  color: #000000;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 16px 40px;
+  border: 2px solid #b5be00;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.secondaryButton:hover {
+  background: rgba(16, 185, 129, 0.1);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 32px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .featuresGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ctaTitle {
+    font-size: 28px;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+  }
+}

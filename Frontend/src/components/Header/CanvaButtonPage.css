@@ -1,0 +1,737 @@
+/* ==== ESTILOS BASE Y LAYOUT PRINCIPAL ==== */
+.canva-button-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+    "Helvetica Neue", sans-serif;
+  color: #333;
+}
+
+.canva-content {
+  flex: 1 1;
+  width: 1573px;
+  margin: 30px auto;
+}
+
+.canva-integration-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+/* ==== TÍTULOS PRINCIPALES ==== */
+.main-title {
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.canva-info-box {
+  background-color: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+}
+
+.canva-info-box h1 {
+  color: #333;
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+/* ==== CONTENEDORES PRINCIPALES ==== */
+.canva-main-container {
+  background-color: #f8f9fa;
+  padding: 30px;
+  border-radius: 8px;
+  border: 2px solid #e9ecef;
+  margin-top: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.canva-grid {
+  display: flex;
+  justify-content: center;
+}
+
+.canva-main-card {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  width: 100%;
+  max-width: 1441px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ==== LAYOUTS DE COLUMNAS ==== */
+.two-columns,
+.two-column-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.two-column-layout {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.three-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 25px;
+}
+
+.column {
+  flex: 1;
+  min-width: 0;
+}
+
+.card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.card p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+/* ==== SUBCUADROS Y TARJETAS ==== */
+.canva-sub-card {
+  width: 100%;
+  max-width: none;
+  background-color: #fafbfc;
+  padding: 20px;
+  border-radius: 6px;
+  border: 2px solid #dee2e6;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.canva-sub-card h2 {
+  color: #333;
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.canva-sub-card p {
+  color: #666;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+/* ==== BOTONES DE CANVA ==== */
+.canva-button-main {
+  text-align: center;
+  margin: 15px 0;
+}
+
+.canva-button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.canva-animated-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, #00c4cc, #7d2ae8, #f7235c, #f7b500, #00c4cc);
+  background-size: 400% 400%;
+  border-radius: 12px;
+  border: none;
+  color: white;
+  padding: 16px 28px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: gradientBg 6s ease infinite;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.canva-animated-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.canva-animated-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.ir {
+  margin-left: -25%;
+}
+
+.canva-logo {
+  height: 46px;
+  margin-right: 109px;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* ==== PASOS Y NUMERACIÓN ==== */
+.canva-steps,
+.steps {
+  margin: 15px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.step-item,
+.step {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  gap: 8px;
+}
+
+.step {
+  align-items: center;
+  gap: 15px;
+}
+
+.step-number {
+  background: linear-gradient(90deg, #00c4cc, #7d2ae8, #f7235c, #f7b500, #00c4cc);
+  background-size: 400% 400%;
+  animation: gradientBg 6s ease infinite;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  flex-shrink: 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
+
+/* Efecto de brillo para los números */
+.step-number::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(30deg);
+  animation: shimmer 3s infinite;
+  pointer-events: none;
+}
+
+.step-item span:last-child {
+  color: #555;
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+.step-text {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.4;
+}
+
+/* ==== SECCIÓN DE SUBIDA DE ARCHIVOS ==== */
+.upload-section {
+  margin-top: 18px;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-label {
+  display: block;
+  width: 100%;
+  padding: 8px 14px;
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.file-label:hover {
+  background-color: #5856eb;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(99, 102, 241, 0.3);
+}
+
+/* ==== VISTA PREVIA DE IMAGEN ==== */
+.image-preview {
+  background-color: #f0f9ff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #bae6fd;
+  text-align: center;
+}
+
+.preview-image {
+  max-width: 80px;
+  max-height: 80px;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 6px;
+  object-fit: cover;
+}
+
+.preview-text {
+  margin: 0;
+  font-size: 0.7rem;
+  color: #0369a1;
+  font-weight: 500;
+  word-break: break-all;
+}
+
+/* ==== BOTONES DE GUARDAR ==== */
+.save-button {
+  width: 100%;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.save-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(139, 92, 246, 0.3);
+}
+
+.save-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.save-animated-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, #7d2ae8, #f7235c, #f7b500, #00c4cc, #7d2ae8);
+  background-size: 400% 400%;
+  border-radius: 12px;
+  border: none;
+  color: white;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: gradientBg 6s ease infinite;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.save-animated-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.save-animated-button:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.save-animated-button:disabled {
+  background: linear-gradient(90deg, #a0a0a0, #c0c0c0, #a0a0a0);
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.save-icon {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+/* ==== FORMULARIOS Y INPUTS ==== */
+.save-instructions {
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.save-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.design-url-input {
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
+}
+
+.design-url-input:focus {
+  border-color: #00c4cc;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 196, 204, 0.2);
+}
+
+.design-url-input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+/* ==== ESTILOS PARA EL CAMPO DE FECHA ==== */
+.date-selector {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.date-selector-label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+}
+
+/* Estilos para el botón que abre el DatePicker */
+.date-picker-button {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background-color: white;
+  font-size: 14px;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+  height: auto; /* Permitir que el padding defina la altura */
+  min-height: 38px; /* Altura mínima para consistencia */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: #333; /* Color de texto por defecto */
+}
+
+.date-picker-button:hover {
+  border-color: #00c4cc;
+  background-color: #f0f9ff;
+}
+
+.date-picker-button[data-state="open"] {
+  border-color: #00c4cc;
+  box-shadow: 0 0 0 2px rgba(0, 196, 204, 0.2);
+}
+
+.date-picker-button:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* Estilos para el calendario dentro del Popover (shadcn/ui por defecto) */
+/* Puedes añadir más estilos aquí si quieres personalizar el calendario en sí */
+
+/* ==== ESTADOS Y MENSAJES ==== */
+.upload-status {
+  margin-top: 10px;
+  padding: 6px;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.7rem;
+}
+
+.upload-status.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.upload-status.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.status-message {
+  margin-top: 15px;
+  padding: 12px 15px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.status-message p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.status-message.success {
+  background-color: #e6f7ef;
+  border-left: 4px solid #38a169;
+}
+
+.status-message.success p {
+  color: #2f855a;
+}
+
+.status-message.error {
+  background-color: #fff0f0;
+  border-left: 4px solid #e53e3e;
+}
+
+.status-message.error p {
+  color: #c53030;
+}
+
+/* ==== SPINNER Y ANIMACIONES ==== */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes gradientBg {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) rotate(30deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(30deg);
+  }
+}
+
+/* ==== SECCIÓN DE INFORMACIÓN ADICIONAL ==== */
+.additional-info {
+  margin-top: 50px;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+}
+
+.additional-info h3 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.benefits {
+  display: flex;
+  gap: 30px;
+  justify-content: space-between;
+}
+
+.benefit {
+  flex: 1;
+  text-align: center;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.benefit:hover {
+  transform: translateY(-5px);
+}
+
+.benefit-icon {
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+
+.benefit h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.benefit p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* ==== SELECTOR DE CATEGORÍA ==== */
+.category-selector {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.category-selector label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+}
+
+.category-selector select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background-color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.category-selector select:required:invalid {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
+}
+
+.category-selector select:focus {
+  outline: none;
+  border-color: #00c4cc;
+  box-shadow: 0 0 0 2px rgba(0, 196, 204, 0.2);
+}
+
+/* ==== RESPONSIVE DESIGN ==== */
+@media (max-width: 1200px) {
+  .three-columns {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 900px) {
+  .two-columns,
+  .two-column-layout {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .three-columns {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .benefits {
+    flex-direction: column;
+  }
+  .benefit {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .canva-info-box {
+    padding: 20px;
+    margin: 15px;
+  }
+  .canva-main-container {
+    padding: 20px;
+  }
+  .canva-main-card {
+    padding: 20px;
+  }
+  .canva-sub-card {
+    padding: 15px;
+  }
+  .canva-info-box h1 {
+    font-size: 1.8rem;
+  }
+  .canva-sub-card h2 {
+    font-size: 1.1rem;
+  }
+  .canva-sub-card p {
+    font-size: 0.8rem;
+  }
+  .step-item span:last-child {
+    font-size: 0.7rem;
+  }
+  .preview-image {
+    max-width: 60px;
+    max-height: 60px;
+  }
+  .category-selector {
+    flex-direction: column;
+  }
+  .category-selector label {
+    margin-bottom: 5px;
+  }
+  /* Responsive para el campo de fecha */
+  .date-selector {
+    flex-direction: column;
+  }
+  .date-selector-label {
+    margin-bottom: 5px;
+  }
+  .date-picker-button {
+    font-size: 12px;
+    padding: 6px 10px;
+    min-height: 32px;
+  }
+}
