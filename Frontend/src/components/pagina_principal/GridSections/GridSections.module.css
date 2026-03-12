@@ -1,9 +1,10 @@
 .wellnessSection {
   position: relative;
   min-height: 100vh;
-  /* Changed to dark background instead of white */
   background: linear-gradient(135deg, #e7eaf1 0%, #ffffff 100%);
   overflow: hidden;
+  /* ✅ Fix: romper el contenedor padre en móvil */
+  width: 100%;
 }
 
 .matrixCanvas {
@@ -15,7 +16,6 @@
   z-index: 1;
 }
 
-/* New typing animation container */
 .typingContainer {
   position: absolute;
   top: 0;
@@ -26,7 +26,6 @@
   overflow: hidden;
 }
 
-/* Typing word style with left to right animation */
 .typingWord {
   position: absolute;
   left: 0;
@@ -180,8 +179,8 @@
 
 .ctaSection {
   text-align: center;
- background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 24px;
   padding: 60px 40px;
   backdrop-filter: blur(10px);
@@ -245,7 +244,26 @@
   transform: translateY(-2px);
 }
 
+/* ============================================
+   MÓVIL (max 768px)
+   ✅ Fondo gris cubre todo el ancho
+   ============================================ */
 @media (max-width: 768px) {
+  /* ✅ Romper el contenedor padre con márgenes negativos */
+  .wellnessSection {
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    width: 100vw;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .content {
+    padding: 40px 16px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
   .title {
     font-size: 32px;
   }
@@ -254,16 +272,41 @@
     font-size: 18px;
   }
 
+  /* ✅ Stats en fila de 3 compactas */
   .statsGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+
+  .statCard {
+    padding: 16px 8px;
+    border-radius: 12px;
+  }
+
+  .statNumber {
+    font-size: 24px;
+  }
+
+  .statLabel {
+    font-size: 11px;
   }
 
   .featuresGrid {
     grid-template-columns: 1fr;
+    padding: 0 30px;
+  }
+
+  .featureCard {
+    padding: 28px 22px;
   }
 
   .ctaTitle {
     font-size: 28px;
+  }
+
+  .ctaSection {
+    padding: 40px 20px;
   }
 
   .buttonGroup {
@@ -273,5 +316,15 @@
   .primaryButton,
   .secondaryButton {
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .statNumber {
+    font-size: 20px;
+  }
+
+  .statLabel {
+    font-size: 10px;
   }
 }

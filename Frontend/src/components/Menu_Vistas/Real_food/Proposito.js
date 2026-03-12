@@ -1,7 +1,7 @@
 import styles from "./Proposito.module.css"
-import imagen_1 from "../../../assets/images/platos_3.jpg"
-import imagen_2 from "../../../assets/images/comida_3.jpeg"
-import imagen_3 from "../../../assets/images/comida_2.jpeg"
+import imagen_1 from "../../../assets/images/platos_3.webp"
+import imagen_2 from "../../../assets/images/comida_3.webp"
+import imagen_3 from "../../../assets/images/comida_2.webp"
 
 export default function InvertedLayout() {
     return (

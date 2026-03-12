@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from "react"
 import styles from "./historia.module.css"
-import imagen1 from "../../../assets/images/fundador_1.jpeg"
-import imagen2 from "../../../assets/images/fundador_3-.png"
-import imagen3 from "../../../assets/images/run_2.jpg"
-import imagen4 from "../../../assets/images/bowl.png"
-import imagen5 from "../../../assets/images/helado_2.jpeg"
+import imagen1 from "../../../assets/images/fundador_1.webp"
+import imagen2 from "../../../assets/images/fundador_3-.webp"
+import imagen3 from "../../../assets/images/run_2.webp"
+import imagen4 from "../../../assets/images/bowl.webp"
+import imagen5 from "../../../assets/images/helado_2.webp"
 
 // Iconos como componentes SVG simples
 const ChefHat = ({ className }) => (
@@ -176,7 +176,7 @@ const HealthyFoodStory = () => {
     {
       id: 3,
       name: "Ensalada Mediterránea",
-      image: "/small-kitchen-with-fresh-ingredients-and-cooking-u.jpg",
+      image: "/small-kitchen-with-fresh-ingredients-and-cooking-u.webp",
       time: "10 min",
       serves: "3 personas",
       rating: 4.7,
@@ -613,7 +613,7 @@ const HealthyFoodStory = () => {
           </div>
 
           <div className={styles.journeyImage}>
-            <img src="/colorful-quinoa-bowls-and-green-smoothies-on-woode.jpg" alt="Comida saludable y colorida" />
+            <img src="/colorful-quinoa-bowls-and-green-smoothies-on-woode.webp" alt="Comida saludable y colorida" />
             <div className={styles.journeyImageOverlay}></div>
             <div className={styles.journeyImageContent}>
               <h3>Alimentación que Transforma Vidas</h3>

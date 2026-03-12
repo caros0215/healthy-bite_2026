@@ -6,8 +6,8 @@ import WelcomeOverlayCursos from "../../pagina_principal/WelcomeOverlay/WelcomeO
 import styles from "./cursos.module.css"
 
 // Importaciones de imágenes originales
-import imagen_3 from "../../../assets/images/run_2.jpg"
-import image2 from "../../../assets/images/empresarial.jpeg"
+import imagen_3 from "../../../assets/images/run_2.webp"
+import image2 from "../../../assets/images/empresarial.webp"
 
 export default function CursosPage() {
   const [showWelcome, setShowWelcome] = useState(true)
@@ -373,7 +373,7 @@ export default function CursosPage() {
       {showWelcome && <WelcomeOverlayCursos onClose={() => setShowWelcome(false)} />}
 
       <div className={styles.backgroundLayer}>
-        <img src="/images/background-main.jpg" alt="Fondo principal" className={styles.backgroundLayerImage} />
+        <img src="/images/background-main.webp" alt="Fondo principal" className={styles.backgroundLayerImage} />
       </div>
 
       <div className={styles.fixedLayer}>
@@ -602,7 +602,7 @@ export default function CursosPage() {
                           className="w-80 h-80 object-cover"
                           onError={(e) => {
                             console.error('Error cargando imagen hover');
-                            e.target.src = "/curso-cocina.jpg"
+                            e.target.src = "/curso-cocina.webp"
                           }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
@@ -679,7 +679,7 @@ export default function CursosPage() {
                         className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
                         onError={(e) => {
                           console.error('Error cargando imagen en modal');
-                          e.target.src = "/curso-cocina.jpg"
+                          e.target.src = "/curso-cocina.webp"
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent group-hover:from-black/70 transition-all duration-300 flex items-center justify-center">
@@ -764,7 +764,7 @@ export default function CursosPage() {
                 className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
                 onError={(e) => {
                   console.error('Error cargando imagen en visor completo');
-                  e.target.src = "/curso-cocina.jpg"
+                  e.target.src = "/curso-cocina.webp"
                 }}
               />
 

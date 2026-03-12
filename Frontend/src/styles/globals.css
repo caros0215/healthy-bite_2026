@@ -26,9 +26,20 @@
     cursor: pointer;
   }
   
-  img,
-  video {
-    max-width: 100%;
-    height: auto;
-  }
-  
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Fix iOS - sobreescribir el reset para videos de fondo */
+.background-video {
+  max-width: none !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}

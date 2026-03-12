@@ -1,19 +1,19 @@
 import { useState, useEffect } from "react"
 import styles from './IPhoneForm.module.css'
-import imagen1 from '../../../assets/images/phone_14_01-Photoroom.png';
-import imagen2 from '../../../assets/images/ipad21_2.png';
-import imagen3 from '../../../assets/images/senal_3.png';
-import imagen4 from '../../../assets/images/artes-04.png';
-import menu1 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0001.jpg';
-import menu2 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0002.jpg';
-import menu3 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0003.jpg';
-import menu4 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0004.jpg';
-import menu5 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0005.jpg';
-import menu6 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0006.jpg';
-import menu7 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0007.jpg';
-import menu8 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0008.jpg';
-import menu9 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0009.jpg';
-import menu10 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0010.jpg';
+import imagen1 from '../../../assets/images/phone_14_01-Photoroom-1.webp';
+import imagen2 from '../../../assets/images/ipad21_2.webp';
+import imagen3 from '../../../assets/images/senal_3.webp';
+import imagen4 from '../../../assets/images/artes-04.webp';
+import menu1 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0001.webp';
+import menu2 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0002.webp';
+import menu3 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0003.webp';
+import menu4 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0004.webp';
+import menu5 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0005.webp';
+import menu6 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0006.webp';
+import menu7 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0007.webp';
+import menu8 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0008.webp';
+import menu9 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0009.webp';
+import menu10 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0010.webp';
 
 const RealFoodRevolution = () => {
   const [formData, setFormData] = useState({

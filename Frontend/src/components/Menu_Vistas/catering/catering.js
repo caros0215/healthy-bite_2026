@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import CookieConsent from "../../pagina_principal/CookieConsent/CookieConsent"
 import styles from "./catering.module.css"
-import imagen_1 from "../../../assets/images/portada_2.jpg"
-import image2 from "../../../assets/images/empresarial.jpeg"
+import imagen_1 from "../../../assets/images/portada_2.webp"
+import image2 from "../../../assets/images/empresarial.webp"
 import Corporativo from "./Corporativo"
 import ServiciosCorporativos from "./wellness-services"
 import MenuSlider3 from "./Menuslider_3"
@@ -81,11 +81,11 @@ export default function CantinaPage() {
     <main className={styles.mainContainer}>
       <div className={styles.fixedLayer}>
         <div ref={firstImageRef} className={`${styles.fixedImageContainer} ${styles.firstFixedImage}`}>
-          <img src="/images/plato_2.jpeg" alt="Comunidad" className={styles.fixedImage} />
+          <img src="/images/plato_2.webp" alt="Comunidad" className={styles.fixedImage} />
         </div>
         <div ref={secondImageRef} className={`${styles.fixedImageContainer} ${styles.secondFixedImage}`}>
           <img
-            src={typeof image2 === "string" ? image2 : "/images/healthy_10.jpeg"}
+            src={typeof image2 === "string" ? image2 : "/images/healthy_10.webp"}
             alt="Comida"
             className={styles.fixedImage}
           />

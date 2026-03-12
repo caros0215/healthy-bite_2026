@@ -2,167 +2,182 @@
 
 import { useRef, useState, useEffect } from "react"
 import styles from "./EventosSliders.module.css"
-  import video1 from "../../../assets/images/video_21.mp4"
-  import video2 from "../../../assets/images/video_30.mp4"
+import video1 from "../../../assets/images/video_21.mp4"
+import video2 from "../../../assets/images/video_30.mp4"
 import video4 from "../../../assets/images/video_20.mp4"
-import imagen2 from "../../../assets/images/imagen_3.jpeg"
 import video3 from "../../../assets/images/video_19.mp4"
-import imagen4 from "../../../assets/images/imagen_5.jpeg"
-import imagen5 from "../../../assets/images/imagen_3.jpeg"
-import imagen6 from "../../../assets/images/imagen_5.jpeg"
-import logo from "../../../assets/images/artes_Mesa de trabajo 1.png"
+import imagen5 from "../../../assets/images/imagen_3.webp"
+import imagen6 from "../../../assets/images/imagen_5.webp"
+import logo from "../../../assets/images/artes_Mesa de trabajo 1.webp"
 
 const EventosSlider = () => {
   const containerRef = useRef(null)
   const sectionRef = useRef(null)
   const [isVisible, setIsVisible] = useState(false)
-  const [startVideos, setStartVideos] = useState(false)
-  const videoRefs = useRef({})
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
-  
-  // Identificamos los índices de items que son videos
-  const videoIndices = [0, 2] // Basado en los IDs 1 y 3 del array menuItems
+  const isMounted = useRef(true)
 
   useEffect(() => {
+    isMounted.current = true
+
+    // ✅ threshold muy bajo + rootMargin para que dispare apenas aparece en pantalla
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-          
-          // Programar la reproducción de videos después de que las animaciones de fondo terminen
-          // La animación más larga es de 2.5s para el logo, así que iniciamos videos a los 3s
-          setTimeout(() => {
-            setStartVideos(true)
-          }, 3000)
-        }
+        if (entry.isIntersecting && isMounted.current) setIsVisible(true)
       },
-      { threshold: 0.3 }
+      { threshold: 0.05, rootMargin: "0px 0px -30px 0px" }
     )
-    
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-    
+
+    if (sectionRef.current) observer.observe(sectionRef.current)
+
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current)
-      }
+      isMounted.current = false
+      if (sectionRef.current) observer.unobserve(sectionRef.current)
     }
   }, [])
 
-  // Efecto para iniciar la reproducción del primer video cuando startVideos cambie a true
-  useEffect(() => {
-    if (startVideos && videoRefs.current[videoIndices[0]]) {
-      videoRefs.current[videoIndices[0]].play()
-    }
-  }, [startVideos])
-
-  // Efecto para manejar la reproducción secuencial
-  useEffect(() => {
-    if (!startVideos) return; // No configurar eventos si aún no iniciamos videos
-    
-    const handleVideoEnd = () => {
-      // Encontrar el siguiente índice de video
-      const currentIndexInArray = videoIndices.indexOf(currentVideoIndex)
-      const nextIndexInArray = (currentIndexInArray + 1) % videoIndices.length
-      const nextVideoIndex = videoIndices[nextIndexInArray]
-      
-      // Pausar el video actual
-      if (videoRefs.current[currentVideoIndex]) {
-        videoRefs.current[currentVideoIndex].pause()
-        // Reiniciar el video actual para futuras reproducciones
-        videoRefs.current[currentVideoIndex].currentTime = 0
-      }
-      
-      // Reproducir el próximo video
-      if (videoRefs.current[nextVideoIndex]) {
-        videoRefs.current[nextVideoIndex].play()
-        setCurrentVideoIndex(nextVideoIndex)
-      }
-    }
-
-    // Asignar el manejador de eventos al video actual
-    const currentVideo = videoRefs.current[currentVideoIndex]
-    if (currentVideo) {
-      currentVideo.addEventListener('ended', handleVideoEnd)
-    }
-
-    return () => {
-      if (currentVideo) {
-        currentVideo.removeEventListener('ended', handleVideoEnd)
-      }
-    }
-  }, [currentVideoIndex, startVideos])
-
   const menuItems = [
     { id: 1, media: video1, title: "Eventos empresariales", icon: "→", type: "video" },
-    { id: 2, media: video2, title: "⁠Nuestra comunidad ", icon: "→", type: "video" },
-    { id: 3, media: video3, title: "⁠Helados", icon: "→", type: "video" },
-    { id: 4, media: video4, title: "⁠Almuerzos", icon: "→", type: "video" },
-    { id: 5, media: imagen5, title: "⁠Cursos de cocina", icon: "→", type: "image" },
-    { id: 6, media: imagen6, title: "Postres ", icon: "→", type: "image" },
-    { id: 7, media: imagen6, title: "⁠Asesoría nutricional ", icon: "→", type: "image" },
+    { id: 2, media: video2, title: "Nuestra comunidad", icon: "→", type: "video" },
+    { id: 3, media: video3, title: "Helados", icon: "→", type: "video" },
+    { id: 4, media: video4, title: "Almuerzos", icon: "→", type: "video" },
+    { id: 5, media: imagen5, title: "Cursos de cocina", icon: "→", type: "image" },
+    { id: 6, media: imagen6, title: "Postres", icon: "→", type: "image" },
+    { id: 7, media: imagen6, title: "Asesoría nutricional", icon: "→", type: "image" },
   ]
 
-  const scrollLeft = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollBy({ left: -300, behavior: "smooth" })
-    }
-  }
-
-  const scrollRight = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollBy({ left: 300, behavior: "smooth" })
-    }
-  }
+  const scrollLeft = () => containerRef.current?.scrollBy({ left: -300, behavior: "smooth" })
+  const scrollRight = () => containerRef.current?.scrollBy({ left: 300, behavior: "smooth" })
 
   return (
     <div ref={sectionRef} className={`${styles.menuslidersection} ${isVisible ? styles.visible : ""}`}>
       <div className={styles.menuheader}>
         <div className={styles.splitContainer}>
+          {/* Mitad izquierda: título */}
           <div className={`${styles.leftHalf} ${isVisible ? styles.filled : ""}`}>
-            {isVisible && <h2 className={`${styles.menutitle} ${isVisible ? styles.visible : ""}`}>VEN Y CONÓCENOS</h2>}
+            {isVisible && (
+              <h2 className={`${styles.menutitle} ${isVisible ? styles.visible : ""}`}>
+                VEN Y CONÓCENOS
+              </h2>
+            )}
           </div>
+          {/* Mitad derecha: logo */}
           <div className={`${styles.rightHalf} ${isVisible ? styles.filled : ""}`}>
-            {isVisible && <img src={logo} alt="Logo" className={`${styles.logo} ${isVisible ? styles.visible : ""}`} />}
+            {isVisible && (
+              <img
+                src={logo}
+                alt="Logo"
+                className={`${styles.logo} ${isVisible ? styles.visible : ""}`}
+              />
+            )}
           </div>
         </div>
       </div>
-      
+
       <div className={styles.menuitemscontainer} ref={containerRef}>
-        {menuItems.map((item, index) => (
-          <div key={item.id} className={styles.menuitem}>
-            <div className={styles.menuitemimagecontainer}>
-              {item.type === "video" ? (
-                <video
-                  ref={el => {
-                    videoRefs.current[index] = el
-                  }}
-                  src={item.media}
-                  muted
-                  loop={false} // Cambiado a false para que no se repita
-                  playsInline
-                  className={styles.menuitemvideo}
-                />
-              ) : (
-                <img
-                  src={item.media || "/placeholder.svg"}
-                  alt={item.title}
-                  className={styles.menuitemimage}
-                />
-              )}
-            </div>
-            <div className={styles.menuitemfooter}>
-              <h3 className={styles.menuitemtitle}>{item.title}</h3>
-              <span className={styles.menuitemicon}>{item.icon}</span>
-            </div>
-          </div>
+        {menuItems.map((item) => (
+          <VideoCard key={item.id} item={item} />
         ))}
       </div>
-      
+
       <div className={styles.menucontrols}>
         <button className={styles.menucontrolbutton} onClick={scrollLeft}>←</button>
         <button className={styles.menucontrolbutton} onClick={scrollRight}>→</button>
+      </div>
+    </div>
+  )
+}
+
+// ✅ Componente separado para cada card con hover/touch play
+const VideoCard = ({ item }) => {
+  const videoRef = useRef(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  // Detectar móvil una vez al montar
+  const isMobile = useRef(
+    typeof window !== "undefined" &&
+    /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)
+  )
+
+  // ✅ Forzar carga del primer frame como thumbnail
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video || item.type !== "video") return
+    video.load()
+  }, [item])
+
+  const safePlay = (video) => {
+    if (!video) return
+    video.muted = true
+    video.setAttribute("playsinline", "")
+    video.setAttribute("webkit-playsinline", "")
+    video.play().catch(() => {})
+  }
+
+  // Solo desktop
+  const handleMouseEnter = () => {
+    if (item.type !== "video" || isMobile.current) return
+    const video = videoRef.current
+    if (video) { safePlay(video); setIsPlaying(true) }
+  }
+
+  const handleMouseLeave = () => {
+    if (item.type !== "video" || isMobile.current) return
+    const video = videoRef.current
+    if (video) { video.pause(); video.currentTime = 0; setIsPlaying(false) }
+  }
+
+  // Solo móvil: tap para play/pause
+  const handleTouch = (e) => {
+    if (item.type !== "video") return
+    e.preventDefault()
+    const video = videoRef.current
+    if (!video) return
+    if (isPlaying) {
+      video.pause()
+      video.currentTime = 0
+      setIsPlaying(false)
+    } else {
+      safePlay(video)
+      setIsPlaying(true)
+    }
+  }
+
+  return (
+    <div
+      className={styles.menuitem}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onTouchStart={handleTouch}
+    >
+      <div className={styles.menuitemimagecontainer}>
+        {item.type === "video" ? (
+          <>
+            <video
+              ref={videoRef}
+              src={item.media}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className={`${styles.menuitemvideo} ${isPlaying ? styles.playing : ""}`}
+            />
+            {!isPlaying && (
+              <div className={styles.playOverlay}>
+                <div className={styles.playIcon}>▶</div>
+              </div>
+            )}
+          </>
+        ) : (
+          <img
+            src={item.media || "/placeholder.svg"}
+            alt={item.title}
+            className={styles.menuitemimage}
+          />
+        )}
+      </div>
+      <div className={styles.menuitemfooter}>
+        <h3 className={styles.menuitemtitle}>{item.title}</h3>
+        <span className={styles.menuitemicon}>{item.icon}</span>
       </div>
     </div>
   )

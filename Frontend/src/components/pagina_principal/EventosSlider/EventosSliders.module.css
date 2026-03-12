@@ -3,13 +3,20 @@
   width: 100%;
   opacity: 0;
   transition: opacity 1s ease-in-out;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  position: relative;
 }
 
 .menuslidersection.visible {
   opacity: 1;
 }
 
-/* Contenedor dividido para fondos animados */
+.menuheader {
+  width: 100%;
+}
+
+/* ===================== DESKTOP: dos mitades lado a lado ===================== */
 .splitContainer {
   display: flex;
   width: 100%;
@@ -29,7 +36,6 @@
   overflow: hidden;
 }
 
-/* Animación de fondos */
 .leftHalf::before,
 .rightHalf::before {
   content: '';
@@ -40,21 +46,18 @@
   height: 100%;
 }
 
-/* Fondo verde - 1 segundo */
 .leftHalf.filled::before {
   background-color: #7d990b;
   width: 100%;
   transition: width 1s ease-in-out;
 }
 
-/* Fondo gris - 1.5 segundos */
 .rightHalf.filled::before {
   background-color: #f0f0f0;
   width: 100%;
   transition: width 1.5s ease-in-out;
 }
 
-/* Animación del texto */
 .menutitle {
   color: white;
   font-size: 6rem;
@@ -66,6 +69,7 @@
   transition: all 1s ease-in-out 1.5s;
   position: relative;
   z-index: 1;
+  white-space: nowrap;
 }
 
 .menutitle.visible {
@@ -73,14 +77,13 @@
   transform: translateX(0);
 }
 
-/* Animación del logo */
 .logo {
-    height: 275px;
-    opacity: 0;
-    transform: translateX(50px);
-    transition: all 1s ease-in-out 2.5s;
-    position: relative;
-    z-index: 1;
+  height: 275px;
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 1s ease-in-out 2.5s;
+  position: relative;
+  z-index: 1;
 }
 
 .logo.visible {
@@ -88,68 +91,107 @@
   transform: translateX(0);
 }
 
-/* Estilos del slider de contenido */
+/* ===================== SLIDER ===================== */
 .menuitemscontainer {
-  display: flex
-  ;
-      margin-left: 1%;
-      width: 98%;
-      gap: 2rem;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      padding: 1rem 0;
+  display: flex;
+  margin-left: 1%;
+  width: 98%;
+  gap: 2rem;
+  overflow-x: auto;
+  overflow-y: hidden; /* ✅ FIX: evitar que videos expandan verticalmente */
+  scroll-behavior: smooth;
+  padding: 1rem 0;
+  box-sizing: border-box;
 }
 
 .menuitemscontainer::-webkit-scrollbar {
   display: none;
 }
 
-/* Elementos individuales del slider - Ajustado para imágenes alargadas */
 .menuitem {
   min-width: 400px;
-  height: 550px; /* Altura total del card */
+  height: 550px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+  /* ✅ FIX: la card nunca desborda el slider */
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .menuitemimagecontainer {
   width: 100%;
-  height: 500px; /* Altura aumentada para efecto alargado */
+  height: 500px;
   overflow: hidden;
   border-radius: 8px;
   position: relative;
+  background-color: #e0e0e0;
+  /* ✅ FIX: forzar que nada desborde */
+  contain: strict;
 }
 
-/* Configuración del tamaño interno de la imagen/video */
-.menuitemimage, .menuitemvideo {
+.menuitemimage,
+.menuitemvideo {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Controla cómo se ajusta la imagen al contenedor */
-  object-position: center center; /* Controla qué parte de la imagen se muestra */
-  transition: transform 0.3s ease;
-}
-
-/* Para mostrar más la parte inferior de la imagen */
-.menuitemimage.vertical-bottom {
-  object-position: center bottom;
-}
-
-/* Para mostrar más la parte superior de la imagen */
-.menuitemimage.vertical-top {
-  object-position: center top;
-}
-
-/* Para contenido horizontal */
-.menuitemimage.horizontal-center {
+  object-fit: cover;
   object-position: center center;
+  transition: transform 0.3s ease;
+  /* ✅ FIX: el video nunca puede ser más ancho que su contenedor */
+  max-width: 100%;
+  display: block;
 }
 
-.menuitem:hover .menuitemimage {
-  transform: scale(1.05);
+.menuitemvideo {
+  opacity: 1;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Pie de cada item */
+.menuitemvideo.playing {
+  opacity: 1;
+}
+
+.menuitem:hover .menuitemimage,
+.menuitem:hover .menuitemvideo {
+  transform: scale(1.02);
+}
+
+.playOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+  transition: opacity 0.3s ease;
+  border-radius: 8px;
+}
+
+.menuitem:hover .playOverlay {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.playIcon {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: #2e7d32;
+  padding-left: 4px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.menuitem:hover .playIcon {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 1);
+}
+
 .menuitemfooter {
   display: flex;
   justify-content: space-between;
@@ -167,12 +209,14 @@
   font-size: 1.5rem;
 }
 
-/* Controles del slider */
+/* ===================== CONTROLES ===================== */
 .menucontrols {
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
   justify-content: center;
+  background-color: #ffffff;
+  padding-bottom: 1rem;
 }
 
 .menucontrolbutton {
@@ -193,11 +237,104 @@
   background-color: #e0e0e0;
 }
 
+/* ===================== PANTALLAS MUY GRANDES ===================== */
 @media (min-width: 2000px) {
   .menuslidersection.visible {
     margin-top: 3% !important;
     padding-bottom: 2%;
     background-color: #ffffff;
   }
+}
 
+/* ===================== MÓVIL ===================== */
+@media (max-width: 768px) {
+
+  /* ✅ Header en columna: título arriba, logo abajo */
+  .splitContainer {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .leftHalf,
+  .rightHalf {
+    width: 100%;
+    flex: unset;
+    padding: 1.2rem 1.5rem;
+    box-sizing: border-box;
+    justify-content: center;
+  }
+
+  /* ✅ Animación cambia de horizontal a vertical */
+  .leftHalf::before {
+    width: 100% !important;
+    height: 0;
+  }
+  .leftHalf.filled::before {
+    height: 100%;
+    width: 100%;
+    transition: height 1s ease-in-out !important;
+  }
+
+  .rightHalf::before {
+    width: 100% !important;
+    height: 0;
+  }
+  .rightHalf.filled::before {
+    height: 100%;
+    width: 100%;
+    transition: height 1.5s ease-in-out !important;
+  }
+
+  /* ✅ Título ajustado al ancho */
+  .menutitle {
+    font-size: 2rem !important;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.1;
+  }
+
+  /* ✅ Logo más pequeño */
+  .logo {
+    height: 70px;
+  }
+
+  /* ✅ Cards proporcionales al ancho del móvil */
+  .menuitem {
+    min-width: 72vw;
+    height: auto;
+  }
+
+  /* ✅ Imagen/video con altura proporcional al ancho de la card */
+  .menuitemimagecontainer {
+    height: 52vw;
+    min-height: 190px;
+    max-height: 260px;
+    contain: strict; /* ✅ video no puede salir del cuadro */
+  }
+
+  .menuitemscontainer {
+    margin-left: 4%;
+    width: 100%;
+    gap: 1rem;
+    padding: 0.75rem 0 0.75rem 4%;
+    box-sizing: border-box;
+  }
+
+  .menuitemtitle {
+    font-size: 1rem;
+  }
+
+  .menuitemicon {
+    font-size: 1rem;
+  }
+
+  .playIcon {
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
+  }
+
+  .menucontrols {
+    padding: 0.5rem 0 1.5rem 0;
+  }
 }

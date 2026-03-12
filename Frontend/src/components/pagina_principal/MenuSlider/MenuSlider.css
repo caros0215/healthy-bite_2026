@@ -1,5 +1,3 @@
-/* MenuSlider.css */
-
 .menu-slider-section {
   width: 100%;
   padding: 2rem 0;
@@ -34,8 +32,7 @@
   border-radius: 50%;
   background-color: #f5f5f5;
   border: none;
-  display: flex
-;
+  display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -48,19 +45,19 @@
 }
 
 .menu-items-container {
-margin-left: 0%;
-    display: flex
-;
-    width: 99% !important;
-    gap: 2rem;
-    overflow-x: hidden;
-    padding: 1rem 0;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
+  margin-left: 0%;
+  display: flex;
+  width: 99% !important;
+  gap: 2rem;
+  overflow-x: hidden;
+  padding: 1rem 0;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  touch-action: pan-x;
 }
 
 .menu-items-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
 }
 
 .menu-item {
@@ -98,36 +95,14 @@ margin-left: 0%;
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
+  color: #2e7d32;
 }
 
 .menu-item-icon {
   font-size: 1.5rem;
+  color: #2e7d32;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .menu-title {
-    font-size: 2.5rem;
-  }
-
-  .menu-item {
-    min-width: 280px;
-  }
-
-  .menu-item-image-container {
-    height: 200px;
-  }
-
-  .menu-item-title {
-    font-size: 1.2rem;
-  }
-}
-
-@media (max-width: 1400px) {
-.menu-header{
-  
-}
-}
 /* Integration with white-section */
 .white-section .menu-slider-section {
   width: 100%;
@@ -147,4 +122,114 @@ margin-left: 0%;
 
 .white-section .section-heading {
   margin-bottom: 2rem;
+}
+
+/* ============================================
+   TABLET (max 1024px)
+   ============================================ */
+@media (max-width: 1024px) {
+  .menu-title {
+    font-size: 4rem;
+  }
+
+  .menu-item {
+    min-width: 320px;
+  }
+
+  .menu-item-image-container {
+    height: 250px;
+  }
+}
+
+/* ============================================
+   MÓVIL (max 768px)
+   ✅ Título arriba pequeño + imágenes más chicas
+   ============================================ */
+@media (max-width: 768px) {
+  .menu-slider-section {
+    padding: 1rem 0;
+  }
+
+  .menu-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .menu-title {
+    font-size: 1.8rem !important;
+    margin-left: 0 !important;
+    line-height: 1.1;
+  }
+
+  .menu-controls {
+    margin-top: 0;
+    align-self: flex-end;
+  }
+
+  .menu-control-button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  /* ✅ Clave: items más angostos para ver 1.5 en pantalla */
+  .menu-item {
+    min-width: 200px !important;
+    max-width: 200px !important;
+  }
+
+  /* ✅ Clave: imagen más pequeña y proporcionada */
+  .menu-item-image-container {
+    height: 150px !important;
+  }
+
+  .menu-items-container {
+    gap: 1rem !important;
+    width: 100% !important;
+  }
+
+  .menu-item-title {
+    font-size: 0.9rem;
+  }
+
+  .menu-item-icon {
+    font-size: 0.9rem;
+  }
+
+  .white-section .section-lead {
+    margin-left: 0 !important;
+  }
+}
+
+/* ============================================
+   MÓVIL PEQUEÑO (max 480px)
+   ============================================ */
+@media (max-width: 480px) {
+  .menu-title {
+    font-size: 1.5rem !important;
+  }
+
+  /* ✅ Un poco más angosto en móviles muy pequeños */
+  .menu-item {
+    min-width: 170px !important;
+    max-width: 170px !important;
+  }
+
+  .menu-item-image-container {
+    height: 130px !important;
+  }
+
+  .menu-control-button {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 1400px) {
+  .menu-header {
+    /* sin cambios extra */
+  }
 }

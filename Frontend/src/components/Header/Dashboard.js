@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import DashboardHeader from "./DashboardHeader"
-import image2 from "../../assets/images/artes-04.png" // Asegúrate de que la ruta sea correcta
+import image2 from "../../assets/images/artes-04.webp" // Asegúrate de que la ruta sea correcta
 import "./Dashboard.css"
 
 function Dashboard() {

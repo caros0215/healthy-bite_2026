@@ -1,8 +1,8 @@
 "use client"
 import { useState, useEffect } from "react"
 import "./SplashScreen.css"
-import imagen1 from "../../../assets/images/artes_Mesa de trabajo 1.png"
-import imagen2 from "../../../assets/images/artes-04.png"
+import imagen1 from "../../../assets/images/artes_Mesa de trabajo 1.webp"
+import imagen2 from "../../../assets/images/artes-04.webp"
 
 function SplashScreen({ onLoadingComplete }) {
   const [progress, setProgress] = useState(0)

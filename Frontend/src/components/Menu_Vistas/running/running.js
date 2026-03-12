@@ -6,8 +6,8 @@ import WelcomeOverlayRunning from "../../pagina_principal/WelcomeOverlay/Welcome
 import styles from "./running.module.css"
 
 // Importaciones de imágenes originales
-import imagen_3 from "../../../assets/images/run_2.jpg"
-import image2 from "../../../assets/images/empresarial.jpeg"
+import imagen_3 from "../../../assets/images/run_2.webp"
+import image2 from "../../../assets/images/empresarial.webp"
 
 export default function RunningPage() {
   const [showWelcome, setShowWelcome] = useState(true)
@@ -285,7 +285,7 @@ export default function RunningPage() {
       {showWelcome && <WelcomeOverlayRunning onClose={() => setShowWelcome(false)} />}
 
       <div className={styles.backgroundLayer}>
-        <img src="/images/background-main.jpg" alt="Fondo principal" className={styles.backgroundLayerImage} />
+        <img src="/images/background-main.webp" alt="Fondo principal" className={styles.backgroundLayerImage} />
       </div>
 
       <div className={styles.fixedLayer}>
@@ -547,7 +547,7 @@ export default function RunningPage() {
                           alt={hoveredDesign.titulo || "Imagen del evento de running"}
                           className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500"
                           onError={(e) => {
-                            e.target.src = "/running-event.jpg"
+                            e.target.src = "/running-event.webp"
                           }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent group-hover:from-black/70 transition-all duration-300 flex items-center justify-center">
@@ -621,7 +621,7 @@ export default function RunningPage() {
                 alt={photoViewerImage.title || "Imagen del evento de running"}
                 className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
                 onError={(e) => {
-                  e.target.src = "/running-event.jpg"
+                  e.target.src = "/running-event.webp"
                 }}
               />
 

@@ -11,6 +11,7 @@
   justify-content: center;
   z-index: 1000;
   padding: 1rem;
+  overflow-y: auto;
 }
 
 .loading-gif {
@@ -19,16 +20,16 @@
 }
 
 .welcome-content {
-    background: transparent;
-    border-radius: 12px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    position: relative;
-    width: 500px;
-    height: 752px;
-    overflow: hidden;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+  background: transparent;
+  border-radius: 12px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  position: relative;
+  width: 500px;
+  height: 752px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .close-button {
@@ -68,11 +69,35 @@
   border-radius: 11px;
 }
 
-/* Badges actualizados para mejor posicionamiento */
+.no-image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  gap: 1rem;
+}
+
+.no-image-icon {
+  font-size: 3rem;
+}
+
+.no-image-text {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 0;
+}
+
 .canva-badge {
   position: absolute;
   top: 1rem;
-  left: 1.5rem; /* Ajustado para no solaparse con la imagen que tiene margin-left: 8% */
+  left: 1.5rem;
   background: rgba(147, 51, 234, 0.9);
   color: white;
   padding: 0.25rem 0.75rem;
@@ -83,10 +108,9 @@
   z-index: 5;
 }
 
-/* Nuevo badge para eventos futuros */
 .event-badge {
   position: absolute;
-  top: 3rem; /* Debajo del canva-badge si existe */
+  top: 3rem;
   left: 1.5rem;
   background: rgba(34, 197, 94, 0.9);
   color: white;
@@ -100,14 +124,8 @@
 }
 
 @keyframes pulseGreen {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.9;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 1;
-  }
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.05); opacity: 1; }
 }
 
 .image-loading {
@@ -134,7 +152,6 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Contenedor principal que incluye imagen y texto lado a lado */
 .welcome-main-container {
   display: flex;
   align-items: center;
@@ -143,7 +160,6 @@
   width: 100%;
 }
 
-/* Contenedor para texto y botón que va al lado derecho */
 .welcome-text-content {
   text-align: center;
   max-width: 250px;
@@ -159,12 +175,8 @@
   transition: color 0.3s ease;
 }
 
-/* Estilo especial para eventos futuros */
-.welcome-title.future-event {
-  color: #10B981;
-}
+.welcome-title.future-event { color: #10B981; }
 
-/* Nuevo elemento para mostrar la fecha del evento */
 .event-date {
   color: #60A5FA;
   font-size: 0.875rem;
@@ -205,7 +217,6 @@
   box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
 }
 
-/* Variante del botón para eventos futuros */
 .pedir-button.future-event {
   background-color: #059669;
   box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
@@ -241,74 +252,109 @@
   transition: background-color 0.2s ease;
 }
 
-.retry-button:hover {
-  background-color: #4b5563;
-}
+.retry-button:hover { background-color: #4b5563; }
 
-/* Responsive */
+/* ============================================
+   TABLET (max 768px)
+   ============================================ */
 @media (max-width: 768px) {
+  .welcome-overlay {
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
   .welcome-main-container {
     flex-direction: column;
-    gap: 1.5rem;
+    align-items: center;
+    gap: 1rem;
+    max-width: 100%;
+    min-height: calc(100vh - 2rem);
+    justify-content: center;
   }
-  
+
   .welcome-content {
-    width: 400px;
-    height: 500px;
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+    aspect-ratio: 3 / 4;
+  }
+
+  .welcome-image {
+    margin-left: 0;
+    min-width: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 11px;
   }
 
   .welcome-text-content {
-    max-width: none;
+    max-width: 100%;
     width: 100%;
+    padding: 0 0.5rem;
   }
 
-  .welcome-title {
-    font-size: 1.5rem;
-  }
-
-  .welcome-text {
-    font-size: 0.8rem;
-  }
+  .welcome-title { font-size: 1.5rem; }
+  .welcome-text { font-size: 0.85rem; }
 
   .pedir-button {
     padding: 0.65rem 1.5rem;
     font-size: 0.9rem;
+    width: 100%;
   }
 
-  /* Ajustar badges en móvil */
-  .canva-badge,
-  .event-badge {
+  .canva-badge, .event-badge {
     left: 1rem;
     font-size: 0.7rem;
     padding: 0.2rem 0.6rem;
   }
-  
+
   .event-date {
     font-size: 0.8rem;
     padding: 0.2rem 0.6rem;
   }
 }
 
-@media (max-width: 640px) {
-  .welcome-overlay {
-    padding: 1rem;
-  }
-  
+/* ============================================
+   MOVIL PEQUENO (max 480px)
+   ============================================ */
+@media (max-width: 480px) {
+  .welcome-overlay { padding: 0.75rem; }
+
   .welcome-content {
-    width: 350px;
-    height: 450px;
+    max-width: 320px;
+    aspect-ratio: 3 / 4;
   }
 
-  /* En pantallas muy pequeñas, hacer badges más pequeños */
-  .canva-badge,
-  .event-badge {
+  .welcome-image {
+    margin-left: 0;
+    min-width: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .welcome-title {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .welcome-text {
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .pedir-button {
+    width: 100%;
+    padding: 0.75rem;
+  }
+
+  .no-image-icon { font-size: 2.5rem; }
+  .no-image-text { font-size: 0.9rem; }
+
+  .canva-badge, .event-badge {
     left: 0.75rem;
     font-size: 0.65rem;
     padding: 0.15rem 0.5rem;
-  }
-
-  .event-date {
-    font-size: 0.75rem;
-    margin: 0.25rem 0;
   }
 }

@@ -44,7 +44,7 @@ const Frase = () => {
         <div className={styles.content}>
           <h2 className={styles.title}>ÚNETE A LA REVOLUCIÓN</h2>
           <p className={styles.description}>Sáltate la cola, obtén acceso privilegiado a eventos y productos exclusivos y Real Food gratuito.</p>
-          <img src="/path/to/your/app-icon.png" alt="App icon" className={styles.sectionImage} />
+          <img src="/path/to/your/app-icon.webp" alt="App icon" className={styles.sectionImage} />
         </div>
       </div>
       
@@ -55,7 +55,7 @@ const Frase = () => {
         <div className={styles.content}>
           <h2 className={styles.title}>LISTA DE REPRODUCCIÓN</h2>
           <p className={styles.description}>Escucha los nuevos sonidos seleccionados por nuestros DJs mientras comes.</p>
-          <img src="/path/to/your/music-icon.png" alt="Music icon" className={styles.sectionImage} />
+          <img src="/path/to/your/music-icon.webp" alt="Music icon" className={styles.sectionImage} />
         </div>
       </div>
     </div>

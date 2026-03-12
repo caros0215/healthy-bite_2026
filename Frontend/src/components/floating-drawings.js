@@ -2,7 +2,7 @@ class FloatingDrawings {
   constructor() {
     this.drawings = []
     this.containerDimensions = { width: 0, height: 0 }
-    this.patternImageUrl = "../assets/images/5-Photoroom.png"
+    this.patternImageUrl = "../assets/images/5-Photoroom.webp"
     this.patternImageWidth = 375
     this.patternImageHeight = 750
     this.numberOfDrawings = 25

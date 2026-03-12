@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import DashboardHeader from "../Header/DashboardHeader";
 import "./CanvaButtonPage.css";
-import imagen1 from "../../assets/images/canva.png";
+import imagen1 from "../../assets/images/canva.webp";
 
 function CanvaButtonPage() {
   // Estados para subida de archivos

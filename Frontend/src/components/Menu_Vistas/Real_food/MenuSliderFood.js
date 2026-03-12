@@ -2,12 +2,12 @@
 
 import { useRef, useState } from "react"
 import styles from "./MenuSliderFood.module.css"
-import imagen1 from "../../../assets/images/plato_4.jpeg"
-import imagen2 from "../../../assets/images/plato_5.jpeg"
-import imagen3 from "../../../assets/images/plato_6.jpeg"
-import imagen4 from "../../../assets/images/plato_7.jpeg"
-import imagen5 from "../../../assets/images/plato_8.jpeg"
-import imagen6 from "../../../assets/images/plato_9.jpeg"
+import imagen1 from "../../../assets/images/plato_4.webp"
+import imagen2 from "../../../assets/images/plato_5.webp"
+import imagen3 from "../../../assets/images/plato_6-.webp"
+import imagen4 from "../../../assets/images/plato_7.webp"
+import imagen5 from "../../../assets/images/plato_8.webp"
+import imagen6 from "../../../assets/images/plato_9.webp"
 
 const MenuSlider = () => {
   const containerRef = useRef(null)

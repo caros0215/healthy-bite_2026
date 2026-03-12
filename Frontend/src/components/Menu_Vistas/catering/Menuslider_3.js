@@ -1,11 +1,11 @@
 import styles from "./Menuslider.module.css"
-import heroImage from "../../../assets/images/run_2.jpg"
-import imagen_1 from "../../../assets/images/101.jpeg"
-import imagen_2 from "../../../assets/images/102.jpeg"
-import imagen_3 from "../../../assets/images/103.jpeg"
-import imagen_4 from "../../../assets/images/104.jpeg"
-import imagen_5 from "../../../assets/images/105.jpeg"
-import imagen_6 from "../../../assets/images/101.jpeg"
+import heroImage from "../../../assets/images/run_2.webp"
+import imagen_1 from "../../../assets/images/101.webp"
+import imagen_2 from "../../../assets/images/102.webp"
+import imagen_3 from "../../../assets/images/103.webp"
+import imagen_4 from "../../../assets/images/104.webp"
+import imagen_5 from "../../../assets/images/105.webp"
+import imagen_6 from "../../../assets/images/101.webp"
 
 const MenuRestaurant = () => {
   // Datos de los platos

@@ -13,14 +13,14 @@ import Pedido from "../catering/pedido"
 import Verde from "../catering/verde"
 
 // Importar las imágenes directamente
-import image1 from "../../../assets/images/plato_2.jpeg"  // Ajusta la ruta según tu estructura
-import image2 from "../../../assets/images/portada_2.jpg"
-import imagen_1 from "../../../assets/images/1.jpeg"
+import image1 from "../../../assets/images/plato_2.webp"  // Ajusta la ruta según tu estructura
+import image2 from "../../../assets/images/portada_2.webp"
+import imagen_1 from "../../../assets/images/1.webp"
 
 // Debug: verificar imágenes importadas
 const debugImages = () => {
-  console.log('image1 (plato_2.jpeg):', image1)
-  console.log('image2 (healthy_10.jpeg):', image2)  
+  console.log('image1 (plato_2.webp):', image1)
+  console.log('image2 (healthy_10.webp):', image2)  
   console.log('imagen_1 (placeholder.svg):', imagen_1)
 }
 
@@ -118,14 +118,14 @@ export default function CantinaPage() {
             src={image2}
             alt="Comida"
             className={styles.fixedImage}
-            onLoad={() => console.log('✅ healthy_10.jpeg cargada correctamente')}
+            onLoad={() => console.log('✅ healthy_10.webp cargada correctamente')}
             onError={(e) => {
-              console.error('❌ Error cargando healthy_10.jpeg:', e.target.src)
+              console.error('❌ Error cargando healthy_10.webp:', e.target.src)
               console.log('Intentando rutas alternativas...')
               const alternatives = [
-                '/images/healthy_10.jpg',
-                '/images/healthy10.jpeg',
-                '/images/Healthy_10.jpeg'
+                '/images/healthy_10.webp',
+                '/images/healthy10.webp',
+                '/images/Healthy_10.webp'
               ]
               
               if (alternatives[0]) {
@@ -202,7 +202,7 @@ export default function CantinaPage() {
             <div className={styles.videoContainer}>
               <video className={styles.sectionVideo} autoPlay muted loop playsInline>
                 <source src="/videos/comida-saludable.mp4" type="video/mp4" />
-                <img src="/images/comida-saludable.jpg" alt="Comida Saludable" />
+                <img src="/images/comida-saludable.webp" alt="Comida Saludable" />
               </video>
             </div>
 

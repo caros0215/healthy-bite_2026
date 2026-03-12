@@ -2,10 +2,9 @@
 
 import { useEffect, useRef, useState } from "react"
 import CookieConsent from "../../pagina_principal/CookieConsent/CookieConsent"
-import LogoColor from "../../../assets/images/logo_verde.png"
-import LogoWhite from "../../../assets/images/logo_blanco.png"
+import LogoWhite from "../../../assets/images/logo_blanco.webp"
 import styles from "./Real_food_revolution.module.css"
-import imagen_1 from "../../../assets/images/platos_2.jpg"
+import imagen_1 from "../../../assets/images/platos_2.webp"
 import Proposito from "./Proposito"
 import MenuSlider2 from "../Real_food/MenuSliderFood"
 import Frases2 from "../Real_food/Frases2"
@@ -57,10 +56,10 @@ export default function CantinaPage() {
     <main className={styles.mainContainer}>
       <div className={styles.fixedLayer}>
         <div ref={firstImageRef} className={`${styles.fixedImageContainer} ${styles.firstFixedImage}`}>
-          <img src="/images/plato_2.jpeg" alt="Comunidad" className={styles.fixedImage} />
+          <img src="/images/plato_2.webp" alt="Comunidad" className={styles.fixedImage} />
         </div>
         <div ref={secondImageRef} className={`${styles.fixedImageContainer} ${styles.secondFixedImage}`}>
-          <img src="/images/plato_3.jpeg" alt="Comida" className={styles.fixedImage} />
+          <img src="/images/plato_3.webp" alt="Comida" className={styles.fixedImage} />
         </div>
       </div>
 

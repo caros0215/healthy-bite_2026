@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import "./Login.css"
-import image1 from "../../assets/images/artes_Mesa de trabajo 1.1.png"
+import image1 from "../../assets/images/artes_Mesa de trabajo 1.1.webp"
 import image2 from "../../assets/images/logo_animado.gif"
 
 function LoginModal({ isOpen, onClose }) {

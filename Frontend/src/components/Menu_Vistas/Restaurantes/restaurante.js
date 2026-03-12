@@ -5,15 +5,15 @@ import { useEffect, useRef, useState } from "react"
 import styles from "./LandingPage.module.css"
 import CookieConsent from "../CookieConsent/CookieConsent"
 import miVideo from "../../../assets/images/video_1.mp4"
-import LogoColor from "../../../assets/images/logo_verde.png"
-import LogoWhite from "../../../assets/images/logo_blanco.png"
+import LogoColor from "../../../assets/images/logo_verde.webp"
+import LogoWhite from "../../../assets/images/logo_blanco.webp"
 import MenuSlider from "../MenuSlider/MenuSlider"
 import EventosSlider from "../EventosSlider/EventosSlider"
 import TieredCollapsible from "../TieredCollapsible/TieredCollapsible"
 import Frases from "../Frases/Frases"
 import GridSections from "../GridSections/GridSections"
-import phoneImage from "../../../assets/images/phone_14_01-Photoroom.png"
-import phoneImage2 from "../../../assets/images/diagonal_2.png"
+import phoneImage from "../../../assets/images/phone_14_01-Photoroom.webp"
+import phoneImage2 from "../../../assets/images/diagonal_2.webp"
 import { menuImages } from "../../../data/menuImages"
 
 export default function CantinaPage() {
@@ -74,10 +74,10 @@ export default function CantinaPage() {
     <main className={styles.mainContainer}>
       <div className={styles.fixedLayer}>
         <div ref={firstImageRef} className={`${styles.fixedImageContainer} ${styles.firstFixedImage}`}>
-          <img src="/images/plato_2.jpeg" alt="Comunidad" className={styles.fixedImage} />
+          <img src="/images/plato_2.webp" alt="Comunidad" className={styles.fixedImage} />
         </div>
         <div ref={secondImageRef} className={`${styles.fixedImageContainer} ${styles.secondFixedImage}`}>
-          <img src="/images/plato_3.jpeg" alt="Comida" className={styles.fixedImage} />
+          <img src="/images/plato_3.webp" alt="Comida" className={styles.fixedImage} />
         </div>
       </div>
 

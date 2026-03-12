@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './pedido.module.css';
-import imagen_1 from '../../../assets/images/eso.png'; // Asegúrate de que la ruta sea correcta
+import imagen_1 from '../../../assets/images/eso.webp'; // Asegúrate de que la ruta sea correcta
 
 export default function HonestiCatering() {
   const [hovering, setHovering] = useState(false);

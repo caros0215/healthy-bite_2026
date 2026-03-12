@@ -3,56 +3,97 @@
 import { useEffect, useRef, useState } from "react"
 import "../../../styles/globals.css"
 import "../../../styles/home.css"
-import miVideo from "../../../assets/images/healthy_principal.MP4"
+import miVideo from "../../../assets/images/Healthy Principal.webm"
 import MenuSlider from "../MenuSlider/MenuSlider"
 import EventosSlider from "../EventosSlider/EventosSliders"
 import GridSections from "../GridSections/GridSections"
 import FrasesSections from "../frases_2/frases_2"
 import "../MenuSlider/MenuSlider.css"
 import "../EventosSlider/EventosSliders.module.css"
-import imagen1 from "../../../assets/images/plato_2.jpeg"
-import imagen2 from "../../../assets/images/plato_3.jpeg"
+import imagen1 from "../../../assets/images/plato_2.webp"
+import imagen2 from "../../../assets/images/plato_3.webp"
 import "react-pdf/dist/esm/Page/AnnotationLayer.css"
 import "react-pdf/dist/esm/Page/TextLayer.css"
 import { pdfjs } from "react-pdf"
-import phoneImage from "../../../assets/images/ipad21.png"
-import menu1 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0001.jpg"
-import menu2 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0002.jpg"
-import menu3 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0003.jpg"
-import menu4 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0004.jpg"
-import menu5 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0005.jpg"
-import menu6 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0006.jpg"
-import menu7 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0007.jpg"
-import menu8 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0008.jpg"
-import menu9 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0009.jpg"
-import menu10 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0010.jpg"
+import phoneImage from "../../../assets/images/ipad21.webp"
+import menu1 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0001.webp"
+import menu2 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0002.webp"
+import menu3 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0003.webp"
+import menu4 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0004.webp"
+import menu5 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0005.webp"
+import menu6 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0006.webp"
+import menu7 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0007.webp"
+import menu8 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0008.webp"
+import menu9 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0009.webp"
+import menu10 from "../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0010.webp"
 import AnimatedValues from "./AnimatedValues"
 
-// Configuración del worker (debe ir después de las importaciones)
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`
 
 function LandingPpage() {
   const heroContentRef = useRef(null)
   const firstImageRef = useRef(null)
   const secondImageRef = useRef(null)
+  const videoRef = useRef(null)
   const [pageLoaded, setPageLoaded] = useState(false)
   const [numPages, setNumPages] = useState(null)
   const [pageNumber, setPageNumber] = useState(1)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isZoomed, setIsZoomed] = useState(false)
 
-  // Array with all menu images
+  // ✅ NUEVO: ref e estado para el tooltip del iPad
+  const ipadSectionRef = useRef(null)
+  const [showTooltip, setShowTooltip] = useState(false)
+  const tooltipTimerRef = useRef(null)
+
   const menuImages = [menu1, menu2, menu3, menu4, menu5, menu6, menu7, menu8, menu9, menu10]
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages)
   }
 
+  // ✅ Fix iOS Safari: autoplay sin error al desmontar
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    let isMounted = true
+
+    video.muted = true
+    video.playsInline = true
+    video.setAttribute("playsinline", "")
+    video.setAttribute("webkit-playsinline", "")
+
+    const tryPlay = async () => {
+      if (!isMounted) return
+      try {
+        await video.play()
+      } catch (err) {
+        if (!isMounted) return
+        const handleFirstTouch = async () => {
+          if (!isMounted) return
+          try { await video.play() } catch (e) { }
+        }
+        document.addEventListener("touchstart", handleFirstTouch, { once: true })
+      }
+    }
+
+    if (video.readyState >= 2) {
+      tryPlay()
+    } else {
+      video.addEventListener("canplay", tryPlay, { once: true })
+    }
+
+    return () => {
+      isMounted = false
+      video.removeEventListener("canplay", tryPlay)
+      try { video.pause() } catch (e) { }
+    }
+  }, [])
+
   // Force header to be transparent initially
   useEffect(() => {
-    // Force position 0 at start
     window.scrollTo(0, 0)
-    // Mark page as loaded after brief delay
     const timer = setTimeout(() => {
       setPageLoaded(true)
     }, 200)
@@ -60,20 +101,17 @@ function LandingPpage() {
   }, [])
 
   useEffect(() => {
-    // Don't activate scroll events until page is fully loaded
     if (!pageLoaded) return
 
     const handleScroll = () => {
       const scrollY = window.scrollY
       const windowHeight = window.innerHeight
 
-      // Fade out hero content on scroll
       if (heroContentRef.current) {
         const opacity = 1 - Math.min(1, scrollY / (windowHeight * 0.5))
         heroContentRef.current.style.opacity = opacity.toString()
       }
 
-      // Control visibility of fixed images
       const sections = document.querySelectorAll(".transparent-section")
       if (sections.length >= 2 && firstImageRef.current && secondImageRef.current) {
         const firstSection = sections[0]
@@ -81,35 +119,58 @@ function LandingPpage() {
         const firstRect = firstSection.getBoundingClientRect()
         const secondRect = secondSection.getBoundingClientRect()
 
-        // Show first image when first transparent section is visible
         if (firstRect.top < windowHeight && firstRect.bottom > 0) {
           firstImageRef.current.style.opacity = "1"
           secondImageRef.current.style.opacity = "0"
-        }
-        // Show second image when second transparent section is visible
-        else if (secondRect.top < windowHeight && secondRect.bottom > 0) {
+        } else if (secondRect.top < windowHeight && secondRect.bottom > 0) {
           firstImageRef.current.style.opacity = "0"
           secondImageRef.current.style.opacity = "1"
-        }
-        // Hide both when no transparent section is visible
-        else {
+        } else {
           firstImageRef.current.style.opacity = "0"
           secondImageRef.current.style.opacity = "0"
         }
       }
     }
 
-    // Scroll event only added after page is loaded
     window.addEventListener("scroll", handleScroll)
-    // Reset scroll at start
     window.scrollTo(0, 0)
-    // Run once to establish initial states
     handleScroll()
 
     return () => window.removeEventListener("scroll", handleScroll)
   }, [pageLoaded])
 
-  // Slider functions
+  // ✅ NUEVO: IntersectionObserver para el tooltip del iPad - solo en móvil
+  useEffect(() => {
+    const isMobile = window.innerWidth <= 768
+    if (!isMobile) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Cancelar timer previo si existe
+          if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current)
+
+          // Resetear para forzar re-render de la animación
+          setShowTooltip(false)
+          tooltipTimerRef.current = setTimeout(() => {
+            setShowTooltip(true)
+          }, 300)
+        } else {
+          // Al salir de pantalla, ocultar
+          setShowTooltip(false)
+        }
+      },
+      { threshold: 0.4 }
+    )
+
+    if (ipadSectionRef.current) observer.observe(ipadSectionRef.current)
+
+    return () => {
+      if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current)
+      if (ipadSectionRef.current) observer.unobserve(ipadSectionRef.current)
+    }
+  }, [])
+
   const nextSlide = () => {
     if (currentSlide < menuImages.length - 1) {
       setCurrentSlide(currentSlide + 1)
@@ -122,12 +183,10 @@ function LandingPpage() {
     }
   }
 
-  // Función para activar/desactivar el zoom
   const toggleZoom = () => {
     setIsZoomed(!isZoomed)
   }
 
-  // Prevenir scroll cuando está en modo zoom
   useEffect(() => {
     if (isZoomed) {
       document.body.style.overflow = "hidden"
@@ -149,11 +208,21 @@ function LandingPpage() {
           <img src={imagen2 || "/placeholder.svg"} alt="Comida" className="fixed-image" />
         </div>
       </div>
+
       <div className="scroll-layer">
+
         {/* Video Section */}
         <section className="video-section">
-          <video autoPlay muted loop playsInline className="background-video">
-            <source src={miVideo} type="video/mp4" />
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            className="background-video"
+          >
+            <source src={miVideo} type="video/webm" />
           </video>
           <div className="overlay"></div>
           <div ref={heroContentRef} className="hero-content">
@@ -208,17 +277,14 @@ function LandingPpage() {
           </div>
         </section>
 
-        {/* Events Section */}
+        {/* Events Section - sin content-container para que ocupe todo el ancho */}
         <section className="white-section4" id="conocenos">
-          <div className="content-container4">
-            <EventosSlider />
-          </div>
+          <EventosSlider />
         </section>
 
-        {/* Second transparent section (shows second fixed image) */}
-        <section className="transparent-section">
+        {/* Second transparent section - iPad menú */}
+        <section className="transparent-section" ref={ipadSectionRef}>
           <div className="content-container10 horizontal-layout">
-            {/* Text content - A la izquierda */}
             <div className="transparent-content2">
               <h1 className="transparent-title">
                 Aqui se cocina
@@ -230,23 +296,26 @@ function LandingPpage() {
                 compromiso es con la calidad y la sostenibilidad en cada plato que servimos.
               </p>
             </div>
-            {/* Container para iPad con slider de menú - A la derecha */}
+
             <div className="phone-container">
-              {/* Contenedor del slider del menú - posicionado sobre el iPad */}
               <div className="menu-slider-container">
                 <div
                   className="menu-slides"
                   style={{
-                    transform: `translateX(-${currentSlide * 10}%)`, // 10% por slide
+                    transform: `translateX(-${currentSlide * 10}%)`,
                   }}
                 >
                   {menuImages.map((image, index) => (
                     <div key={index} className="menu-slide-wrapper">
-                      <img src={image || "/placeholder.svg"} alt={`Menú página ${index + 1}`} className="menu-slide" />
+                      <img
+                        src={image || "/placeholder.svg"}
+                        alt={`Menú página ${index + 1}`}
+                        className="menu-slide"
+                      />
                     </div>
                   ))}
                 </div>
-                {/* Botones de navegación dentro del contenedor del menú */}
+
                 <button onClick={prevSlide} className="slider-button1" disabled={currentSlide === 0}>
                   ←
                 </button>
@@ -257,7 +326,6 @@ function LandingPpage() {
                 >
                   →
                 </button>
-                {/* Botón de zoom */}
                 <button
                   onClick={toggleZoom}
                   className="zoom-button"
@@ -268,12 +336,24 @@ function LandingPpage() {
                     <span className="zoom-arrow zoom-arrow-br"></span>
                   </div>
                 </button>
+
+                {/* ✅ Tooltip flotante - solo visible en móvil cuando showTooltip=true */}
+                {showTooltip && (
+                  <div className="zoom-tooltip tooltip-visible">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <polyline points="9 21 3 21 3 15"></polyline>
+                      <line x1="21" y1="3" x2="14" y2="10"></line>
+                      <line x1="3" y1="21" x2="10" y2="14"></line>
+                    </svg>
+                    Toca para ampliar
+                  </div>
+                )}
               </div>
-              {/* Marco del iPad detrás del slider */}
+
               <div className="phone-frame-wrapper">
                 <img src={phoneImage || "/placeholder.svg"} alt="iPad frame" className="phone-frame" />
               </div>
-              {/* Solo el contador de diapositivas */}
               <div className="slider-controls">
                 <span className="slide-info">
                   {currentSlide + 1} / {menuImages.length}
@@ -282,9 +362,10 @@ function LandingPpage() {
             </div>
           </div>
         </section>
+
       </div>
 
-      {/* Modal de zoom para la imagen */}
+      {/* Modal de zoom */}
       {isZoomed && (
         <div className="zoom-modal" onClick={toggleZoom}>
           <div className="zoom-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -299,7 +380,6 @@ function LandingPpage() {
           </div>
         </div>
       )}
-      {/* <CookieConsent /> */}
     </main>
   )
 }
