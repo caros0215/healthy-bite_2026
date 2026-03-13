@@ -4,16 +4,16 @@ import imagen1 from '../../../assets/images/phone_14_01-Photoroom-1.webp';
 import imagen2 from '../../../assets/images/ipad21_2.webp';
 import imagen3 from '../../../assets/images/senal_3.webp';
 import imagen4 from '../../../assets/images/artes-04.webp';
-import menu1 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0001.webp';
-import menu2 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0002.webp';
-import menu3 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0003.webp';
-import menu4 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0004.webp';
-import menu5 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0005.webp';
-import menu6 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0006.webp';
-import menu7 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0007.webp';
-import menu8 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0008.webp';
-import menu9 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0009.webp';
-import menu10 from '../../../assets/images/2025 MENU HEALTHYBITE (1)_page-0010.webp';
+import menu1 from '../../../assets/images/2026 MENU HEALTHYBITE-1.webp';
+import menu2 from '../../../assets/images/2026 MENU HEALTHYBITE-2.webp';
+import menu3 from '../../../assets/images/2026 MENU HEALTHYBITE-3.webp';
+import menu4 from '../../../assets/images/2026 MENU HEALTHYBITE-4.webp';
+import menu5 from '../../../assets/images/2026 MENU HEALTHYBITE-5.webp';
+import menu6 from '../../../assets/images/2026 MENU HEALTHYBITE-6.webp';
+import menu7 from '../../../assets/images/2026 MENU HEALTHYBITE-7.webp';
+import menu8 from '../../../assets/images/2026 MENU HEALTHYBITE-8.webp';
+import menu9 from '../../../assets/images/2026 MENU HEALTHYBITE-9.webp';
+import menu10 from '../../../assets/images/2026 MENU HEALTHYBITE-10.webp';
 
 const RealFoodRevolution = () => {
   const [formData, setFormData] = useState({

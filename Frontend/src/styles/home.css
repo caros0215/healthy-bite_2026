@@ -596,12 +596,14 @@
 }
 
 .menu-slide {
-    height: 70%;
+margin-top: -7%;
+    margin-left: -3.5%;
+    height: 69.5%;
     width: auto;
     max-height: 100%;
     object-fit: contain;
     display: block;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     padding: 0;
     border-radius: 10px;
 }
