@@ -93,15 +93,15 @@
 
 /* ===================== SLIDER ===================== */
 .menuitemscontainer {
-  display: flex;
-  margin-left: 1%;
-  width: 98%;
-  gap: 2rem;
-  overflow-x: auto;
-  overflow-y: hidden; /* ✅ FIX: evitar que videos expandan verticalmente */
-  scroll-behavior: smooth;
-  padding: 1rem 0;
-  box-sizing: border-box;
+display: flex;
+    margin-left: 3%;
+    width: 98%;
+    gap: 2rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    padding: 1rem 0;
+    box-sizing: border-box;
 }
 
 .menuitemscontainer::-webkit-scrollbar {

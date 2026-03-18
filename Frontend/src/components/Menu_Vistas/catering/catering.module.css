@@ -181,12 +181,8 @@
 }
 
 @keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
 }
 
 .heroContent {
@@ -214,7 +210,7 @@
 }
 
 /* ============================================
-   ESTILOS PARA SERVICIOS CORPORATIVOS
+   SERVICIOS CORPORATIVOS
    ============================================ */
 
 .corporativoSection {
@@ -225,7 +221,7 @@
   z-index: 3;
 }
 
-.bgShapes {
+/* .bgShapes {
   position: absolute;
   inset: 0;
   overflow: hidden;
@@ -264,31 +260,17 @@
   left: 50%;
   transform: translate(-50%, -50%);
   animation: pulse 15s ease-in-out infinite;
-}
+} */
 
 @keyframes float {
-  0%,
-  100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  33% {
-    transform: translate(30px, -30px) rotate(120deg);
-  }
-  66% {
-    transform: translate(-20px, 20px) rotate(240deg);
-  }
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33%       { transform: translate(30px, -30px) rotate(120deg); }
+  66%       { transform: translate(-20px, 20px) rotate(240deg); }
 }
 
 @keyframes pulse {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.6;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.2);
-    opacity: 0.4;
-  }
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+  50%       { transform: translate(-50%, -50%) scale(1.2); opacity: 0.4; }
 }
 
 .corporativoContainer {
@@ -362,14 +344,8 @@
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.servicioCard:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(127, 155, 23, 0.15);
-}
-
-.servicioCard:hover::before {
-  transform: scaleX(1);
-}
+.servicioCard:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(127, 155, 23, 0.15); }
+.servicioCard:hover::before { transform: scaleX(1); }
 
 .servicioIcon {
   width: 80px;
@@ -403,9 +379,7 @@
   line-height: 1.6;
 }
 
-.ctaContainer {
-  text-align: center;
-}
+.ctaContainer { text-align: center; }
 
 .ctaButton {
   display: inline-flex;
@@ -438,15 +412,8 @@
   transition: width 0.6s, height 0.6s;
 }
 
-.ctaButton:hover::before {
-  width: 300px;
-  height: 300px;
-}
-
-.ctaButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(127, 155, 23, 0.4);
-}
+.ctaButton:hover::before { width: 300px; height: 300px; }
+.ctaButton:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(127, 155, 23, 0.4); }
 
 .ctaArrow {
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -454,12 +421,10 @@
   z-index: 1;
 }
 
-.ctaButton:hover .ctaArrow {
-  transform: translateX(5px);
-}
+.ctaButton:hover .ctaArrow { transform: translateX(5px); }
 
 /* ============================================
-   FIN ESTILOS SERVICIOS CORPORATIVOS
+   SECCIONES
    ============================================ */
 
 .whiteSection {
@@ -479,9 +444,7 @@
   align-items: center;
 }
 
-.contentContainer {
-  width: 100%;
-}
+.contentContainer { width: 100%; }
 
 .whiteSection4 {
   margin-top: -4%;
@@ -491,9 +454,7 @@
   align-items: center;
 }
 
-.contentContainer4 {
-  width: 100%;
-}
+.contentContainer4 { width: 100%; }
 
 .whiteSection6 {
   margin-left: -24%;
@@ -568,10 +529,7 @@
   transition: all 0.3s ease;
 }
 
-.downloadButton:hover {
-  background-color: white;
-  color: #000;
-}
+.downloadButton:hover { background-color: white; color: #000; }
 
 .splitLayout {
   display: flex;
@@ -680,56 +638,211 @@
   transition: all 0.3s ease;
 }
 
-/* Media Queries */
+/* ============================================
+   MEDIA QUERIES - MÓVIL
+   ============================================ */
+
 @media (max-width: 768px) {
+
+  /* HEADER */
   .header {
-    padding: 1rem;
+    padding: 1rem 1.2rem;
   }
 
   .navigation {
     display: none;
   }
 
+  .orderButton {
+    margin-top: 0;
+    margin-left: 0;
+    padding: 0.4rem 1rem;
+    font-size: 0.75rem;
+  }
+
+  .headerWhite {
+    padding: 0.875rem 1.2rem;
+  }
+
+  /* HERO */
+  .videoSection {
+    height: 55vh;
+    min-height: 320px;
+  }
+
+  .backgroundImage {
+    object-position: center 20%;
+  }
+
+  .heroContent {
+    padding: 0 1.2rem;
+    justify-content: flex-end;
+    padding-bottom: 2rem;
+  }
+
   .heroTitle {
-    font-size: 3rem;
+    font-size: 2.2rem;
   }
 
-  .splitLayout {
-    flex-direction: column;
-    padding: 0 1rem;
+  .heroSubtitle {
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
   }
 
-  .phonesContainer {
-    flex-direction: column;
-    gap: 2rem;
+  /* MARQUEE */
+  .greenMarqueeContainer {
+    padding: 14px 0;
   }
 
-  .phoneFrame {
-    width: 280px;
+  .marqueeContent span {
+    font-size: 12px;
   }
 
-  .corporativoTitle {
-    font-size: 2.5rem;
+  /* SECCIONES BLANCAS — sin espacios extra */
+  .whiteSection {
+    margin-top: 0;
+    min-height: auto;
+    padding: 0;
   }
 
-  .corporativoSubtitle {
-    font-size: 1rem;
+  .whiteSection3 {
+    margin-top: 0;
+    padding: 0;
   }
 
-  .serviciosGrid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+  .whiteSection4 {
+    margin-top: 0;
+    padding: 0;
   }
 
-  .corporativoSection {
-    padding: 4rem 1.5rem;
+  .whiteSection6 {
+    margin-left: 0;
+    margin-top: 0;
+    padding: 3rem 1rem;
+  }
+
+  .sectionHeading {
+    margin-bottom: 0;
+  }
+
+  /* SECCIÓN TRANSPARENTE */
+  .transparentSection {
+    margin-top: 0;
+    padding: 4rem 1.2rem 3rem;
+    min-height: 60vh;
+  }
+
+  .transparentContent {
+    padding: 1.2rem;
+    max-width: 100%;
   }
 
   .transparentTitle {
     font-size: 2.5rem;
   }
+
+  .transparentText {
+    font-size: 1rem;
+    max-width: 100%;
+  }
+
+  /* CORPORATIVO */
+  .corporativoSection {
+    padding: 4rem 1.2rem;
+  }
+
+  .corporativoTitle {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  .corporativoSubtitle {
+    font-size: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  .corporativoHeader {
+    margin-bottom: 2.5rem;
+  }
+
+  .serviciosGrid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .servicioCard {
+    padding: 1.8rem 1.5rem;
+  }
+
+  .servicioIcon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .servicioTitle {
+    font-size: 1.25rem;
+  }
+
+  .ctaButton {
+    font-size: 1rem;
+    padding: 0.875rem 2rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* SPLIT LAYOUT */
+  .splitLayout {
+    flex-direction: column;
+    padding: 0 1rem;
+    gap: 1.5rem;
+  }
+
+  .phonesContainer {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+
+  .phoneFrame {
+    width: 260px;
+  }
+
+  /* SHAPES */
+  /* .shape1 { width: 250px; height: 250px; }
+  .shape2 { width: 200px; height: 200px; }
+  .shape3 { width: 150px; height: 150px; } */
 }
 
+/* Pantallas muy pequeñas */
+@media (max-width: 380px) {
+  .videoSection {
+    height: 50vh;
+    min-height: 280px;
+  }
+
+  .heroTitle {
+    font-size: 1.875rem;
+  }
+
+  .transparentTitle {
+    font-size: 2rem;
+  }
+
+  .corporativoTitle {
+    font-size: 1.75rem;
+  }
+
+  .phoneFrame {
+    width: 220px;
+  }
+
+  .ctaButton {
+    font-size: 0.9rem;
+    padding: 0.75rem 1.5rem;
+  }
+}
+
+/* Pantallas grandes */
 @media (min-width: 2000px) {
   .phoneFrame {
     width: 500px;

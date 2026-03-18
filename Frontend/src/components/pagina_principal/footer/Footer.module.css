@@ -1,8 +1,7 @@
 /* Footer.module.css - Actualizado con estilos para Spotify QR */
 .container {
   margin-left: -0.5%;
-  display: flex
-;
+  display: flex;
   gap: 0;
   max-width: 2118px;
   flex-direction: row;
@@ -29,7 +28,6 @@
   background-size: cover;
   background-position: center;
   background-image: url('../../../assets/images/34a6f2e160771c9e68ae39a7e8c80e43.webp');
-  /* 👆 Descomenta y reemplaza con la ruta real a tu GIF */
 }
 
 .backgroundLoader {
@@ -45,11 +43,10 @@
 }
 
 .greenContainer .backgroundLoader {
-  background: #27ae60;
+  background: #83bc25;
 }
 
 .grayContainer .backgroundLoader {
-
   /* background: rgba(236, 240, 241, 0.75); */
 }
 
@@ -181,14 +178,13 @@
 .instructionTitle {
   font-size: 1.2rem;
   margin-bottom: 15px;
-  color: #1DB954; /* Color verde de Spotify */
+  color: #83bc25;
   font-weight: 600;
 }
 
 .instructionStep {
   color: #ffffff;
-  display: flex
-;
+  display: flex;
   align-items: center;
   margin-bottom: 12px;
   padding: 10px 15px;
@@ -199,14 +195,14 @@
 
 .instructionStep:hover {
   transform: translateX(5px);
-  color:#000000;
+  color: #000000;
   background-color: rgba(255, 255, 255, 0.9);
 }
 
 .stepNumber {
   width: 28px;
   height: 28px;
-  background-color: #1DB954;
+  background-color: #83bc25;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -226,7 +222,7 @@
 
 .stepIcon {
   margin-left: 6px;
-  color: #1DB954;
+  color: #83bc25;
 }
 
 /* Animaciones */
@@ -253,28 +249,33 @@
   }
 }
 
+/* ── MÓVIL (max-width: 768px) ── */
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
   }
-  
+
+  /* ✅ Verde arriba, gris/negro abajo */
+  .greenContainer {
+    order: 1;
+    max-width: 100% !important;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .grayContainer {
+    order: 2;
+    border-radius: 0 0 20px 20px;
+  }
+
   .sectionContainer {
     min-height: 350px;
     padding: 25px;
   }
-  
-  .greenContainer {
-    border-radius: 20px 20px 0 0;
-  }
-  
-  .grayContainer {
-    border-radius: 0 0 20px 20px;
-  }
-  
+
   .title {
     font-size: 1.5rem;
   }
-  
+
   .twoColumns {
     flex-direction: column;
     gap: 20px;
@@ -287,5 +288,12 @@
 
   .qrCodeSection {
     align-self: center;
+  }
+
+  /* ✅ Spotify instructions ocupa todo el ancho en móvil */
+  .spotifyInstructions {
+    margin-left: 0;
+    max-width: 100%;
+    width: 100%;
   }
 }

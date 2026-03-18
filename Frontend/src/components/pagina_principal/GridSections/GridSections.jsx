@@ -175,8 +175,13 @@ const HealthyLifeSection = () => {
           <h2 className={styles.ctaTitle}>¿Listo para Comenzar tu Transformación?</h2>
           <p className={styles.ctaText}>Únete a miles de personas que ya han mejorado su calidad de vida</p>
           <div className={styles.buttonGroup}>
-            <button className={styles.primaryButton}>Empezar Ahora</button>
-            <button className={styles.secondaryButton}>Más Información</button>
+     <button 
+  className={styles.primaryButton}
+  onClick={() => window.open("https://wa.me/573108451259?text=Hola Requiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20programa%20de%20bienestar", "_blank")}
+>
+  Empezar Ahora
+</button>
+
           </div>
         </div>
       </div>

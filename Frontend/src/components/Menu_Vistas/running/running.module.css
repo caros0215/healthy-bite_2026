@@ -218,7 +218,7 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 1px;
-  background-color: #e0e0e0;
+  background-color: #1d1d1d;
   border: 1px solid #e0e0e0;
   flex: 1;
   height: 100%;
@@ -259,7 +259,7 @@
 }
 
 .emptyDay {
-  background-color: #f9f9f9;
+  background-color: #1d1d1d;
   cursor: default;
 }
 

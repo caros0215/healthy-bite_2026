@@ -162,18 +162,10 @@
   background: rgba(255, 255, 255, 0.3);
 }
 
-.lemonSegment:nth-child(1) {
-  transform: rotate(0deg);
-}
-.lemonSegment:nth-child(2) {
-  transform: rotate(90deg);
-}
-.lemonSegment:nth-child(3) {
-  transform: rotate(45deg);
-}
-.lemonSegment:nth-child(4) {
-  transform: rotate(135deg);
-}
+.lemonSegment:nth-child(1) { transform: rotate(0deg); }
+.lemonSegment:nth-child(2) { transform: rotate(90deg); }
+.lemonSegment:nth-child(3) { transform: rotate(45deg); }
+.lemonSegment:nth-child(4) { transform: rotate(135deg); }
 
 /* BRÓCOLI */
 .broccoli {
@@ -273,101 +265,55 @@
 }
 
 /* ===================================
-   ANIMACIONES DE COMIDA
+   ANIMACIONES
    =================================== */
 @keyframes floatSpin {
-  0%, 100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  25% {
-    transform: translate(20px, -30px) rotate(90deg);
-  }
-  50% {
-    transform: translate(0, -50px) rotate(180deg);
-  }
-  75% {
-    transform: translate(-20px, -30px) rotate(270deg);
-  }
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25%       { transform: translate(20px, -30px) rotate(90deg); }
+  50%       { transform: translate(0, -50px) rotate(180deg); }
+  75%       { transform: translate(-20px, -30px) rotate(270deg); }
 }
 
 @keyframes leafFloat1 {
-  0%, 100% {
-    transform: translate(0, 0) rotate(-20deg);
-  }
-  50% {
-    transform: translate(30px, -40px) rotate(10deg);
-  }
+  0%, 100% { transform: translate(0, 0) rotate(-20deg); }
+  50%      { transform: translate(30px, -40px) rotate(10deg); }
 }
 
 @keyframes leafFloat2 {
-  0%, 100% {
-    transform: translate(0, 0) rotate(45deg);
-  }
-  50% {
-    transform: translate(-25px, 35px) rotate(75deg);
-  }
+  0%, 100% { transform: translate(0, 0) rotate(45deg); }
+  50%      { transform: translate(-25px, 35px) rotate(75deg); }
 }
 
 @keyframes leafFloat3 {
-  0%, 100% {
-    transform: translate(0, 0) rotate(90deg);
-  }
-  50% {
-    transform: translate(20px, 30px) rotate(120deg);
-  }
+  0%, 100% { transform: translate(0, 0) rotate(90deg); }
+  50%      { transform: translate(20px, 30px) rotate(120deg); }
 }
 
 @keyframes tomatoBounce {
-  0%, 100% {
-    transform: translateY(0) scale(1);
-  }
-  50% {
-    transform: translateY(-30px) scale(1.05);
-  }
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-30px) scale(1.05); }
 }
 
 @keyframes lemonRotate {
-  0% {
-    transform: rotate(0deg) translateX(0);
-  }
-  100% {
-    transform: rotate(360deg) translateX(0);
-  }
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 @keyframes broccoliFloat {
-  0%, 100% {
-    transform: translate(0, 0);
-  }
-  33% {
-    transform: translate(15px, -25px);
-  }
-  66% {
-    transform: translate(-15px, 20px);
-  }
+  0%, 100% { transform: translate(0, 0); }
+  33%      { transform: translate(15px, -25px); }
+  66%      { transform: translate(-15px, 20px); }
 }
 
 @keyframes carrotSwing {
-  0%, 100% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(15deg);
-  }
-  75% {
-    transform: rotate(-15deg);
-  }
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(15deg); }
+  75%      { transform: rotate(-15deg); }
 }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ===================================
@@ -399,7 +345,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center center;
 }
 
 .heroOverlay {
@@ -422,8 +368,9 @@
   z-index: 3;
   text-align: center;
   color: white;
-  padding: 2rem;
+  padding: 2rem 1.5rem;
   max-width: 800px;
+  width: 100%;
   animation: fadeInUp 1s ease-out;
 }
 
@@ -523,9 +470,6 @@
   line-height: 1.6;
 }
 
-/* ===================================
-   GRID DE 2x3 (6 platos)
-   =================================== */
 .gridContainer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -657,20 +601,12 @@
 }
 
 /* ===================================
-   RESPONSIVE DESIGN
+   RESPONSIVE
    =================================== */
 @media (max-width: 1200px) {
-  .gridContainer {
-    gap: 1.5rem;
-  }
-
-  .heroTitle {
-    font-size: 3.5rem;
-  }
-
-  .gridTitle {
-    font-size: 3rem;
-  }
+  .gridContainer { gap: 1.5rem; }
+  .heroTitle     { font-size: 3.5rem; }
+  .gridTitle     { font-size: 3rem; }
 }
 
 @media (max-width: 1024px) {
@@ -680,17 +616,51 @@
 }
 
 @media (max-width: 768px) {
+
+  /* HERO — imagen completa sin recorte */
+  .heroSection {
+    height: auto;
+    min-height: auto;
+    aspect-ratio: 4 / 5;
+    margin-bottom: 2rem;
+  }
+
+  .heroImage {
+    object-position: center top;
+  }
+
+  .heroContent {
+    padding: 1.5rem 1.2rem;
+  }
+
+  .heroTag {
+    font-size: 0.75rem;
+    padding: 0.4rem 1rem;
+    margin-bottom: 1rem;
+  }
+
   .heroTitle {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
   }
 
   .heroSubtitle {
-    font-size: 1rem;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
   }
 
-  .gridContainer {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+  .heroButton {
+    font-size: 0.95rem;
+    padding: 0.75rem 1.75rem;
+  }
+
+  /* GRID */
+  .gridSection {
+    padding: 0 1rem 3rem;
+  }
+
+  .gridHeader {
+    margin-bottom: 2rem;
   }
 
   .gridTitle {
@@ -698,32 +668,35 @@
   }
 
   .gridSubtitle {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 
-  .gridItemTitle {
-    font-size: 1.25rem;
+  .gridContainer {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
   }
 
-  .gridItemDescription {
-    font-size: 0.875rem;
-  }
+  .gridItemTitle       { font-size: 1.25rem; }
+  .gridItemDescription { font-size: 0.875rem; }
 
-  .heroSection {
-    height: 70vh;
-    min-height: 500px;
-  }
-
-  /* Ocultar elementos decorativos en móvil para mejor rendimiento */
-  .avocado,
-  .leaf1,
-  .leaf2,
-  .leaf3,
-  .tomato,
-  .lemon1,
-  .lemon2,
-  .broccoli,
-  .carrot {
+  /* Ocultar decorativos en móvil */
+  .avocado, .leaf1, .leaf2, .leaf3,
+  .tomato, .lemon1, .lemon2,
+  .broccoli, .carrot {
     display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroSection {
+    aspect-ratio: 3 / 4;
+  }
+
+  .heroTitle {
+    font-size: 1.875rem;
+  }
+
+  .heroSubtitle {
+    font-size: 0.875rem;
   }
 }

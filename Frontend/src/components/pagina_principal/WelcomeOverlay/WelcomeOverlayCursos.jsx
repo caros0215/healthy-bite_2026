@@ -151,13 +151,19 @@ const WelcomeOverlayCursos = ({ onClose, usuario_id = 1 }) => {
   }
 
   const handlePedirAhora = () => {
-    const fechaFormateada = formatearFecha(fechaEvento)
-    const diasRestantes = calcularDiasRestantes(fechaEvento)
-    const mensajeWhatsApp = `Hola! Me interesa este diseño para el curso del ${fechaFormateada}${esFuturo ? ` (en ${diasRestantes} días)` : ""}. Te envío la imagen por separado.`
+  const fechaFormateada = formatearFecha(fechaEvento)
+  const diasRestantes = calcularDiasRestantes(fechaEvento)
 
-    console.log("Mensaje para WhatsApp:", mensajeWhatsApp)
-    onClose()
-  }
+  const mensajeWhatsApp = `Hola! Quiero inscribirme al curso del ${fechaFormateada}${
+    esFuturo ? ` (en ${diasRestantes} días)` : ""
+  }`
+
+  const url = `https://wa.me/573147139843?text=${encodeURIComponent(mensajeWhatsApp)}`
+
+  window.open(url, "_blank")
+
+  onClose()
+}
 
   return (
     <div className={styles.welcomeOverlay} onClick={(e) => e.target === e.currentTarget && onClose()}>
@@ -198,7 +204,7 @@ const WelcomeOverlayCursos = ({ onClose, usuario_id = 1 }) => {
               className={`${styles.pedirButton} ${esFuturo ? styles.futureEvent : ""}`}
               disabled={imageLoadError || loading || !imageUrl}
             >
-              {loading ? "Cargando..." : esFuturo ? "Reservar Ahora" : "Pedir Ahora"}
+              {loading ? "Cargando..." : esFuturo ? "Reservar Ahora" : "Inscribete Ahora"}
             </button>
 
             {error && (

@@ -102,14 +102,14 @@ const WelcomeOverlayRunning = ({ onClose, usuario_id = 1 }) => {
     return Math.ceil(diferencia / (1000 * 60 * 60 * 24))
   }
 
-  const handlePedirAhora = () => {
-    const fechaFormateada = formatearFecha(fechaEvento)
-    const diasRestantes = calcularDiasRestantes(fechaEvento)
-    const mensajeWhatsApp = `Hola! Me interesa este diseño para el evento de running del ${fechaFormateada}${esFuturo ? ` (en ${diasRestantes} días)` : ""}. Te envío la imagen por separado.`
+ const handlePedirAhora = () => {
+  window.open(
+    "https://chat.whatsapp.com/GWWflT8RNzRAIabnojZ4va?mode=hqctcli",
+    "_blank"
+  )
 
-    console.log("Mensaje para WhatsApp:", mensajeWhatsApp)
-    onClose()
-  }
+  onClose()
+}
 
   return (
     <div className={styles.welcomeOverlay} onClick={(e) => e.target === e.currentTarget && onClose()}>
@@ -150,7 +150,7 @@ const WelcomeOverlayRunning = ({ onClose, usuario_id = 1 }) => {
               className={`${styles.pedirButton} ${esFuturo ? styles.futureEvent : ""}`}
               disabled={imageLoadError || loading || !imageUrl}
             >
-              {loading ? "Cargando..." : esFuturo ? "Reservar Ahora" : "Pedir Ahora"}
+              {loading ? "Cargando..." : esFuturo ? "Reservar Ahora" : "Inscribete  Ahora"}
             </button>
 
             {error && (

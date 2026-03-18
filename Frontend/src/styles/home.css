@@ -1,10 +1,10 @@
 /* ============================================== */
-/* ESTILOS BASE Y CONTENEDORES PRINCIPALES */
+/* ESTILOS BASE Y CONTENEDORES PRINCIPALES       */
 /* ============================================== */
-  
-  body {
-    overflow-x: hidden;
-  }
+
+body {
+  overflow-x: hidden;
+}
 
 .main-container {
   position: relative;
@@ -42,7 +42,7 @@
 }
 
 /* ============================================== */
-/* HEADER */
+/* HEADER                                           */
 /* ============================================== */
 
 .header {
@@ -120,7 +120,7 @@
 .header-white .order-button:hover { background-color: #2e7d32; color: white; }
 
 /* ============================================== */
-/* SECCIONES ESPECÍFICAS */
+/* ANIMATED VALUES — FIJOS, SIN ANIMACIÓN         */
 /* ============================================== */
 
 .values-list {
@@ -139,18 +139,7 @@
   align-items: flex-start;
   gap: 1.2rem;
   width: 100%;
-  opacity: 0;
-  animation: fadeInValue 0.5s ease-out forwards;
-}
-
-.value-item:nth-child(1) { animation-delay: 1s; }
-.value-item:nth-child(2) { animation-delay: 5s; }
-.value-item:nth-child(3) { animation-delay: 9s; }
-.value-item:nth-child(4) { animation-delay: 13s; }
-
-@keyframes fadeInValue {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  opacity: 1;
 }
 
 .checkmark-placeholder {
@@ -169,13 +158,6 @@
   color: #84cc16;
   stroke-linecap: round;
   stroke-linejoin: round;
-  animation: checkmarkPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes checkmarkPop {
-  0%   { opacity: 0; transform: scale(0) rotate(-45deg); }
-  70%  { transform: scale(1.15) rotate(10deg); }
-  100% { opacity: 1; transform: scale(1) rotate(0deg); }
 }
 
 .value-text {
@@ -188,23 +170,10 @@
   word-wrap: break-word;
 }
 
-@media (max-width: 768px) {
-  .hero-title { font-size: 2rem; margin-bottom: 1.5rem; }
-  .values-list { gap: 1.2rem; max-width: 100%; padding: 0 1rem; }
-  .value-item { gap: 1rem; }
-  .value-text { font-size: 0.9rem; }
-  .checkmark { width: 28px; height: 28px; }
-  .checkmark-placeholder { width: 28px; height: 28px; min-width: 28px; }
-}
+/* ============================================== */
+/* SECCIÓN DE VIDEO                                 */
+/* ============================================== */
 
-@media (max-width: 480px) {
-  .hero-content { padding: 1rem; }
-  .hero-title { font-size: 1.5rem; margin-bottom: 1rem; }
-  .values-list { gap: 1rem; margin-top: 2rem; }
-  .value-text { font-size: 0.85rem; }
-}
-
-/* Sección de video */
 .video-section {
   position: relative;
   height: 100vh;
@@ -248,7 +217,10 @@
   margin-top: 1rem;
 }
 
-/* Secciones blancas */
+/* ============================================== */
+/* SECCIONES BLANCAS                                */
+/* ============================================== */
+
 .white-section {
   position: relative;
   background-color: white;
@@ -267,7 +239,6 @@
   align-items: center;
 }
 
-/* ✅ white-section4 sin padding ni restricciones para EventosSlider */
 .white-section4 {
   position: relative;
   background-color: #ffffff;
@@ -329,7 +300,10 @@
   margin-bottom: 3rem;
 }
 
-/* Secciones transparentes */
+/* ============================================== */
+/* SECCIONES TRANSPARENTES                          */
+/* ============================================== */
+
 .transparent-section {
   background-color: rgb(29 29 27 / 67%);
   position: relative;
@@ -358,7 +332,10 @@
   max-width: 500px;
 }
 
-/* Menú Slider */
+/* ============================================== */
+/* MENÚ SLIDER                                      */
+/* ============================================== */
+
 .menu-slider-section { padding: 4rem 0; }
 
 .menu-header {
@@ -430,19 +407,15 @@
 .menu-item-title { font-size: 1.125rem; font-weight: 600; color: #2e7d32; }
 .menu-item-icon { color: #2e7d32; }
 
-/* Grids */
+/* ============================================== */
+/* GRIDS                                            */
+/* ============================================== */
+
 .values-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
   padding: 2rem 0;
-}
-
-.value-item {
-  text-align: center;
-  border-radius: 10px;
-  background-color: transparent;
-  transition: transform 0.3s ease;
 }
 
 .value-item:hover { transform: translateY(-5px); }
@@ -462,7 +435,10 @@
 .restaurant-title { font-size: 1.25rem; font-weight: 600; color: #2e7d32; margin: 1rem 0; }
 .restaurant-address { font-size: 0.875rem; color: #666; }
 
-/* Botones */
+/* ============================================== */
+/* BOTONES                                          */
+/* ============================================== */
+
 .download-button,
 .menu-button {
   background: none;
@@ -504,7 +480,7 @@
 }
 
 /* ============================================== */
-/* iPAD / SLIDER DEL MENÚ */
+/* iPAD / SLIDER DEL MENÚ                           */
 /* ============================================== */
 
 .split-layout {
@@ -596,16 +572,15 @@
 }
 
 .menu-slide {
-margin-top: -7%;
-    margin-left: -3.5%;
-    height: 69.5%;
-    width: auto;
-    max-height: 100%;
-    object-fit: contain;
-    display: block;
-    /* margin: 0 auto; */
-    padding: 0;
-    border-radius: 10px;
+  margin-top: -7%;
+  margin-left: -3.5%;
+  height: 69.5%;
+  width: auto;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+  padding: 0;
+  border-radius: 10px;
 }
 
 .slider-controls {
@@ -857,7 +832,7 @@ margin-top: -7%;
 .zoom-tooltip { display: none; }
 
 /* ============================================== */
-/* MEDIA QUERIES */
+/* MEDIA QUERIES — TODAS LAS RESOLUCIONES         */
 /* ============================================== */
 
 @media (min-width: 2000px) {
@@ -907,6 +882,29 @@ margin-top: -7%;
 
 @media (max-width: 1440px) { .phone-frame1 { width: 300px; } }
 
+@media (max-width: 1399px) and (min-width: 1280px) {
+  .hero-title { font-size: 4.5rem !important; }
+  .phone-frame { width: 460px !important; }
+  .menu-slider-container {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    width: 77% !important;
+    height: 86% !important;
+    top: 1.5% !important;
+    left: 11.5% !important;
+  }
+  .slider-button1 { left: 33% !important; width: 30px !important; height: 30px !important; font-size: 1rem !important; }
+  .slider-button2 { right: 35% !important; width: 30px !important; height: 30px !important; font-size: 1rem !important; }
+  .slider-controls { top: auto !important; bottom: 3% !important; }
+  .transparent-content2 { flex: 0 0 42% !important; min-width: unset !important; margin-left: 0 !important; padding-right: 1.5rem !important; }
+  .transparent-title { font-size: 2.8rem !important; }
+  .transparent-text  { font-size: 1rem !important; }
+  .horizontal-layout { gap: 1.5rem !important; padding: 0 2rem !important; max-width: 100% !important; }
+  .content-container10 { max-width: 100% !important; padding: 0 2rem !important; }
+  .menu-items-container { width: 100% !important; margin-left: 0 !important; }
+  .section-lead { margin-left: 0 !important; }
+}
+
 @media (max-width: 1399px) {
   .split-layout { max-width: 1200px; }
   .phone-frame { max-width: 700px; }
@@ -939,7 +937,6 @@ margin-top: -7%;
   .phones-container { flex-direction: column; align-items: center; gap: 3rem; }
   .phone-frame { max-width: 500px; }
   .menu-slider-container { top: 14.5%; width: 90%; left: 5%; }
-  /* menu-slide se maneja por separado en móvil */
   .navigation { display: none; }
   .order-button { margin-left: 0; }
   .phone-container .phone-frame, .static-phone-container .phone-frame { width: 300px; }
@@ -964,10 +961,10 @@ margin-top: -7%;
   .transparent-title { font-size: 5rem; }
 }
 
-/* ── MÓVIL (max-width: 768px) ── */
+/* ============================================== */
+/* MÓVIL (max-width: 768px) — BLOQUE ÚNICO         */
+/* ============================================== */
 @media (max-width: 768px) {
-  .phone-container .phone-frame1, .static-phone-container .phone-frame1 { width: 200px; }
-
   .header { padding: 1rem; }
   .logo img { width: 120px; }
   .video-section { height: 80vh; }
@@ -977,12 +974,20 @@ margin-top: -7%;
   .menu-item { min-width: 200px; }
   .menu-item-image-container { height: 150px; }
 
-  .zoom-button { width: 30px; height: 30px; bottom: 10%; right: 10%; }
+  .zoom-button { width: 30px; height: 30px; bottom: 2%!important ;right: 21%!important ; }
   .zoom-icon { width: 12px; height: 12px; }
   .zoom-arrow { width: 6px; height: 6px; }
   .zoom-close-button { width: 30px; height: 30px; font-size: 18px; top: -15px; right: -15px; }
 
-  /* Transparentes en columna */
+  /* Values list (del bloque anterior) */
+  .hero-title { font-size: 2rem; margin-bottom: 1.5rem; }
+  .values-list { gap: 1.2rem; max-width: 100%; padding: 0 1rem; }
+  .value-item { gap: 1rem; }
+  .value-text { font-size: 0.9rem; }
+  .checkmark { width: 28px; height: 28px; }
+  .checkmark-placeholder { width: 28px; height: 28px; min-width: 28px; }
+
+  /* Transparent sections */
   .transparent-section {
     flex-direction: column !important;
     align-items: flex-start !important;
@@ -1007,64 +1012,91 @@ margin-top: -7%;
   .transparent-title { font-size: 2.2rem !important; line-height: 1.1 !important; word-break: break-word !important; }
   .transparent-text { font-size: 0.9rem !important; max-width: 100% !important; word-break: break-word !important; }
 
-  .transparent-section > *:last-child {
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow: hidden !important;
-    box-sizing: border-box !important;
+  /* iPad menú centrado en móvil */
+  .phone-container,
+  .menu-phone-container,
+  .phone-frame-wrapper,
+  .static-phone-container {
+    margin: 0 auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
   }
 
-  /* ✅ iPad menú en móvil */
-  .menu-slide {
-    margin: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    object-position: center top !important;
-    border-radius: 0 !important;
+  .phone-frame,
+  .phone-frame1,
+  .static-phone-container .phone-frame1 {
+    margin: 0 auto !important;
+        width: 327px !important;
+        max-width: 90vw !important;
   }
-
-  .menu-slide-wrapper { align-items: flex-start; overflow: hidden; }
 
   .menu-slider-container {
-    top: 1.5% !important;
-    left: 11% !important;
-    width: 78% !important;
-    height: 86% !important;
-    border-radius: 20px !important;
+    top: 3.5% !important;
+        left: 57% !important;
+        transform: translateX(-50%) !important;
+        width: 85% !important;
+        height: 92% !important;
+        margin-left: 0 !important;
+        margin-top: 0 !important;
+        border-radius: 22px !important;
+        overflow: hidden !important;
   }
 
-  .slider-button1 { left: 5% !important; width: 28px !important; height: 28px !important; font-size: 0.9rem !important; }
-  .slider-button2 { right: 5% !important; width: 28px !important; height: 28px !important; font-size: 0.9rem !important; }
+  .menu-slides {
+    width: 1000% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
 
-  /* ✅ Tooltip flotante */
+  .menu-slide-wrapper {
+    flex: 0 0 10% !important;
+    height: 105% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .menu-slide {
+    margin: 0 !important;
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+    height: 94% !important;
+    max-width: 96% !important;
+    max-height: 96% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    border-radius: 8px !important;
+    display: block !important;
+  }
+
+  .slider-button1 {
+left: 4% !important;
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 1rem !important;
+  }
+
+  .slider-button2 {
+    right: 4% !important;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 1rem !important;
+  }
+
+  .slider-controls {
+    bottom: 4% !important;
+    gap: 1.2rem !important;
+  }
+
   .zoom-tooltip {
     display: flex;
-    align-items: center;
-    gap: 7px;
-    position: absolute;
-    bottom: 23%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0,0,0,0.82);
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 7px 15px;
-    border-radius: 24px;
-    white-space: nowrap;
-    z-index: 600;
-    pointer-events: none;
-    letter-spacing: 0.02em;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
-    opacity: 0;
+    bottom: 20% !important;
   }
-
-  .zoom-tooltip.tooltip-visible {
-    animation: zoomTooltipAnim 4s ease forwards;
-  }
-
-  .zoom-tooltip svg { width: 13px; height: 13px; flex-shrink: 0; }
 }
 
 @keyframes zoomTooltipAnim {
@@ -1095,6 +1127,10 @@ margin-top: -7%;
 }
 
 @media (max-width: 480px) {
+  .hero-content { padding: 1rem; }
+  .hero-title { font-size: 1.5rem; margin-bottom: 1rem; }
+  .values-list { gap: 1rem; margin-top: 2rem; }
+  .value-text { font-size: 0.85rem; }
   .transparent-title { font-size: 1.8rem !important; }
   .transparent-text { font-size: 0.85rem !important; }
 }
@@ -1103,4 +1139,95 @@ margin-top: -7%;
   .phone-frame { max-width: 280px; }
   .transparent-title { font-size: 1.8rem; }
   .slider-controls { gap: 0.5rem; }
+}
+
+/* iPAD VERTICAL (portrait) */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+  .hero-title { font-size: 3.5rem !important; }
+  .values-list { max-width: 90% !important; }
+  .horizontal-layout {
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 2rem 1.5rem !important;
+    gap: 2.5rem !important;
+  }
+  .transparent-content2 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    min-width: unset !important;
+    text-align: center !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+  }
+  .transparent-title { font-size: 3rem !important; }
+  .transparent-text  { font-size: 1rem !important; max-width: 100% !important; }
+  .phone-container {
+    flex: 0 0 100% !important;
+    max-width: 500px !important;
+    margin: 0 auto !important;
+  }
+  .phone-frame { width: 460px !important; }
+  .menu-slider-container {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    top: 1.5% !important;
+    left: 11.5% !important;
+    width: 77% !important;
+    height: 86% !important;
+  }
+  .slider-button1 { left: 33% !important; width: 30px !important; height: 30px !important; font-size: 1rem !important; }
+  .slider-button2 { right: 35% !important; width: 30px !important; height: 30px !important; font-size: 1rem !important; }
+  .slider-controls { top: auto !important; bottom: 3% !important; }
+  .menu-items-container { width: 100% !important; margin-left: 0 !important; }
+  .content-container10 { max-width: 100% !important; padding: 0 1.5rem !important; }
+  .transparent-section {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    min-height: auto !important;
+    padding: 3rem 1.5rem !important;
+  }
+  .transparent-content { max-width: 100% !important; padding: 1rem 0 !important; }
+  .zoom-tooltip { display: flex !important; }
+}
+
+/* iPAD HORIZONTAL (landscape) */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+  .hero-title { font-size: 4rem !important; }
+  .values-list { max-width: 60% !important; }
+  .horizontal-layout {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 1.5rem !important;
+    padding: 0 1.5rem !important;
+    max-width: 100% !important;
+  }
+  .transparent-content2 {
+    flex: 0 0 40% !important;
+    min-width: unset !important;
+    margin-left: 0 !important;
+    padding-right: 1rem !important;
+    text-align: left !important;
+  }
+  .transparent-title { font-size: 2.4rem !important; }
+  .transparent-text  { font-size: 0.95rem !important; }
+  .phone-container {
+    flex: 0 0 55% !important;
+    max-width: 520px !important;
+  }
+  .phone-frame { width: 440px !important; }
+  .menu-slider-container {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    top: 1.5% !important;
+    left: 11.5% !important;
+    width: 77% !important;
+    height: 86% !important;
+  }
+  .slider-button1 { left: 33% !important; width: 28px !important; height: 28px !important; font-size: 0.9rem !important; }
+  .slider-button2 { right: 35% !important; width: 28px !important; height: 28px !important; font-size: 0.9rem !important; }
+  .slider-controls { top: auto !important; bottom: 3% !important; }
+  .content-container10 { max-width: 100% !important; padding: 0 1.5rem !important; }
+  .menu-items-container { width: 100% !important; margin-left: 0 !important; }
+  .transparent-section { min-height: 100vh !important; padding: 2rem 1.5rem !important; }
+  .transparent-content { max-width: 80% !important; }
 }

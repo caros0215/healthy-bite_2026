@@ -3,9 +3,9 @@
 import { useRef, useState, useEffect } from "react"
 import styles from "./EventosSliders.module.css"
 import video1 from "../../../assets/images/video_21.mp4"
-import video2 from "../../../assets/images/video_30.mp4"
-import video4 from "../../../assets/images/video_20.mp4"
-import video3 from "../../../assets/images/video_19.mp4"
+import video2 from "../../../assets/images/vid_3.mp4"
+import video4 from "../../../assets/images/vid_1.MOV"
+import video3 from "../../../assets/images/vid_2.MOV"
 import imagen5 from "../../../assets/images/imagen_3.webp"
 import imagen6 from "../../../assets/images/imagen_5.webp"
 import logo from "../../../assets/images/artes_Mesa de trabajo 1.webp"
@@ -40,9 +40,9 @@ const EventosSlider = () => {
     { id: 2, media: video2, title: "Nuestra comunidad", icon: "→", type: "video" },
     { id: 3, media: video3, title: "Helados", icon: "→", type: "video" },
     { id: 4, media: video4, title: "Almuerzos", icon: "→", type: "video" },
-    { id: 5, media: imagen5, title: "Cursos de cocina", icon: "→", type: "image" },
-    { id: 6, media: imagen6, title: "Postres", icon: "→", type: "image" },
-    { id: 7, media: imagen6, title: "Asesoría nutricional", icon: "→", type: "image" },
+    // { id: 5, media: imagen5, title: "Cursos de cocina", icon: "→", type: "image" },
+    // { id: 6, media: imagen6, title: "Postres", icon: "→", type: "image" },
+    // { id: 7, media: imagen6, title: "Asesoría nutricional", icon: "→", type: "image" },
   ]
 
   const scrollLeft = () => containerRef.current?.scrollBy({ left: -300, behavior: "smooth" })

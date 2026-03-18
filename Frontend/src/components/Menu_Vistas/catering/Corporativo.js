@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './Corporativo.module.css';
-import corporativoVideo from '../../../assets/images/img-4678mov-dn6ej5.mp4';
+import corporativoVideo from '../../../assets/images/Healthy Principal.webm';
 
-const HonestCatering = () => {
+const TrabajaConNosotros = () => {
   return (
     <div className={styles.container}>
       <div className={styles.banner}>
@@ -14,34 +14,36 @@ const HonestCatering = () => {
             muted 
             playsInline
           >
-            <source src={corporativoVideo} type="video/mp4" />
+            <source src={corporativoVideo} type="video/webm" />
             Tu navegador no soporta videos HTML5.
           </video>
         </div>
-        <div className={styles.bannerContent}>
-          <p className={styles.serviceLabel}>SERVICIO CORPORATIVO</p>
-          <h1 className={styles.title}>
-            <span>HONEST</span>
-            <span>CATERING.</span>
+        <div className={styles.bannerContent} style={{ textAlign: 'center', alignItems: 'center' }}>
+          <p className={styles.serviceLabel}>ÚNETE A NUESTRO EQUIPO</p>
+          <h1 className={styles.title} style={{ textAlign: 'center' }}>
+            <span>TRABAJA</span>
+            <span>CON NOSOTROS.</span>
           </h1>
           <p className={styles.description}>
-            Descubre nuestro nuevo catering saludable para eventos. Opciones 
-            vegetarianas, sin gluten, keto, plant-based, y más.
+            ¿Te apasiona la alimentación saludable y quieres ser parte de algo 
+            grande? Buscamos personas comprometidas, creativas y con ganas de crecer.
           </p>
-          <p className={styles.description}>Ya está disponible online.</p>
-          <a 
-            href="https://chat.whatsapp.com/Hw56pbJUHC41Ekq67gOgLL?text=Hola,%20me%20interesa%20el%20servicio%20de%20Honest%20Catering%20Corporativo" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className={styles.ctaButton}
-          >
-            Pide ahora
-            <span className={styles.arrow}>→</span>
-          </a>
+          <p className={styles.description}>Aplica ahora y forma parte de nuestra familia.</p>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <a 
+              href="https://docs.google.com/forms/d/e/1FAIpQLSf4fUhUnZ8Uc5BGcHPV7XBK_23CUm2yhW_186of_LxMq4g91w/viewform" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className={styles.ctaButton}
+            >
+              Aplica aquí
+              <span className={styles.arrow}>→</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default HonestCatering;
+export default TrabajaConNosotros;

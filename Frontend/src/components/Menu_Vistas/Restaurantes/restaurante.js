@@ -227,7 +227,8 @@ export default function CantinaPage() {
       </div>
 
       {/* <CookieConsent /> */}
-    </main>
-  )
-}
-*/}
+//     </main>
+//   )
+// }
+// }
+// */

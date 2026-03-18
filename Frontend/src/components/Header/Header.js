@@ -76,7 +76,7 @@ function Header() {
           <nav className="navigation">
             <Link to="/" className="nav-link">Inicio</Link>
             <a href="#conocenos" className="nav-link" onClick={handleKnowUs}>conocenos</a>
-            <a href="/Servicios_corporativos" className="nav-link">Servicios corporativos</a>
+            {/* <a href="/Servicios_corporativos" className="nav-link">Servicios corporativos</a> */}
             <a href="/Cursos" className="nav-link">Cursos</a>
             <a href="/Historia" className="nav-link">Nuestra historia</a>
             <a href="/Sports" className="nav-link">Sports</a>
@@ -100,7 +100,7 @@ function Header() {
         <nav className="mobile-nav">
           <Link to="/" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Inicio</Link>
           <a href="#conocenos" className="mobile-nav-link" onClick={handleKnowUs}>Conócenos</a>
-          <a href="/Servicios_corporativos" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Servicios corporativos</a>
+          {/* <a href="/Servicios_corporativos" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Servicios corporativos</a> */}
           <a href="/Cursos" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Cursos</a>
           <a href="/Historia" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Nuestra historia</a>
           <a href="/Sports" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Sports</a>

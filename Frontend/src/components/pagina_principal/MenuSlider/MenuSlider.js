@@ -2,12 +2,12 @@
 
 import { useRef } from "react"
 import "./MenuSlider.css"
-import imagen1 from "../../../assets/images/plato_4.webp"
-import imagen2 from "../../../assets/images/plato_5.webp"
-import imagen3 from "../../../assets/images/plato_6-.webp"
-import imagen4 from "../../../assets/images/plato_7.webp"
-import imagen5 from "../../../assets/images/plato_8.webp"
-import imagen6 from "../../../assets/images/plato_9.webp"
+import imagen1 from "../../../assets/images/21.webp"
+import imagen2 from "../../../assets/images/1.webp"
+import imagen3 from "../../../assets/images/18.webp"
+import imagen4 from "../../../assets/images/2.webp"
+import imagen5 from "../../../assets/images/17.webp"
+import imagen6 from "../../../assets/images/14.webp"
 
 const MenuSlider = () => {
   const containerRef = useRef(null)
@@ -18,10 +18,10 @@ const MenuSlider = () => {
 
   const menuItems = [
     { id: 1, image: imagen1, title: "Para Compartir", icon: "→" },
-    { id: 2, image: imagen2, title: "Market Plates", icon: "→" },
-    { id: 3, image: imagen3, title: "Garden Bowls", icon: "→" },
-    { id: 4, image: imagen4, title: "Salsas", icon: "→" },
-    { id: 5, image: imagen5, title: "Sweet Corner", icon: "→" },
+    { id: 2, image: imagen2, title: "Torre pancakes", icon: "→" },
+    { id: 3, image: imagen3, title: "parfait", icon: "→" },
+    { id: 4, image: imagen4, title: "huevos napolitanos", icon: "→" },
+    { id: 5, image: imagen5, title: "tostada de aguacate", icon: "→" },
     { id: 6, image: imagen6, title: "Bebidas", icon: "→" },
   ]
 

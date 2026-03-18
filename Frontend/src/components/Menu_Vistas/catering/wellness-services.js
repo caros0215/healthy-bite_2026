@@ -33,11 +33,11 @@ export default function ServiciosCorporativos() {
   return (
     <section className={styles.corporativoSection}>
       {/* Elementos de fondo animados */}
-      <div className={styles.bgShapes}>
+      {/* <div className={styles.bgShapes}>
         <div className={styles.shape1}></div>
         <div className={styles.shape2}></div>
         <div className={styles.shape3}></div>
-      </div>
+      </div> */}
 
       <div className={styles.corporativoContainer}>
         <div className={styles.corporativoHeader}>

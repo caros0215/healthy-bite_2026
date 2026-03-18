@@ -10,8 +10,8 @@ import GridSections from "../GridSections/GridSections"
 import FrasesSections from "../frases_2/frases_2"
 import "../MenuSlider/MenuSlider.css"
 import "../EventosSlider/EventosSliders.module.css"
-import imagen1 from "../../../assets/images/plato_2.webp"
-import imagen2 from "../../../assets/images/plato_3.webp"
+import imagen1 from "../../../assets/images/IMG_8784.webp"
+import imagen2 from "../../../assets/images/23.webp"
 import "react-pdf/dist/esm/Page/AnnotationLayer.css"
 import "react-pdf/dist/esm/Page/TextLayer.css"
 import { pdfjs } from "react-pdf"
@@ -27,6 +27,7 @@ import menu8 from "../../../assets/images/2026 MENU HEALTHYBITE-8.webp"
 import menu9 from "../../../assets/images/2026 MENU HEALTHYBITE-9.webp"
 import menu10 from "../../../assets/images/2026 MENU HEALTHYBITE-10.webp"
 import AnimatedValues from "./AnimatedValues"
+import ValeraSection from "../Landing/valerasection"
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`
 
@@ -41,7 +42,6 @@ function LandingPpage() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isZoomed, setIsZoomed] = useState(false)
 
-  // ✅ NUEVO: ref e estado para el tooltip del iPad
   const ipadSectionRef = useRef(null)
   const [showTooltip, setShowTooltip] = useState(false)
   const tooltipTimerRef = useRef(null)
@@ -52,7 +52,7 @@ function LandingPpage() {
     setNumPages(numPages)
   }
 
-  // ✅ Fix iOS Safari: autoplay sin error al desmontar
+  // Fix iOS Safari: autoplay sin error al desmontar
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
@@ -139,7 +139,7 @@ function LandingPpage() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [pageLoaded])
 
-  // ✅ NUEVO: IntersectionObserver para el tooltip del iPad - solo en móvil
+  // IntersectionObserver para el tooltip del iPad - solo en móvil
   useEffect(() => {
     const isMobile = window.innerWidth <= 768
     if (!isMobile) return
@@ -147,16 +147,12 @@ function LandingPpage() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // Cancelar timer previo si existe
           if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current)
-
-          // Resetear para forzar re-render de la animación
           setShowTooltip(false)
           tooltipTimerRef.current = setTimeout(() => {
             setShowTooltip(true)
           }, 300)
         } else {
-          // Al salir de pantalla, ocultar
           setShowTooltip(false)
         }
       },
@@ -211,7 +207,7 @@ function LandingPpage() {
 
       <div className="scroll-layer">
 
-        {/* Video Section */}
+        {/* 1. Video Section */}
         <section className="video-section">
           <video
             ref={videoRef}
@@ -242,7 +238,9 @@ function LandingPpage() {
           </div>
         </section>
 
-        {/* Menu Section */}
+        
+
+        {/* 3. Menu Section */}
         <section className="white-section">
           <div className="content-container">
             <div className="section-heading">
@@ -252,14 +250,14 @@ function LandingPpage() {
           </div>
         </section>
 
-        {/* Community Section */}
+        {/* 3. Community Section */}
         <section className="transparent-section">
           <div className="content-container">
             <div className="transparent-content">
               <h1 className="transparent-title">
                 QUE ES
                 <br />
-                HEALTHYBITE.
+                HEALTHYBITE?
               </h1>
               <p className="transparent-text">
                 ESTE NO ES SOLO UN RESTAURANTE: ES UN MOVIMIENTO HACIA UNA VIDA MÁS PLENA, MÁS LIBRE Y SOBRE TODO MÁS
@@ -270,19 +268,14 @@ function LandingPpage() {
           <FrasesSections />
         </section>
 
-        {/* Grid Section */}
-        <section className="white-section3">
-          <div className="content-container3">
-            <GridSections />
-          </div>
-        </section>
-
-        {/* Events Section - sin content-container para que ocupe todo el ancho */}
+        {/* 4. Events Section */}
         <section className="white-section4" id="conocenos">
           <EventosSlider />
         </section>
 
-        {/* Second transparent section - iPad menú */}
+{/* 2. Valera Section */}
+        <ValeraSection />
+        {/* 5. iPad Menú Section - antes era la última transparent-section */}
         <section className="transparent-section" ref={ipadSectionRef}>
           <div className="content-container10 horizontal-layout">
             <div className="transparent-content2">
@@ -296,6 +289,8 @@ function LandingPpage() {
                 compromiso es con la calidad y la sostenibilidad en cada plato que servimos.
               </p>
             </div>
+
+
 
             <div className="phone-container">
               <div className="menu-slider-container">
@@ -337,7 +332,6 @@ function LandingPpage() {
                   </div>
                 </button>
 
-                {/* ✅ Tooltip flotante - solo visible en móvil cuando showTooltip=true */}
                 {showTooltip && (
                   <div className="zoom-tooltip tooltip-visible">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -360,6 +354,13 @@ function LandingPpage() {
                 </span>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* 6. GridSections (Transformación) - ahora de última */}
+        <section className="white-section3">
+          <div className="content-container3">
+            <GridSections />
           </div>
         </section>
 

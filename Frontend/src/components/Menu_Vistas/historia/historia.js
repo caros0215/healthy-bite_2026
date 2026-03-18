@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react"
 import styles from "./historia.module.css"
-import imagen1 from "../../../assets/images/fundador_1.webp"
+import imagen1 from "../../../assets/images/12.webp"
 import imagen2 from "../../../assets/images/fundador_3-.webp"
-import imagen3 from "../../../assets/images/run_2.webp"
+import imagen3 from "../../../assets/images/IMG_8719.webp"
 import imagen4 from "../../../assets/images/bowl.webp"
 import imagen5 from "../../../assets/images/helado_2.webp"
 
@@ -310,14 +310,14 @@ const HealthyFoodStory = () => {
           <p className={styles.heroDescription}>
             Healthy Bite nació de una idea sencilla, pero poderosa: transformar la forma en la que las personas se alimentan y se relacionan con la comida. No empezó en una gran cocina ni con grandes recursos, empezó en un garaje de 2x2, con una tabla, un cuchillo y una convicción profunda: comer bien puede cambiar vidas.
           </p>
-
+{/* 
           <div className={styles.heroButtons}>
             <button className={styles.btnPrimary}>
               <span>Descubre Nuestro Menú</span>
               <ArrowRight className={styles.btnIcon} />
             </button>
             <button className={styles.btnSecondary}>Ver Nuestra Misión</button>
-          </div>
+          </div> */}
         </div>
 
         <div className={styles.scrollIndicator}>
@@ -440,7 +440,7 @@ const HealthyFoodStory = () => {
       </section>
 
       {/* Recipe Showcase */}
-      <section className={styles.recipeShowcase}>
+      {/* <section className={styles.recipeShowcase}>
         <div className={styles.recipeBackground}>
           <div className={`${styles.recipeBlob} ${styles.recipeBlob1}`}></div>
           <div className={`${styles.recipeBlob} ${styles.recipeBlob2}`}></div>
@@ -519,7 +519,7 @@ const HealthyFoodStory = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Health Benefits */}
       <section className={styles.healthBenefits}>

@@ -521,7 +521,7 @@ width: 100%;
   font-size: 2.25rem;
   font-weight: 700;
   color: #1f2937;
-  background: linear-gradient(45deg, #16a34a, #22c55e);
+  background: #b8d15a;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -570,7 +570,7 @@ width: 100%;
 .stepNumber {
   width: 2rem;
   height: 2rem;
-  background: linear-gradient(45deg, #16a34a, #22c55e);
+  background: #b8d15a;
   color: #fff;
   border-radius: 50%;
   display: flex;
@@ -614,7 +614,7 @@ width: 100%;
 
 .quoteText {
   font-style: italic;
-  color: #16a34a;
+  color: #b8d15a;
   font-weight: 500;
 }
 
@@ -827,13 +827,13 @@ width: 10%;
 
 .footerTop {
   height: 6rem;
-  background: linear-gradient(45deg, #16a34a, #22c55e);
+  background: #b8d15a;
   border-radius: 50% 50% 0 0;
   margin: 0 -2rem;
 }
 
 .footerContent {
-  background: linear-gradient(45deg, #16a34a, #22c55e);
+  background: #b8d15a;
   padding: 2rem;
   text-align: center;
   margin: 0 -2rem;
@@ -935,4 +935,81 @@ width: 10%;
   .stepsContainer {
     max-width: 100%;
   }
+}
+
+/* ── Cuadro azul: costos adicionales ── */
+.additionalCostsBox {
+  background: linear-gradient(135deg, #1a6bb5, #1e88e5);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin: 8px 0;
+  color: white;
+}
+
+.additionalCostsTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: white;
+}
+
+.additionalCostsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.additionalCostsList li {
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: rgba(255,255,255,0.92);
+}
+
+.adicionalesBox {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 4px 0;
+}
+
+.adicionalesTags {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.adicionalTag {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f0fdf4;
+  border: 1px solid #84cc16;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 0.7rem;
+  color: #2e7d32;
+}
+
+.adicionalRemove {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 1rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+.adicionalRemove:hover {
+  color: #e53e3e;
+}
+
+.adicionalesTotal {
+  font-size: 0.7rem;
+  color: #2e7d32;
+  text-align: right;
+  margin: 2px 0 0;
 }

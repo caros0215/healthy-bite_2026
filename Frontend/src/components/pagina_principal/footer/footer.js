@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './Footer.module.css';
 import imagen2 from "../../../assets/images/healthy_bite_qr.webp";
-import { Facebook, Instagram, Twitter, Youtube, QrCode, Music, Plus, Share2 } from 'lucide-react';
+import { Facebook, Instagram, Music, Plus, Share2 } from 'lucide-react';
+import { FaTiktok } from 'react-icons/fa';
 
 const Footer = () => {
   const sectionRef = useRef(null);
@@ -33,7 +34,6 @@ const Footer = () => {
     };
   }, []);
 
-  // Combinamos clases de manera condicional
   const containerClassName = `${styles.container} ${isVisible ? styles.animate : ''}`;
 
   return (
@@ -50,21 +50,32 @@ const Footer = () => {
             <div className={styles.leftSubColumn}>
               <h3 className={styles.subTitle}>SÍGUENOS</h3>
               <div className={styles.socialIconsContainer}>
-                <a href="#" className={styles.socialLink}>
+                <a 
+                  href="https://www.facebook.com/healthybite" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className={styles.socialLink}
+                >
                   <Facebook size={24} />
                   <span>Facebook</span>
                 </a>
-                <a href="#" className={styles.socialLink}>
+                <a 
+                  href="https://www.instagram.com/healthybite.mzl" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className={styles.socialLink}
+                >
                   <Instagram size={24} />
                   <span>Instagram</span>
                 </a>
-                <a href="#" className={styles.socialLink}>
-                  <Twitter size={24} />
-                  <span>Twitter</span>
-                </a>
-                <a href="#" className={styles.socialLink}>
-                  <Youtube size={24} />
-                  <span>YouTube</span>
+                <a 
+                  href="https://www.tiktok.com/@healthy.bitemzl" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className={styles.socialLink}
+                >
+                  <FaTiktok size={24} />
+                  <span>Tiktok</span>
                 </a>
               </div>
               <p className={styles.smallText}>
@@ -76,22 +87,54 @@ const Footer = () => {
             <div className={styles.rightSubColumn}>
               <h3 className={styles.subTitle}>INFORMACIÓN</h3>
               <div className={styles.infoLinksContainer}>
-                <a href="#" className={styles.infoLink}>Política de Privacidad</a>
-                <a href="#" className={styles.infoLink}>Términos y Condiciones</a>
-                <a href="#" className={styles.infoLink}>Localización de Tiendas</a>
-                <a href="#" className={styles.infoLink}>Trabaja con Nosotros</a>
-                <a href="#" className={styles.infoLink}>Contacto</a>
+                <a href="#" className={styles.infoLink}>Localización de la Tienda</a>
+
+               <div className={styles.mapContainer}>
+  <a
+    href="https://www.google.com/maps?q=5.051363109845237,-75.48784499910894"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!3m2!1ses-419!2sco!4v1773709497870!5m2!1ses-419!2sco!6m8!1m7!1seuwIsug24Ihv1y9Ifj61ow!2m2!1d5.051363109845237!2d-75.48784499910894!3f240.01503!4f0!5f0.7820865974627469"
+      width="100%"
+      height="200"
+      style={{ border: 0, borderRadius: '8px', marginTop: '12px', pointerEvents: 'none' }}
+      loading="lazy"
+      referrerPolicy="no-referrer-when-downgrade"
+      title="Ubicación de la tienda"
+    />
+  </a>
+</div>
+               <a 
+  href="https://docs.google.com/forms/d/e/1FAIpQLSf4fUhUnZ8Uc5BGcHPV7XBK_23CUm2yhW_186of_LxMq4g91w/viewform" 
+  target="_blank" 
+  rel="noopener noreferrer" 
+  className={styles.infoLink}
+>
+  Trabaja con Nosotros
+</a>
+                <a  href="https://wa.me/573147139843?text=Hola%2C%20quiero%20obtener%20m%C3%A1s%20informaci%C3%B3n"
+  target="_blank"
+  rel="noopener noreferrer"
+  className={styles.infoLink}
+>
+  Contacto
+</a>
               </div>
+
+              {/* Mapa de la tienda */}
+              
             </div>
           </div>
           
           <p className={styles.description}>
-          ©2025 Oscar orozco ®
+            ©2025 Oscar orozco ®
           </p>
         </div>
       </div>
       
-      {/* Columna Gris - Derecha (ahora con fondo GIF e instrucciones de Spotify) */}
+      {/* Columna Gris - Derecha */}
       <div className={`${styles.sectionContainer} ${styles.grayContainer}`}>
         <div className={styles.backgroundLoader}></div>
                   
@@ -103,7 +146,7 @@ const Footer = () => {
           
           <div className={styles.spotifyContainer}>
             <div className={styles.qrCodeSection}>
-            <img src={imagen2} className={styles.qrIcon} />
+              <img src={imagen2} className={styles.qrIcon} />
               <p className={styles.qrText}>Escanea este código</p>
             </div>
             

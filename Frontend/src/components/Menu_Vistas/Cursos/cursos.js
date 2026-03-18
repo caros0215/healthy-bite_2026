@@ -6,8 +6,8 @@ import WelcomeOverlayCursos from "../../pagina_principal/WelcomeOverlay/WelcomeO
 import styles from "./cursos.module.css"
 
 // Importaciones de imágenes originales
-import imagen_3 from "../../../assets/images/run_2.webp"
-import image2 from "../../../assets/images/empresarial.webp"
+import imagen_3 from "../../../assets/images/IMG_8719.webp"
+import image2 from "../../../assets/images/IMG_8784.webp"
 
 export default function CursosPage() {
   const [showWelcome, setShowWelcome] = useState(true)
@@ -345,7 +345,7 @@ export default function CursosPage() {
     const message = encodeURIComponent(
       `Hola! Me interesa reservar una plaza para el curso: ${hoveredDesign?.titulo || "Curso de cocina"}`,
     )
-    window.open(`https://wa.me/1234567890?text=${message}`, "_blank")
+    window.open(`https://wa.me/3147139843?text=${message}`, "_blank")
   }
 
   useEffect(() => {
@@ -410,9 +410,6 @@ export default function CursosPage() {
         <div className={styles.greenMarqueeContainer}>
           <div className={styles.marqueeWrapper}>
             <div className={styles.marqueeContent}>
-              <span>COCINA MEDITERRÁNEA AUTÉNTICA</span>
-              <span className={styles.separator}>•</span>
-              <span>TÉCNICAS PROFESIONALES</span>
               <span className={styles.separator}>•</span>
               <span>INGREDIENTES FRESCOS DE TEMPORADA</span>
               <span className={styles.separator}>•</span>
@@ -427,9 +424,7 @@ export default function CursosPage() {
               <span>EXPERIENCIAS GASTRONÓMICAS ÚNICAS</span>
             </div>
             <div className={styles.marqueeContent}>
-              <span>COCINA MEDITERRÁNEA AUTÉNTICA</span>
-              <span className={styles.separator}>•</span>
-              <span>TÉCNICAS PROFESIONALES</span>
+              
               <span className={styles.separator}>•</span>
               <span>INGREDIENTES FRESCOS DE TEMPORADA</span>
               <span className={styles.separator}>•</span>

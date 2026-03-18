@@ -1,0 +1,206 @@
+.section {
+  background: #ffffff;
+  padding: 80px 24px;
+  width: 100%;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 0px;
+  align-items: center;
+}
+
+/* ── VIDEO ── */
+.videoWrapper {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 9 / 16;
+  max-height: 720px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.videoWrapper:hover {
+  transform: scale(1.02);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.22);
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.videoOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.55), transparent);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.videoWrapper:hover .videoOverlay {
+  opacity: 0;
+}
+
+.playHint {
+  color: #fff;
+  font-size: 13px;
+  font-family: 'Georgia', serif;
+  letter-spacing: 0.02em;
+}
+
+/* ── CARD ── */
+.card {
+  background: #f7f9f4;
+  border: 1.5px solid #d4e6c3;
+  border-radius: 24px;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(76, 140, 74, 0.08);
+}
+
+.question {
+  font-family: 'Georgia', serif;
+  font-size: 28px;
+  color: #1a1a1a;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.question strong {
+  color: #2d6a2d;
+}
+
+.divider {
+  width: 50px;
+  height: 3px;
+  background: #4caf50;
+  border-radius: 2px;
+}
+
+.subtitle {
+  font-family: 'Georgia', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.badge {
+  display: inline-block;
+  border: 1.5px solid #1a1a1a;
+  border-radius: 50px;
+  padding: 8px 24px;
+  font-size: 15px;
+  color: #1a1a1a;
+  font-family: 'Georgia', serif;
+  align-self: flex-start;
+}
+
+.priceBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.priceMain {
+  font-family: 'Georgia', serif;
+  font-size: 18px;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.number {
+  font-size: 48px;
+  font-weight: 900;
+  color: #2d6a2d;
+  line-height: 1;
+}
+
+.priceValue {
+  font-family: 'Georgia', serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.savings {
+  font-size: 14px;
+  color: #555;
+  font-family: 'Georgia', serif;
+  margin: 0;
+}
+
+.notes {
+  border-top: 1px solid #d4e6c3;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.notes p {
+  font-size: 12px;
+  color: #777;
+  font-family: 'Georgia', serif;
+  margin: 0;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 900;
+  color: #4caf50;
+  font-family: 'Georgia', serif;
+  align-self: flex-end;
+}
+
+.dot {
+  font-size: 14px;
+  vertical-align: super;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .section {
+    padding: 50px 20px;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .videoWrapper {
+    max-height: 400px;
+  }
+
+  .card {
+    padding: 32px 24px;
+  }
+
+  .question {
+    font-size: 22px;
+  }
+
+  .priceValue {
+    font-size: 28px;
+  }
+
+  .number {
+    font-size: 38px;
+  }
+}

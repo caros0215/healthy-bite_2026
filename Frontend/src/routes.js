@@ -3,7 +3,7 @@ import { Routes, Route, NavLink, useNavigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import Inicio from "./components/pagina_principal/Landing/Landing_page";
 import Food from "./components/Menu_Vistas/Real_food/Real_food_revolution";
-import Catering from "./components/Menu_Vistas/catering/catering";
+// import Catering from "./components/Menu_Vistas/catering/catering";
 import Cursos from "./components/Menu_Vistas/Cursos/cursos";
 import Dashboard from "./components/Header/Dashboard";
 import CanvaButtonPage from './components/Header/CanvaButtonPage';
@@ -47,7 +47,7 @@ const RoutesComponent = () => {
       <Route element={<Layout />}>
         <Route path="/" element={<Inicio />} />
         <Route path="/Food" element={<Food />} />
-        <Route path="/Servicios_corporativos" element={<Catering />} />
+        {/* <Route path="/Servicios_corporativos" element={<Catering />} /> */}
         <Route path="/Cursos" element={<Cursos />} />
         <Route path="/dashboard" element={<Dashboard />} />
        <Route path="/canva-button" element={<CanvaButtonPage />} />

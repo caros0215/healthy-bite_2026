@@ -13,15 +13,17 @@ import Pedido from "../catering/pedido"
 import Verde from "../catering/verde"
 
 // Importar las imágenes directamente
-import image1 from "../../../assets/images/plato_2.webp"  // Ajusta la ruta según tu estructura
+import image1 from "../../../assets/images/plato_2.webp"
 import image2 from "../../../assets/images/portada_2.webp"
 import imagen_1 from "../../../assets/images/1.webp"
+import imagenAlimentacion from "../../../assets/images/16.webp"
 
 // Debug: verificar imágenes importadas
 const debugImages = () => {
   console.log('image1 (plato_2.webp):', image1)
   console.log('image2 (healthy_10.webp):', image2)  
   console.log('imagen_1 (placeholder.svg):', imagen_1)
+  console.log('imagenAlimentacion (11.webp):', imagenAlimentacion)
 }
 
 export default function CantinaPage() {
@@ -121,16 +123,6 @@ export default function CantinaPage() {
             onLoad={() => console.log('✅ healthy_10.webp cargada correctamente')}
             onError={(e) => {
               console.error('❌ Error cargando healthy_10.webp:', e.target.src)
-              console.log('Intentando rutas alternativas...')
-              const alternatives = [
-                '/images/healthy_10.webp',
-                '/images/healthy10.webp',
-                '/images/Healthy_10.webp'
-              ]
-              
-              if (alternatives[0]) {
-                e.target.src = alternatives[0]
-              }
             }}
           />
         </div>
@@ -200,10 +192,13 @@ export default function CantinaPage() {
         <section ref={videoTextSectionRef} className={styles.videoTextSection}>
           <div className={styles.videoTextContainer}>
             <div className={styles.videoContainer}>
-              <video className={styles.sectionVideo} autoPlay muted loop playsInline>
-                <source src="/videos/comida-saludable.mp4" type="video/mp4" />
-                <img src="/images/comida-saludable.webp" alt="Comida Saludable" />
-              </video>
+              <img
+                src={imagenAlimentacion}
+                alt="Alimentación Consciente"
+                className={styles.sectionVideo}
+                onLoad={() => console.log('✅ 11.webp cargada correctamente')}
+                onError={(e) => console.error('❌ Error cargando 11.webp:', e.target.src)}
+              />
             </div>
 
             <div className={styles.textContainer}>
