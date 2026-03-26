@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const mysql = require("mysql2");
+const { Pool } = require("pg");
 const cors = require("cors");
 const http = require("http");
 const WebSocket = require("ws");
@@ -24,32 +24,26 @@ app.use((req, res, next) => {
   next();
 });
 
-const db = mysql.createPool({
-  host: process.env.DB_HOST || "127.0.0.1",
-  port: process.env.DB_PORT || 3307,
-  user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "",
-  database: process.env.DB_NAME || "healthybite",
-  waitForConnections: true,
-  connectionLimit: 10,
+// ========== CONEXIÓN POSTGRESQL ==========
+const db = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
 });
 
-function connectWithRetry() {
-  db.getConnection((err, connection) => {
-    if (err) {
-      console.error("❌ MySQL no listo, reintentando en 3s...");
-      setTimeout(connectWithRetry, 3000);
-    } else {
-      console.log("✅ Conectado a MySQL");
-      connection.release();
-    }
-  });
+async function connectWithRetry() {
+  try {
+    await db.query("SELECT 1");
+    console.log("✅ Conectado a PostgreSQL");
+  } catch (err) {
+    console.error("❌ PostgreSQL no listo, reintentando en 3s...");
+    setTimeout(connectWithRetry, 3000);
+  }
 }
 
 connectWithRetry();
 
 const tablaCanvaMap = {
-  almuerzos: "almuerzos_Canva",
+  almuerzos: "almuerzos_canva",
   cursos: "cursos_canva",
   running: "running_canva",
 };
@@ -90,50 +84,59 @@ function comprimirBase64SiEsNecesario(base64String) {
   return base64String;
 }
 
-// ✅ CORREGIDO: borra imágenes cuya fecha_evento ya pasó (ayer o antes)
-function limpiarImagenesAlmuerzo(usuario_id) {
+// Borra imágenes cuya fecha_evento ya pasó (ayer o antes)
+async function limpiarImagenesAlmuerzo(usuario_id) {
   const q = `
-    DELETE FROM almuerzos_Canva
-    WHERE usuario_id = ?
-    AND DATE(fecha_evento) < CURDATE()
+    DELETE FROM almuerzos_canva
+    WHERE usuario_id = $1
+    AND fecha_evento < CURRENT_DATE
   `;
-  db.query(q, [usuario_id], (err, r) => {
-    if (!err) console.log(`Almuerzo: ${r.affectedRows} imágenes eliminadas (fecha pasada)`);
-    else console.error(`Error al limpiar almuerzos: ${err.message}`);
-  });
+  try {
+    const r = await db.query(q, [usuario_id]);
+    console.log(`Almuerzo: ${r.rowCount} imágenes eliminadas (fecha pasada)`);
+  } catch (err) {
+    console.error(`Error al limpiar almuerzos: ${err.message}`);
+  }
 }
 
-function limpiarMesesAnterioresModulosMensuales(tabla, usuario_id) {
+async function limpiarMesesAnterioresModulosMensuales(tabla, usuario_id) {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1;
   const q = `
     DELETE FROM ${tabla}
-    WHERE usuario_id = ? AND (
-      YEAR(fecha_evento) < ? OR 
-      (YEAR(fecha_evento) = ? AND MONTH(fecha_evento) < ?)
-    );
+    WHERE usuario_id = $1 AND (
+      EXTRACT(YEAR FROM fecha_evento) < $2 OR 
+      (EXTRACT(YEAR FROM fecha_evento) = $2 AND EXTRACT(MONTH FROM fecha_evento) < $3)
+    )
   `;
-  db.query(q, [usuario_id, currentYear, currentYear, currentMonth], (err, r) => {
-    if (!err) console.log(`Limpieza en ${tabla}: ${r.affectedRows} eventos eliminados`);
-    else console.error(`Error al limpiar ${tabla}: ${err.message}`);
-  });
+  try {
+    const r = await db.query(q, [usuario_id, currentYear, currentMonth]);
+    console.log(`Limpieza en ${tabla}: ${r.rowCount} eventos eliminados`);
+  } catch (err) {
+    console.error(`Error al limpiar ${tabla}: ${err.message}`);
+  }
 }
 
-function limpiarMesAnterior(tabla, usuario_id) {
+async function limpiarMesAnterior(tabla, usuario_id) {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1;
   const q = `
     DELETE FROM ${tabla}
-    WHERE usuario_id = ? AND (YEAR(fecha) < ? OR (YEAR(fecha) = ? AND MONTH(fecha) < ?));
+    WHERE usuario_id = $1 AND (
+      EXTRACT(YEAR FROM fecha) < $2 OR 
+      (EXTRACT(YEAR FROM fecha) = $2 AND EXTRACT(MONTH FROM fecha) < $3)
+    )
   `;
-  db.query(q, [usuario_id, currentYear, currentYear, currentMonth], (err, r) => {
-    if (!err) console.log(`Limpieza en ${tabla}: ${r.affectedRows} eliminadas`);
-    else console.error(`Error al limpiar ${tabla}: ${err.message}`);
-  });
+  try {
+    const r = await db.query(q, [usuario_id, currentYear, currentMonth]);
+    console.log(`Limpieza en ${tabla}: ${r.rowCount} eliminadas`);
+  } catch (err) {
+    console.error(`Error al limpiar ${tabla}: ${err.message}`);
+  }
 }
 
 // ========== ENDPOINT DE AUTENTICACIÓN ==========
-app.post("/api/auth/login", (req, res) => {
+app.post("/api/auth/login", async (req, res) => {
   const { usuario, contraseña } = req.body;
 
   if (!usuario || !contraseña) {
@@ -144,64 +147,64 @@ app.post("/api/auth/login", (req, res) => {
   }
 
   const query = `
-  SELECT id, nombre_usuario, nombre_completo, email
-  FROM usuarios
-  WHERE nombre_usuario = ? AND contraseña = ?
-  LIMIT 1
+    SELECT id, nombre_usuario, nombre_completo, email, tipo_usuario
+    FROM usuarios
+    WHERE nombre_usuario = $1 AND contraseña = $2
+    LIMIT 1
   `;
 
-  db.query(query, [usuario, contraseña], (err, results) => {
-    if (err) {
-      console.error('Error en consulta de login:', err);
-      return res.status(500).json({
-        success: false,
-        message: "Error interno del servidor"
-      });
-    }
+  try {
+    const result = await db.query(query, [usuario, contraseña]);
 
-    if (results.length === 0) {
+    if (result.rows.length === 0) {
       return res.status(401).json({
         success: false,
         message: "Usuario o contraseña incorrectos"
       });
     }
 
-    const usuarioData = results[0];
+    const usuarioData = result.rows[0];
 
     res.json({
       success: true,
       message: "Inicio de sesión exitoso",
       usuario: {
         id: usuarioData.id,
-        usuario: usuarioData.usuario,
-        nombre: usuarioData.nombre,
+        usuario: usuarioData.nombre_usuario,
+        nombre: usuarioData.nombre_completo,
         email: usuarioData.email,
         tipo_usuario: usuarioData.tipo_usuario
       }
     });
-  });
+  } catch (err) {
+    console.error('Error en consulta de login:', err);
+    return res.status(500).json({
+      success: false,
+      message: "Error interno del servidor"
+    });
+  }
 });
 
 // ========== ENDPOINT PARA PRUEBA DE BASE DE DATOS ==========
-app.get("/api/db-test", (req, res) => {
-  db.query("SELECT 1 as test", (err, results) => {
-    if (err) {
-      return res.status(500).json({
-        success: false,
-        error: "Error de conexión a la base de datos",
-        details: err.message
-      });
-    }
+app.get("/api/db-test", async (req, res) => {
+  try {
+    await db.query("SELECT 1 as test");
     res.json({
       success: true,
       message: "Conexión a la base de datos exitosa",
       timestamp: new Date().toISOString()
     });
-  });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Error de conexión a la base de datos",
+      details: err.message
+    });
+  }
 });
 
 // ========== ENDPOINTS PRINCIPALES ==========
-app.post("/api/:modulo/guardar-diseno", (req, res) => {
+app.post("/api/:modulo/guardar-diseno", async (req, res) => {
   const { modulo } = req.params;
   const { usuario_id, fecha, elementos, titulo, fondo } = req.body;
 
@@ -214,56 +217,67 @@ app.post("/api/:modulo/guardar-diseno", (req, res) => {
 
   const elementosJson = typeof elementos === "string" ? elementos : JSON.stringify(elementos);
 
-  if (Object.values(tablaCanvaMap).includes(tabla)) {
-    db.query(`SELECT id FROM ${tabla} WHERE usuario_id = ? AND fecha_evento = ?`, [usuario_id, fecha], (err, results) => {
-      if (err) return res.status(500).json({ error: "Error verificando existencia" });
+  try {
+    if (Object.values(tablaCanvaMap).includes(tabla)) {
+      const check = await db.query(
+        `SELECT id FROM ${tabla} WHERE usuario_id = $1 AND fecha_evento = $2`,
+        [usuario_id, fecha]
+      );
 
-      const guardar = (query, params, updated) => {
-        db.query(query, params, (err, result) => {
-          if (err) return res.status(500).json({ error: `Error al guardar enlace: ${err.message}` });
+      if (check.rows.length > 0) {
+        await db.query(
+          `UPDATE ${tabla} SET link_canva=$1, fecha_guardado=NOW() WHERE usuario_id=$2 AND fecha_evento=$3`,
+          [elementosJson, usuario_id, fecha]
+        );
 
-          if (modulo === "almuerzos") limpiarImagenesAlmuerzo(usuario_id);
-          else if (modulosConLogicaMensual.includes(modulo)) limpiarMesesAnterioresModulosMensuales(tabla, usuario_id);
-          else limpiarMesAnterior(tabla, usuario_id);
+        if (modulo === "almuerzos") limpiarImagenesAlmuerzo(usuario_id);
+        else if (modulosConLogicaMensual.includes(modulo)) limpiarMesesAnterioresModulosMensuales(tabla, usuario_id);
+        else limpiarMesAnterior(tabla, usuario_id);
 
-          res.json({
-            success: true,
-            message: updated ? "Enlace actualizado exitosamente" : "Enlace guardado exitosamente",
-            id: updated ? results[0].id : result.insertId,
-          });
+        return res.json({
+          success: true,
+          message: "Enlace actualizado exitosamente",
+          id: check.rows[0].id,
         });
-      };
-
-      if (results.length > 0) {
-        const q = `UPDATE ${tabla} SET link_canva=?, fecha_guardado=NOW() WHERE usuario_id=? AND fecha_evento=?`;
-        guardar(q, [elementosJson, usuario_id, fecha], true);
       } else {
-        const q = `INSERT INTO ${tabla} (usuario_id, fecha_evento, link_canva, fecha_guardado) VALUES (?, ?, ?, NOW())`;
-        guardar(q, [usuario_id, fecha, elementosJson], false);
+        const ins = await db.query(
+          `INSERT INTO ${tabla} (usuario_id, fecha_evento, link_canva, fecha_guardado) VALUES ($1, $2, $3, NOW()) RETURNING id`,
+          [usuario_id, fecha, elementosJson]
+        );
+
+        if (modulo === "almuerzos") limpiarImagenesAlmuerzo(usuario_id);
+        else if (modulosConLogicaMensual.includes(modulo)) limpiarMesesAnterioresModulosMensuales(tabla, usuario_id);
+        else limpiarMesAnterior(tabla, usuario_id);
+
+        return res.json({
+          success: true,
+          message: "Enlace guardado exitosamente",
+          id: ins.rows[0].id,
+        });
       }
-    });
-  } else {
-    const q = `INSERT INTO ${tabla} (usuario_id, fecha, elementos, titulo, fondo) VALUES (?, ?, ?, ?, ?)`;
-    db.query(q, [usuario_id, fecha, elementosJson, titulo || "", fondo || ""], (err, result) => {
-      if (err) {
-        console.error(`Error al guardar diseño en ${tabla}:`, err);
-        return res.status(500).json({ error: `Error al guardar diseño: ${err.message}` });
-      }
+    } else {
+      const ins = await db.query(
+        `INSERT INTO ${tabla} (usuario_id, fecha, elementos, titulo, fondo) VALUES ($1, $2, $3, $4, $5) RETURNING id`,
+        [usuario_id, fecha, elementosJson, titulo || "", fondo || ""]
+      );
 
       console.log(`✅ Diseño guardado exitosamente en ${tabla}:`, {
-        id: result.insertId,
+        id: ins.rows[0].id,
         usuario_id,
         fecha,
         titulo
       });
 
       limpiarMesAnterior(tabla, usuario_id);
-      res.json({ success: true, message: "Diseño guardado exitosamente", id: result.insertId });
-    });
+      return res.json({ success: true, message: "Diseño guardado exitosamente", id: ins.rows[0].id });
+    }
+  } catch (err) {
+    console.error(`Error al guardar diseño en ${tabla}:`, err);
+    return res.status(500).json({ error: `Error al guardar diseño: ${err.message}` });
   }
 });
 
-app.get("/api/:modulo/ultima-imagen/:usuario_id", (req, res) => {
+app.get("/api/:modulo/ultima-imagen/:usuario_id", async (req, res) => {
   const { modulo, usuario_id } = req.params;
   const tabla = tablaCanvaMap[modulo];
   const userId = Number.parseInt(usuario_id);
@@ -275,60 +289,57 @@ app.get("/api/:modulo/ultima-imagen/:usuario_id", (req, res) => {
 
   const fechaHoy = new Date().toISOString().split("T")[0];
 
-  if (modulo === "almuerzos") {
-    // ✅ CORREGIDO: solo trae imágenes de hoy en adelante
-    db.query(
-      `SELECT * FROM ${tabla} WHERE usuario_id = ? AND DATE(fecha_evento) >= CURDATE() ORDER BY fecha_evento ASC LIMIT 1`,
-      [userId],
-      (err, results) => {
-        if (err) return res.status(500).json({ success: false, error: "Error en la base de datos" });
-        if (results.length === 0) return res.json({ success: false, hasImage: false, message: "No hay imagen para hoy" });
+  try {
+    if (modulo === "almuerzos") {
+      const r = await db.query(
+        `SELECT * FROM ${tabla} WHERE usuario_id = $1 AND fecha_evento >= CURRENT_DATE ORDER BY fecha_evento ASC LIMIT 1`,
+        [userId]
+      );
 
-        let imagenValidada = null;
-        try {
-          imagenValidada = validarYLimpiarBase64(results[0].imagen, false);
-        } catch {
-          imagenValidada = results[0].imagen;
-        }
+      if (r.rows.length === 0) return res.json({ success: false, hasImage: false, message: "No hay imagen para hoy" });
 
-        res.json({
-          success: true,
-          hasImage: !!imagenValidada,
-          imagen: imagenValidada,
-          fechaEvento: results[0].fecha_evento,
-          esFuturo: false,
-          mensaje: `Menú de hoy: ${results[0].fecha_evento}`,
-        });
+      let imagenValidada = null;
+      try {
+        imagenValidada = validarYLimpiarBase64(r.rows[0].imagen, false);
+      } catch {
+        imagenValidada = r.rows[0].imagen;
       }
-    );
-    return;
-  }
 
-  if (modulosConLogicaMensual.includes(modulo)) {
-    limpiarMesesAnterioresModulosMensuales(tabla, userId);
+      return res.json({
+        success: true,
+        hasImage: !!imagenValidada,
+        imagen: imagenValidada,
+        fechaEvento: r.rows[0].fecha_evento,
+        esFuturo: false,
+        mensaje: `Menú de hoy: ${r.rows[0].fecha_evento}`,
+      });
+    }
 
-    const añoActual = new Date().getFullYear();
-    const mesActual = new Date().getMonth() + 1;
+    if (modulosConLogicaMensual.includes(modulo)) {
+      limpiarMesesAnterioresModulosMensuales(tabla, userId);
 
-    const query = `
-      SELECT * FROM ${tabla} 
-      WHERE usuario_id = ? 
-      AND (
-        YEAR(fecha_evento) > ? OR 
-        (YEAR(fecha_evento) = ? AND MONTH(fecha_evento) >= ?)
-      )
-      AND imagen IS NOT NULL AND imagen != ''
-      ORDER BY 
-        CASE WHEN DATE(fecha_evento) >= ? THEN 0 ELSE 1 END,
-        fecha_evento ASC
-      LIMIT 1
-    `;
+      const añoActual = new Date().getFullYear();
+      const mesActual = new Date().getMonth() + 1;
 
-    db.query(query, [userId, añoActual, añoActual, mesActual, fechaHoy], (err, results) => {
-      if (err) return res.status(500).json({ success: false, error: "Error en la base de datos" });
-      if (results.length === 0) return res.json({ success: false, hasImage: false, message: "No hay eventos con imagen" });
+      const query = `
+        SELECT * FROM ${tabla} 
+        WHERE usuario_id = $1 
+        AND (
+          EXTRACT(YEAR FROM fecha_evento) > $2 OR 
+          (EXTRACT(YEAR FROM fecha_evento) = $2 AND EXTRACT(MONTH FROM fecha_evento) >= $3)
+        )
+        AND imagen IS NOT NULL AND imagen != ''
+        ORDER BY 
+          CASE WHEN fecha_evento >= $4::date THEN 0 ELSE 1 END,
+          fecha_evento ASC
+        LIMIT 1
+      `;
 
-      const resultado = results[0];
+      const r = await db.query(query, [userId, añoActual, mesActual, fechaHoy]);
+
+      if (r.rows.length === 0) return res.json({ success: false, hasImage: false, message: "No hay eventos con imagen" });
+
+      const resultado = r.rows[0];
       let imagenValidada = null;
       try {
         imagenValidada = validarYLimpiarBase64(resultado.imagen, false);
@@ -341,7 +352,7 @@ app.get("/api/:modulo/ultima-imagen/:usuario_id", (req, res) => {
         ? `Próximo ${modulo}: ${resultado.fecha_evento}`
         : `${modulo} de este mes: ${resultado.fecha_evento}`;
 
-      res.json({
+      return res.json({
         success: true,
         hasImage: true,
         imagen: imagenValidada,
@@ -349,34 +360,32 @@ app.get("/api/:modulo/ultima-imagen/:usuario_id", (req, res) => {
         esFuturo,
         mensaje,
       });
-    });
-    return;
-  }
+    }
 
-  const query = `
-    (
-      SELECT *, 'futuro' as tipo_busqueda
-      FROM ${tabla} 
-      WHERE usuario_id = ? AND DATE(fecha_evento) >= ?
-      ORDER BY fecha_evento ASC
+    const query = `
+      (
+        SELECT *, 'futuro' as tipo_busqueda
+        FROM ${tabla} 
+        WHERE usuario_id = $1 AND fecha_evento >= $2::date
+        ORDER BY fecha_evento ASC
+        LIMIT 1
+      )
+      UNION ALL
+      (
+        SELECT *, 'pasado' as tipo_busqueda
+        FROM ${tabla} 
+        WHERE usuario_id = $1 AND fecha_evento < $2::date
+        ORDER BY fecha_guardado DESC
+        LIMIT 1
+      )
       LIMIT 1
-    )
-    UNION ALL
-    (
-      SELECT *, 'pasado' as tipo_busqueda
-      FROM ${tabla} 
-      WHERE usuario_id = ? AND DATE(fecha_evento) < ?
-      ORDER BY fecha_guardado DESC
-      LIMIT 1
-    )
-    LIMIT 1
-  `;
+    `;
 
-  db.query(query, [userId, fechaHoy, userId, fechaHoy], (err, results) => {
-    if (err) return res.status(500).json({ success: false, error: "Error en la base de datos" });
-    if (results.length === 0) return res.json({ success: false, hasImage: false, message: "No hay imágenes guardadas" });
+    const r = await db.query(query, [userId, fechaHoy]);
 
-    const resultado = results[0];
+    if (r.rows.length === 0) return res.json({ success: false, hasImage: false, message: "No hay imágenes guardadas" });
+
+    const resultado = r.rows[0];
     let imagenValidada = null;
     try {
       imagenValidada = validarYLimpiarBase64(resultado.imagen, false);
@@ -397,11 +406,13 @@ app.get("/api/:modulo/ultima-imagen/:usuario_id", (req, res) => {
       esFuturo,
       mensaje,
     });
-  });
+  } catch (err) {
+    res.status(500).json({ success: false, error: "Error en la base de datos" });
+  }
 });
 
 // ========== ENDPOINTS DE ALMUERZOS ==========
-app.post("/api/almuerzos/guardar-imagen", (req, res) => {
+app.post("/api/almuerzos/guardar-imagen", async (req, res) => {
   const { usuario_id, fecha_evento, imagen_base64 } = req.body;
 
   if (!usuario_id || !fecha_evento || !imagen_base64) {
@@ -434,71 +445,51 @@ app.post("/api/almuerzos/guardar-imagen", (req, res) => {
     ? comprimirBase64SiEsNecesario(imagenLimpia)
     : imagenLimpia;
 
-  const checkQuery = `SELECT id FROM almuerzos_Canva WHERE usuario_id = ? AND fecha_evento = ?`;
+  try {
+    const check = await db.query(
+      `SELECT id FROM almuerzos_canva WHERE usuario_id = $1 AND fecha_evento = $2`,
+      [userId, fecha_evento]
+    );
 
-  db.query(checkQuery, [userId, fecha_evento], (err, results) => {
-    if (err) {
-      console.error('Error al verificar existencia:', err);
-      return res.status(500).json({
-        success: false,
-        error: "Error al verificar existencia en base de datos"
-      });
-    }
+    if (check.rows.length > 0) {
+      await db.query(
+        `UPDATE almuerzos_canva SET imagen = $1, fecha_guardado = NOW() WHERE usuario_id = $2 AND fecha_evento = $3`,
+        [imagenFinal, userId, fecha_evento]
+      );
 
-    if (results.length > 0) {
-      const updateQuery = `
-        UPDATE almuerzos_Canva 
-        SET imagen = ?, fecha_guardado = NOW() 
-        WHERE usuario_id = ? AND fecha_evento = ?
-      `;
+      limpiarImagenesAlmuerzo(userId);
 
-      db.query(updateQuery, [imagenFinal, userId, fecha_evento], (err, result) => {
-        if (err) {
-          console.error('Error al actualizar imagen:', err);
-          return res.status(500).json({
-            success: false,
-            error: `Error al actualizar imagen: ${err.message}`
-          });
-        }
-
-        limpiarImagenesAlmuerzo(userId);
-
-        res.json({
-          success: true,
-          message: "Imagen de almuerzo actualizada exitosamente",
-          id: results[0].id,
-          fecha_evento: fecha_evento
-        });
+      return res.json({
+        success: true,
+        message: "Imagen de almuerzo actualizada exitosamente",
+        id: check.rows[0].id,
+        fecha_evento: fecha_evento
       });
     } else {
-      const insertQuery = `
-        INSERT INTO almuerzos_Canva (usuario_id, fecha_evento, imagen, fecha_guardado) 
-        VALUES (?, ?, ?, NOW())
-      `;
+      const ins = await db.query(
+        `INSERT INTO almuerzos_canva (usuario_id, fecha_evento, imagen, fecha_guardado) VALUES ($1, $2, $3, NOW()) RETURNING id`,
+        [userId, fecha_evento, imagenFinal]
+      );
 
-      db.query(insertQuery, [userId, fecha_evento, imagenFinal], (err, result) => {
-        if (err) {
-          console.error('Error al insertar imagen:', err);
-          return res.status(500).json({
-            success: false,
-            error: `Error al guardar imagen: ${err.message}`
-          });
-        }
+      limpiarImagenesAlmuerzo(userId);
 
-        limpiarImagenesAlmuerzo(userId);
-
-        res.json({
-          success: true,
-          message: "Imagen de almuerzo guardada exitosamente",
-          id: result.insertId,
-          fecha_evento: fecha_evento
-        });
+      return res.json({
+        success: true,
+        message: "Imagen de almuerzo guardada exitosamente",
+        id: ins.rows[0].id,
+        fecha_evento: fecha_evento
       });
     }
-  });
+  } catch (err) {
+    console.error('Error al guardar imagen almuerzo:', err);
+    return res.status(500).json({
+      success: false,
+      error: `Error al guardar imagen: ${err.message}`
+    });
+  }
 });
 
-app.get("/api/almuerzos/obtener-canva/:usuario_id/:year/:month", (req, res) => {
+app.get("/api/almuerzos/obtener-canva/:usuario_id/:year/:month", async (req, res) => {
   const { usuario_id, year, month } = req.params;
   const userId = Number.parseInt(usuario_id);
 
@@ -526,26 +517,19 @@ app.get("/api/almuerzos/obtener-canva/:usuario_id/:year/:month", (req, res) => {
       imagen,
       link_canva,
       fecha_guardado,
-      DAY(fecha_evento) as dia
-    FROM almuerzos_Canva 
-    WHERE usuario_id = ? 
-    AND YEAR(fecha_evento) = ? 
-    AND MONTH(fecha_evento) = ?
+      EXTRACT(DAY FROM fecha_evento) as dia
+    FROM almuerzos_canva 
+    WHERE usuario_id = $1 
+    AND EXTRACT(YEAR FROM fecha_evento) = $2 
+    AND EXTRACT(MONTH FROM fecha_evento) = $3
     AND (imagen IS NOT NULL OR link_canva IS NOT NULL)
     ORDER BY fecha_evento ASC
   `;
 
-  db.query(query, [userId, yearNum, monthNum], (err, results) => {
-    if (err) {
-      console.error('Error al obtener imágenes de almuerzos_Canva:', err);
-      return res.status(500).json({
-        success: false,
-        error: "Error en la base de datos",
-        debug: err.message
-      });
-    }
+  try {
+    const r = await db.query(query, [userId, yearNum, monthNum]);
 
-    const imagenesProcessed = results.map(canva => {
+    const imagenesProcessed = r.rows.map(canva => {
       const canvaProcessed = { ...canva };
 
       if (canva.imagen) {
@@ -578,10 +562,17 @@ app.get("/api/almuerzos/obtener-canva/:usuario_id/:year/:month", (req, res) => {
         usuario_id: userId
       }
     });
-  });
+  } catch (err) {
+    console.error('Error al obtener imágenes de almuerzos_canva:', err);
+    return res.status(500).json({
+      success: false,
+      error: "Error en la base de datos",
+      debug: err.message
+    });
+  }
 });
 
-app.get("/api/almuerzos/imagen/:usuario_id/:fecha_evento", (req, res) => {
+app.get("/api/almuerzos/imagen/:usuario_id/:fecha_evento", async (req, res) => {
   const { usuario_id, fecha_evento } = req.params;
   const userId = Number.parseInt(usuario_id);
 
@@ -590,20 +581,21 @@ app.get("/api/almuerzos/imagen/:usuario_id/:fecha_evento", (req, res) => {
   }
 
   const query = `
-    SELECT imagen, fecha_evento FROM almuerzos_Canva 
-    WHERE usuario_id = ? AND fecha_evento = ?
+    SELECT imagen, fecha_evento FROM almuerzos_canva 
+    WHERE usuario_id = $1 AND fecha_evento = $2
     LIMIT 1
   `;
 
-  db.query(query, [userId, fecha_evento], (err, results) => {
-    if (err) return res.status(500).json({ success: false, error: "Error en la base de datos" });
-    if (results.length === 0) return res.json({ success: false, hasImage: false, message: "No hay imagen para este almuerzo" });
+  try {
+    const r = await db.query(query, [userId, fecha_evento]);
+
+    if (r.rows.length === 0) return res.json({ success: false, hasImage: false, message: "No hay imagen para este almuerzo" });
 
     let imagenValidada = null;
     try {
-      imagenValidada = validarYLimpiarBase64(results[0].imagen, false);
+      imagenValidada = validarYLimpiarBase64(r.rows[0].imagen, false);
     } catch {
-      imagenValidada = results[0].imagen;
+      imagenValidada = r.rows[0].imagen;
     }
 
     if (!imagenValidada) return res.json({ success: false, hasImage: false, message: "Imagen corrupta" });
@@ -612,17 +604,19 @@ app.get("/api/almuerzos/imagen/:usuario_id/:fecha_evento", (req, res) => {
       success: true,
       hasImage: true,
       imagen: imagenValidada,
-      fechaEvento: results[0].fecha_evento,
+      fechaEvento: r.rows[0].fecha_evento,
       debug: {
         imagenLength: imagenValidada.length,
         tipoImagen: "base64"
       }
     });
-  });
+  } catch (err) {
+    res.status(500).json({ success: false, error: "Error en la base de datos" });
+  }
 });
 
 // ========== ENDPOINTS DE CURSOS ==========
-app.post("/api/cursos/guardar-imagen", (req, res) => {
+app.post("/api/cursos/guardar-imagen", async (req, res) => {
   const { usuario_id, fecha_evento, imagen_base64 } = req.body;
 
   if (!usuario_id || !fecha_evento || !imagen_base64) {
@@ -655,71 +649,51 @@ app.post("/api/cursos/guardar-imagen", (req, res) => {
     ? comprimirBase64SiEsNecesario(imagenLimpia)
     : imagenLimpia;
 
-  const checkQuery = `SELECT id FROM cursos_canva WHERE usuario_id = ? AND fecha_evento = ?`;
+  try {
+    const check = await db.query(
+      `SELECT id FROM cursos_canva WHERE usuario_id = $1 AND fecha_evento = $2`,
+      [userId, fecha_evento]
+    );
 
-  db.query(checkQuery, [userId, fecha_evento], (err, results) => {
-    if (err) {
-      console.error('Error al verificar existencia:', err);
-      return res.status(500).json({
-        success: false,
-        error: "Error al verificar existencia en base de datos"
-      });
-    }
+    if (check.rows.length > 0) {
+      await db.query(
+        `UPDATE cursos_canva SET imagen = $1, fecha_guardado = NOW() WHERE usuario_id = $2 AND fecha_evento = $3`,
+        [imagenFinal, userId, fecha_evento]
+      );
 
-    if (results.length > 0) {
-      const updateQuery = `
-        UPDATE cursos_canva 
-        SET imagen = ?, fecha_guardado = NOW() 
-        WHERE usuario_id = ? AND fecha_evento = ?
-      `;
+      limpiarMesesAnterioresModulosMensuales('cursos_canva', userId);
 
-      db.query(updateQuery, [imagenFinal, userId, fecha_evento], (err, result) => {
-        if (err) {
-          console.error('Error al actualizar imagen:', err);
-          return res.status(500).json({
-            success: false,
-            error: `Error al actualizar imagen: ${err.message}`
-          });
-        }
-
-        limpiarMesesAnterioresModulosMensuales('cursos_canva', userId);
-
-        res.json({
-          success: true,
-          message: "Imagen de curso actualizada exitosamente",
-          id: results[0].id,
-          fecha_evento: fecha_evento
-        });
+      return res.json({
+        success: true,
+        message: "Imagen de curso actualizada exitosamente",
+        id: check.rows[0].id,
+        fecha_evento: fecha_evento
       });
     } else {
-      const insertQuery = `
-        INSERT INTO cursos_canva (usuario_id, fecha_evento, imagen, fecha_guardado) 
-        VALUES (?, ?, ?, NOW())
-      `;
+      const ins = await db.query(
+        `INSERT INTO cursos_canva (usuario_id, fecha_evento, imagen, fecha_guardado) VALUES ($1, $2, $3, NOW()) RETURNING id`,
+        [userId, fecha_evento, imagenFinal]
+      );
 
-      db.query(insertQuery, [userId, fecha_evento, imagenFinal], (err, result) => {
-        if (err) {
-          console.error('Error al insertar imagen:', err);
-          return res.status(500).json({
-            success: false,
-            error: `Error al guardar imagen: ${err.message}`
-          });
-        }
+      limpiarMesesAnterioresModulosMensuales('cursos_canva', userId);
 
-        limpiarMesesAnterioresModulosMensuales('cursos_canva', userId);
-
-        res.json({
-          success: true,
-          message: "Imagen de curso guardada exitosamente",
-          id: result.insertId,
-          fecha_evento: fecha_evento
-        });
+      return res.json({
+        success: true,
+        message: "Imagen de curso guardada exitosamente",
+        id: ins.rows[0].id,
+        fecha_evento: fecha_evento
       });
     }
-  });
+  } catch (err) {
+    console.error('Error al guardar imagen cursos:', err);
+    return res.status(500).json({
+      success: false,
+      error: `Error al guardar imagen: ${err.message}`
+    });
+  }
 });
 
-app.get("/api/cursos/obtener-disenos/:usuario_id/:year/:month", (req, res) => {
+app.get("/api/cursos/obtener-disenos/:usuario_id/:year/:month", async (req, res) => {
   const { usuario_id, year, month } = req.params;
   const userId = Number.parseInt(usuario_id);
 
@@ -745,27 +719,20 @@ app.get("/api/cursos/obtener-disenos/:usuario_id/:year/:month", (req, res) => {
       elementos,
       titulo,
       fondo,
-      DAY(fecha) as dia,
-      MONTH(fecha) as mes,
-      YEAR(fecha) as año
+      EXTRACT(DAY FROM fecha) as dia,
+      EXTRACT(MONTH FROM fecha) as mes,
+      EXTRACT(YEAR FROM fecha) as año
     FROM cursos_disenos 
-    WHERE usuario_id = ? 
-    AND YEAR(fecha) = ? 
-    AND MONTH(fecha) = ?
+    WHERE usuario_id = $1 
+    AND EXTRACT(YEAR FROM fecha) = $2 
+    AND EXTRACT(MONTH FROM fecha) = $3
     ORDER BY fecha ASC
   `;
 
-  db.query(query, [userId, yearNum, monthNum], (err, results) => {
-    if (err) {
-      console.error('Error en query de cursos:', err);
-      return res.status(500).json({
-        success: false,
-        error: "Error en la base de datos",
-        debug: err.message
-      });
-    }
+  try {
+    const r = await db.query(query, [userId, yearNum, monthNum]);
 
-    const diseñosProcessed = results.map(curso => {
+    const diseñosProcessed = r.rows.map(curso => {
       const diseñoProcessed = { ...curso };
       try {
         diseñoProcessed.elementos = JSON.parse(curso.elementos);
@@ -785,31 +752,40 @@ app.get("/api/cursos/obtener-disenos/:usuario_id/:year/:month", (req, res) => {
         usuario: userId
       }
     });
-  });
+  } catch (err) {
+    console.error('Error en query de cursos:', err);
+    return res.status(500).json({
+      success: false,
+      error: "Error en la base de datos",
+      debug: err.message
+    });
+  }
 });
 
-app.get("/api/cursos/imagen/:usuario_id/:fecha_evento", (req, res) => {
+app.get("/api/cursos/imagen/:usuario_id/:fecha_evento", async (req, res) => {
   const { usuario_id, fecha_evento } = req.params;
   const userId = Number.parseInt(usuario_id);
+
   if (!usuario_id || isNaN(userId) || userId <= 0) {
     return res.status(400).json({ success: false, error: "ID de usuario requerido y válido" });
   }
 
   const query = `
     SELECT imagen, fecha_evento FROM cursos_canva 
-    WHERE usuario_id = ? AND fecha_evento = ?
+    WHERE usuario_id = $1 AND fecha_evento = $2
     LIMIT 1
   `;
 
-  db.query(query, [userId, fecha_evento], (err, results) => {
-    if (err) return res.status(500).json({ success: false, error: "Error en la base de datos" });
-    if (results.length === 0) return res.json({ success: false, hasImage: false, message: "No hay imagen para este curso" });
+  try {
+    const r = await db.query(query, [userId, fecha_evento]);
+
+    if (r.rows.length === 0) return res.json({ success: false, hasImage: false, message: "No hay imagen para este curso" });
 
     let imagenValidada = null;
     try {
-      imagenValidada = validarYLimpiarBase64(results[0].imagen, false);
+      imagenValidada = validarYLimpiarBase64(r.rows[0].imagen, false);
     } catch {
-      imagenValidada = results[0].imagen;
+      imagenValidada = r.rows[0].imagen;
     }
 
     if (!imagenValidada) return res.json({ success: false, hasImage: false, message: "Imagen corrupta" });
@@ -818,16 +794,18 @@ app.get("/api/cursos/imagen/:usuario_id/:fecha_evento", (req, res) => {
       success: true,
       hasImage: true,
       imagen: imagenValidada,
-      fechaEvento: results[0].fecha_evento,
+      fechaEvento: r.rows[0].fecha_evento,
       debug: {
         imagenLength: imagenValidada.length,
         tipoImagen: "base64"
       }
     });
-  });
+  } catch (err) {
+    res.status(500).json({ success: false, error: "Error en la base de datos" });
+  }
 });
 
-app.get("/api/cursos/obtener-canva/:usuario_id/:year/:month", (req, res) => {
+app.get("/api/cursos/obtener-canva/:usuario_id/:year/:month", async (req, res) => {
   const { usuario_id, year, month } = req.params;
   const userId = Number.parseInt(usuario_id);
 
@@ -855,26 +833,19 @@ app.get("/api/cursos/obtener-canva/:usuario_id/:year/:month", (req, res) => {
       imagen,
       link_canva,
       fecha_guardado,
-      DAY(fecha_evento) as dia
+      EXTRACT(DAY FROM fecha_evento) as dia
     FROM cursos_canva 
-    WHERE usuario_id = ? 
-    AND YEAR(fecha_evento) = ? 
-    AND MONTH(fecha_evento) = ?
+    WHERE usuario_id = $1 
+    AND EXTRACT(YEAR FROM fecha_evento) = $2 
+    AND EXTRACT(MONTH FROM fecha_evento) = $3
     AND (imagen IS NOT NULL OR link_canva IS NOT NULL)
     ORDER BY fecha_evento ASC
   `;
 
-  db.query(query, [userId, yearNum, monthNum], (err, results) => {
-    if (err) {
-      console.error('Error al obtener imágenes de cursos_canva:', err);
-      return res.status(500).json({
-        success: false,
-        error: "Error en la base de datos",
-        debug: err.message
-      });
-    }
+  try {
+    const r = await db.query(query, [userId, yearNum, monthNum]);
 
-    const imagenesProcessed = results.map(canva => {
+    const imagenesProcessed = r.rows.map(canva => {
       const canvaProcessed = { ...canva };
 
       if (canva.imagen) {
@@ -907,11 +878,18 @@ app.get("/api/cursos/obtener-canva/:usuario_id/:year/:month", (req, res) => {
         usuario_id: userId
       }
     });
-  });
+  } catch (err) {
+    console.error('Error al obtener imágenes de cursos_canva:', err);
+    return res.status(500).json({
+      success: false,
+      error: "Error en la base de datos",
+      debug: err.message
+    });
+  }
 });
 
 // ========== ENDPOINTS DE RUNNING ==========
-app.post("/api/running/guardar-imagen", (req, res) => {
+app.post("/api/running/guardar-imagen", async (req, res) => {
   const { usuario_id, fecha_evento, imagen_base64 } = req.body;
 
   if (!usuario_id || !fecha_evento || !imagen_base64) {
@@ -944,71 +922,51 @@ app.post("/api/running/guardar-imagen", (req, res) => {
     ? comprimirBase64SiEsNecesario(imagenLimpia)
     : imagenLimpia;
 
-  const checkQuery = `SELECT id FROM running_canva WHERE usuario_id = ? AND fecha_evento = ?`;
+  try {
+    const check = await db.query(
+      `SELECT id FROM running_canva WHERE usuario_id = $1 AND fecha_evento = $2`,
+      [userId, fecha_evento]
+    );
 
-  db.query(checkQuery, [userId, fecha_evento], (err, results) => {
-    if (err) {
-      console.error('Error al verificar existencia:', err);
-      return res.status(500).json({
-        success: false,
-        error: "Error al verificar existencia en base de datos"
-      });
-    }
+    if (check.rows.length > 0) {
+      await db.query(
+        `UPDATE running_canva SET imagen = $1, fecha_guardado = NOW() WHERE usuario_id = $2 AND fecha_evento = $3`,
+        [imagenFinal, userId, fecha_evento]
+      );
 
-    if (results.length > 0) {
-      const updateQuery = `
-        UPDATE running_canva 
-        SET imagen = ?, fecha_guardado = NOW() 
-        WHERE usuario_id = ? AND fecha_evento = ?
-      `;
+      limpiarMesesAnterioresModulosMensuales('running_canva', userId);
 
-      db.query(updateQuery, [imagenFinal, userId, fecha_evento], (err, result) => {
-        if (err) {
-          console.error('Error al actualizar imagen:', err);
-          return res.status(500).json({
-            success: false,
-            error: `Error al actualizar imagen: ${err.message}`
-          });
-        }
-
-        limpiarMesesAnterioresModulosMensuales('running_canva', userId);
-
-        res.json({
-          success: true,
-          message: "Imagen de running actualizada exitosamente",
-          id: results[0].id,
-          fecha_evento: fecha_evento
-        });
+      return res.json({
+        success: true,
+        message: "Imagen de running actualizada exitosamente",
+        id: check.rows[0].id,
+        fecha_evento: fecha_evento
       });
     } else {
-      const insertQuery = `
-        INSERT INTO running_canva (usuario_id, fecha_evento, imagen, fecha_guardado) 
-        VALUES (?, ?, ?, NOW())
-      `;
+      const ins = await db.query(
+        `INSERT INTO running_canva (usuario_id, fecha_evento, imagen, fecha_guardado) VALUES ($1, $2, $3, NOW()) RETURNING id`,
+        [userId, fecha_evento, imagenFinal]
+      );
 
-      db.query(insertQuery, [userId, fecha_evento, imagenFinal], (err, result) => {
-        if (err) {
-          console.error('Error al insertar imagen:', err);
-          return res.status(500).json({
-            success: false,
-            error: `Error al guardar imagen: ${err.message}`
-          });
-        }
+      limpiarMesesAnterioresModulosMensuales('running_canva', userId);
 
-        limpiarMesesAnterioresModulosMensuales('running_canva', userId);
-
-        res.json({
-          success: true,
-          message: "Imagen de running guardada exitosamente",
-          id: result.insertId,
-          fecha_evento: fecha_evento
-        });
+      return res.json({
+        success: true,
+        message: "Imagen de running guardada exitosamente",
+        id: ins.rows[0].id,
+        fecha_evento: fecha_evento
       });
     }
-  });
+  } catch (err) {
+    console.error('Error al guardar imagen running:', err);
+    return res.status(500).json({
+      success: false,
+      error: `Error al guardar imagen: ${err.message}`
+    });
+  }
 });
 
-app.get("/api/running/obtener-disenos/:usuario_id/:year/:month", (req, res) => {
+app.get("/api/running/obtener-disenos/:usuario_id/:year/:month", async (req, res) => {
   const { usuario_id, year, month } = req.params;
   const userId = Number.parseInt(usuario_id);
 
@@ -1017,18 +975,18 @@ app.get("/api/running/obtener-disenos/:usuario_id/:year/:month", (req, res) => {
   }
 
   const query = `
-    SELECT *, DAY(fecha) as dia 
+    SELECT *, EXTRACT(DAY FROM fecha) as dia 
     FROM running_disenos 
-    WHERE usuario_id = ? 
-    AND YEAR(fecha) = ? 
-    AND MONTH(fecha) = ?
+    WHERE usuario_id = $1 
+    AND EXTRACT(YEAR FROM fecha) = $2 
+    AND EXTRACT(MONTH FROM fecha) = $3
     ORDER BY fecha ASC
   `;
 
-  db.query(query, [userId, year, month], (err, results) => {
-    if (err) return res.status(500).json({ success: false, error: "Error en la base de datos", debug: err.message });
+  try {
+    const r = await db.query(query, [userId, year, month]);
 
-    const diseñosProcessed = results.map(running => {
+    const diseñosProcessed = r.rows.map(running => {
       const diseñoProcessed = { ...running };
       try {
         diseñoProcessed.elementos = JSON.parse(running.elementos);
@@ -1044,10 +1002,12 @@ app.get("/api/running/obtener-disenos/:usuario_id/:year/:month", (req, res) => {
       count: diseñosProcessed.length,
       debug: { año: year, mes: month }
     });
-  });
+  } catch (err) {
+    res.status(500).json({ success: false, error: "Error en la base de datos", debug: err.message });
+  }
 });
 
-app.get("/api/running/obtener-canva/:usuario_id/:year/:month", (req, res) => {
+app.get("/api/running/obtener-canva/:usuario_id/:year/:month", async (req, res) => {
   const { usuario_id, year, month } = req.params;
   const userId = Number.parseInt(usuario_id);
 
@@ -1075,26 +1035,19 @@ app.get("/api/running/obtener-canva/:usuario_id/:year/:month", (req, res) => {
       imagen,
       link_canva,
       fecha_guardado,
-      DAY(fecha_evento) as dia
+      EXTRACT(DAY FROM fecha_evento) as dia
     FROM running_canva 
-    WHERE usuario_id = ? 
-    AND YEAR(fecha_evento) = ? 
-    AND MONTH(fecha_evento) = ?
+    WHERE usuario_id = $1 
+    AND EXTRACT(YEAR FROM fecha_evento) = $2 
+    AND EXTRACT(MONTH FROM fecha_evento) = $3
     AND (imagen IS NOT NULL OR link_canva IS NOT NULL)
     ORDER BY fecha_evento ASC
   `;
 
-  db.query(query, [userId, yearNum, monthNum], (err, results) => {
-    if (err) {
-      console.error('Error al obtener imágenes de running_canva:', err);
-      return res.status(500).json({
-        success: false,
-        error: "Error en la base de datos",
-        debug: err.message
-      });
-    }
+  try {
+    const r = await db.query(query, [userId, yearNum, monthNum]);
 
-    const imagenesProcessed = results.map(canva => {
+    const imagenesProcessed = r.rows.map(canva => {
       const canvaProcessed = { ...canva };
 
       if (canva.imagen) {
@@ -1127,10 +1080,17 @@ app.get("/api/running/obtener-canva/:usuario_id/:year/:month", (req, res) => {
         usuario_id: userId
       }
     });
-  });
+  } catch (err) {
+    console.error('Error al obtener imágenes de running_canva:', err);
+    return res.status(500).json({
+      success: false,
+      error: "Error en la base de datos",
+      debug: err.message
+    });
+  }
 });
 
-app.get("/api/running/imagen/:usuario_id/:fecha_evento", (req, res) => {
+app.get("/api/running/imagen/:usuario_id/:fecha_evento", async (req, res) => {
   const { usuario_id, fecha_evento } = req.params;
   const userId = Number.parseInt(usuario_id);
 
@@ -1140,19 +1100,20 @@ app.get("/api/running/imagen/:usuario_id/:fecha_evento", (req, res) => {
 
   const query = `
     SELECT imagen, fecha_evento FROM running_canva 
-    WHERE usuario_id = ? AND fecha_evento = ?
+    WHERE usuario_id = $1 AND fecha_evento = $2
     LIMIT 1
   `;
 
-  db.query(query, [userId, fecha_evento], (err, results) => {
-    if (err) return res.status(500).json({ success: false, error: "Error en la base de datos" });
-    if (results.length === 0) return res.json({ success: false, hasImage: false, message: "No hay imagen para este evento de running" });
+  try {
+    const r = await db.query(query, [userId, fecha_evento]);
+
+    if (r.rows.length === 0) return res.json({ success: false, hasImage: false, message: "No hay imagen para este evento de running" });
 
     let imagenValidada = null;
     try {
-      imagenValidada = validarYLimpiarBase64(results[0].imagen, false);
+      imagenValidada = validarYLimpiarBase64(r.rows[0].imagen, false);
     } catch {
-      imagenValidada = results[0].imagen;
+      imagenValidada = r.rows[0].imagen;
     }
 
     if (!imagenValidada) return res.json({ success: false, hasImage: false, message: "Imagen corrupta" });
@@ -1161,51 +1122,36 @@ app.get("/api/running/imagen/:usuario_id/:fecha_evento", (req, res) => {
       success: true,
       hasImage: true,
       imagen: imagenValidada,
-      fechaEvento: results[0].fecha_evento,
+      fechaEvento: r.rows[0].fecha_evento,
       debug: {
         imagenLength: imagenValidada.length,
         tipoImagen: "base64"
       }
     });
-  });
+  } catch (err) {
+    res.status(500).json({ success: false, error: "Error en la base de datos" });
+  }
 });
 
 // ===== MENU PARA DROPDOWN =====
-app.get("/api/menu", (req, res) => {
-  const query = "SELECT id, nombre, precio FROM menu WHERE activo = 1 ORDER BY nombre";
-
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error("Error obteniendo menú:", err);
-      return res.status(500).json({
-        success: false,
-        error: "Error en base de datos"
-      });
-    }
-
-    res.json(results);
-  });
+app.get("/api/menu", async (req, res) => {
+  try {
+    const r = await db.query("SELECT id, nombre, precio FROM menu WHERE activo = 1 ORDER BY nombre");
+    res.json(r.rows);
+  } catch (err) {
+    console.error("Error obteniendo menú:", err);
+    return res.status(500).json({ success: false, error: "Error en base de datos" });
+  }
 });
 
-app.get("/api/precios-domicilio", (req, res) => {
-  const query = `
-    SELECT id, barrio, precio 
-    FROM precios_domicilio
-    WHERE activo = 1 
-    ORDER BY barrio
-  `;
-
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error("Error obteniendo domicilios:", err);
-      return res.status(500).json({
-        success: false,
-        error: "Error en base de datos"
-      });
-    }
-
-    res.json(results);
-  });
+app.get("/api/precios-domicilio", async (req, res) => {
+  try {
+    const r = await db.query(`SELECT id, barrio, precio FROM precios_domicilio WHERE activo = 1 ORDER BY barrio`);
+    res.json(r.rows);
+  } catch (err) {
+    console.error("Error obteniendo domicilios:", err);
+    return res.status(500).json({ success: false, error: "Error en base de datos" });
+  }
 });
 
 // ========== WEBSOCKET SETUP ==========
