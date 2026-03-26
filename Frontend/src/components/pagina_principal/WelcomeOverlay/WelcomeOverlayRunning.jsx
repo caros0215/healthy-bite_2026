@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import styles from "./WelcomeOverlayRunning.module.css"
+import API_URL from "../../../config/api" // ✅ importar
 
 const WelcomeOverlayRunning = ({ onClose, usuario_id = 1 }) => {
   const [imageUrl, setImageUrl] = useState("")
@@ -11,9 +12,7 @@ const WelcomeOverlayRunning = ({ onClose, usuario_id = 1 }) => {
   const [mensaje, setMensaje] = useState("")
   const [imageLoadError, setImageLoadError] = useState(false)
 
-  useEffect(() => {
-    loadRunningData()
-  }, [usuario_id])
+  useEffect(() => { loadRunningData() }, [usuario_id])
 
   const loadRunningData = async () => {
     try {
@@ -21,47 +20,25 @@ const WelcomeOverlayRunning = ({ onClose, usuario_id = 1 }) => {
       setError(null)
       setImageLoadError(false)
 
-      console.log(`Cargando datos de running del usuario: ${usuario_id}`)
-      
-      // URL corregida para coincidir con tu API Express - RUNNING
-      const response = await fetch(`http://localhost:5000/api/running/ultima-imagen/${usuario_id}`, {
+      const response = await fetch(`${API_URL}/api/running/ultima-imagen/${usuario_id}`, { // ✅ corregido
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
       })
-      
-      console.log(`Response status: ${response.status}`)
-      
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: Error en la API`)
-      }
-      
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}: Error en la API`)
+
       const data = await response.json()
-      console.log('Datos de running recibidos:', data)
 
-      // Verificar la estructura de respuesta de tu API
-      if (!data.success) {
-        throw new Error(data.message || "La API no devolvió datos exitosos")
-      }
-      
-      if (!data.hasImage) {
-        throw new Error("No hay imagen disponible para este usuario")
-      }
+      if (!data.success) throw new Error(data.message || "La API no devolvió datos exitosos")
+      if (!data.hasImage) throw new Error("No hay imagen disponible para este usuario")
 
-      // Procesar los datos recibidos de tu API
-      if (data.imagen) {
-        setImageUrl(data.imagen)
-      }
-      
+      if (data.imagen) setImageUrl(data.imagen)
       if (data.fechaEvento) {
         setFechaEvento(data.fechaEvento)
         setEsFuturo(data.esFuturo || false)
       }
-      
-      // Usar el mensaje que viene del backend
       setMensaje(data.mensaje || "Evento de running disponible")
-      
+
     } catch (err) {
       console.error("Error loading running data:", err)
       setError(`Error al cargar el evento de running: ${err.message}`)
@@ -72,44 +49,31 @@ const WelcomeOverlayRunning = ({ onClose, usuario_id = 1 }) => {
   }
 
   const handleImageError = () => {
-    console.error("Error al cargar la imagen:", imageUrl)
     setImageLoadError(true)
     setError("Error al mostrar la imagen - verifique el formato")
   }
 
   const handleImageLoad = () => {
-    console.log("Imagen cargada correctamente")
     setImageLoadError(false)
     setError(null)
   }
 
   const formatearFecha = (fecha) => {
     if (!fecha) return ""
-    const fechaObj = new Date(fecha)
-    return fechaObj.toLocaleDateString("es-ES", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    return new Date(fecha).toLocaleDateString("es-ES", {
+      weekday: "long", year: "numeric", month: "long", day: "numeric",
     })
   }
 
   const calcularDiasRestantes = (fechaEvento) => {
     if (!fechaEvento) return 0
-    const hoy = new Date()
-    const evento = new Date(fechaEvento)
-    const diferencia = evento - hoy
-    return Math.ceil(diferencia / (1000 * 60 * 60 * 24))
+    return Math.ceil((new Date(fechaEvento) - new Date()) / (1000 * 60 * 60 * 24))
   }
 
- const handlePedirAhora = () => {
-  window.open(
-    "https://chat.whatsapp.com/GWWflT8RNzRAIabnojZ4va?mode=hqctcli",
-    "_blank"
-  )
-
-  onClose()
-}
+  const handlePedirAhora = () => {
+    window.open("https://chat.whatsapp.com/GWWflT8RNzRAIabnojZ4va?mode=hqctcli", "_blank")
+    onClose()
+  }
 
   return (
     <div className={styles.welcomeOverlay} onClick={(e) => e.target === e.currentTarget && onClose()}>
@@ -121,49 +85,37 @@ const WelcomeOverlayRunning = ({ onClose, usuario_id = 1 }) => {
         </button>
 
         <div className={styles.welcomeContentWrapper}>
-          {/* Left side - Text content */}
           <div className={styles.welcomeTextSection}>
             <h3 className={`${styles.welcomeTitle} ${esFuturo ? styles.futureEvent : ""}`}>
               {esFuturo ? "¡Próximo Running!" : "¡Bienvenido al Running!"}
             </h3>
-
             {mensaje && <p className={styles.courseTitle}>{mensaje}</p>}
-
             {fechaEvento && (
               <p className={styles.eventDate}>
                 <strong>{formatearFecha(fechaEvento)}</strong>
                 {esFuturo && ` (en ${calcularDiasRestantes(fechaEvento)} días)`}
               </p>
             )}
-
             <p className={styles.welcomeText}>
               Si deseas explorar el resto de la página dale click a la X,
-              <br />
-              <br />
-              {esFuturo
-                ? "si deseas pedir este diseño para tu próximo evento de running, dale click al botón"
-                : "si deseas pedir este diseño para eventos de running, dale click al botón"}
+              <br /><br />
+              {esFuturo ? "si deseas pedir este diseño para tu próximo evento de running, dale click al botón" : "si deseas pedir este diseño para eventos de running, dale click al botón"}
             </p>
-
             <button
               onClick={handlePedirAhora}
               className={`${styles.pedirButton} ${esFuturo ? styles.futureEvent : ""}`}
               disabled={imageLoadError || loading || !imageUrl}
             >
-              {loading ? "Cargando..." : esFuturo ? "Reservar Ahora" : "Inscribete  Ahora"}
+              {loading ? "Cargando..." : esFuturo ? "Reservar Ahora" : "Inscribete Ahora"}
             </button>
-
             {error && (
               <div className={styles.errorContainer}>
                 <p className={styles.errorMessage}>{error}</p>
-                <button onClick={loadRunningData} className={styles.retryButton}>
-                  Reintentar
-                </button>
+                <button onClick={loadRunningData} className={styles.retryButton}>Reintentar</button>
               </div>
             )}
           </div>
 
-          {/* Right side - Image */}
           <div className={styles.welcomeImageSection}>
             {loading ? (
               <div className={styles.imageLoading}>
@@ -191,9 +143,7 @@ const WelcomeOverlayRunning = ({ onClose, usuario_id = 1 }) => {
                   <div className={styles.imageError}>
                     <h3>No hay imagen disponible</h3>
                     <p>No se encontró una imagen para mostrar.</p>
-                    <button onClick={loadRunningData} className={styles.retryButton}>
-                      Reintentar
-                    </button>
+                    <button onClick={loadRunningData} className={styles.retryButton}>Reintentar</button>
                   </div>
                 )}
               </div>

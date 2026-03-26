@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./CanvaEditor.module.css"
+import API_URL from "../config/api" // ajusta la ruta según dónde esté este archivo
 
 function CanvasEditor() {
   const navigate = useNavigate()
@@ -33,8 +34,8 @@ function CanvasEditor() {
       }
 
       try {
-        // Verificar que el token sea válido
-        const verifyResponse = await fetch("/api/canva/verify-token", {
+        // ✅ Corregido - antes era "/api/canva/verify-token" (ruta relativa, falla en celular)
+        const verifyResponse = await fetch(`${API_URL}/api/canva/verify-token`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ token }),
@@ -49,9 +50,7 @@ function CanvasEditor() {
           return
         }
 
-        // Obtener la URL del editor de Canva (debes implementar esto en tu backend si usas Canva Button)
-        // Por ahora, puedes redirigir a la página principal de Canva o a un diseño específico
-        setCanvaUrl("https://www.canva.com/") // O la URL que obtengas de tu backend
+        setCanvaUrl("https://www.canva.com/")
       } catch (error) {
         setError(error.message || "Error al cargar el editor de Canva")
       } finally {

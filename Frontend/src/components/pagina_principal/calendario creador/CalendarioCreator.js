@@ -1,4 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
+import API_URL from "../../../config/api"
 
 const CalendarioCreator = () => {
   // Estados existentes del text creator
@@ -121,7 +122,7 @@ const CalendarioCreator = () => {
         ? `cursos/obtener-disenos` 
         : `running/obtener-disenos`;
       
-      const response = await fetch(`http://localhost:5000/api/${endpoint}/${userId}/${año}/${mes}`);
+      const response = await fetch(`${API_URL}/api/${endpoint}/${userId}/${año}/${mes}`);
       const data = await response.json();
       
       if (data.success) {
@@ -147,7 +148,7 @@ const CalendarioCreator = () => {
         ? `cursos/obtener-diseno` 
         : `running/obtener-diseno`;
       
-      const response = await fetch(`http://localhost:5000/api/${endpoint}/${userId}/${fechaStr}`);
+      const response = await fetch(`${API_URL}/api/${endpoint}/${userId}/${fechaStr}`);
       const data = await response.json();
       
       if (data.success && data.diseño) {
@@ -184,7 +185,7 @@ const CalendarioCreator = () => {
         ? `cursos/limpiar-mes-anterior` 
         : `running/limpiar-mes-anterior`;
       
-      await fetch(`http://localhost:5000/api/${endpoint}/${userId}/${año}/${mes}`, {
+      await fetch(`${API_URL}/api/${endpoint}/${userId}/${año}/${mes}`, {
         method: 'DELETE'
       });
     } catch (error) {
@@ -226,7 +227,7 @@ const CalendarioCreator = () => {
       const fechaStr = formatDate(selectedDate);
       const endpoint = `/api/${selectedCategory}/guardar-diseno`;
       
-      const response = await fetch(`http://localhost:5000${endpoint}`, {
+      const response = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -651,3 +651,70 @@
     font-size: 5rem;
   }
 }
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2.4rem;
+  }
+
+  .videoTextContainer {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 0 16px;
+  }
+
+  .sectionVideo {
+    height: 250px;
+  }
+
+  .sectionTitle {
+    font-size: 2rem;
+  }
+
+  .whiteSection {
+    margin-top: 0;
+    min-height: auto;
+  }
+
+  .whiteSection3,
+  .whiteSection4 {
+    margin-top: 0;
+  }
+
+  .iphoneContentContainer {
+    padding: 0 16px;
+  }
+
+  .iphoneSectionTitle {
+    font-size: 2rem;
+  }
+
+  .iphoneSectionSubtitle {
+    font-size: 1rem;
+  }
+
+  .iphoneSectionHeader{
+    margin-bottom: 1%;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroTitle {
+    font-size: 1.9rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.6rem;
+  }
+
+  .iphoneSectionTitle {
+    font-size: 1.6rem;
+  }
+
+  .sectionDescription {
+    font-size: 0.95rem;
+  }
+
+  .marqueeContent span {
+    font-size: 11px;
+  }
+}

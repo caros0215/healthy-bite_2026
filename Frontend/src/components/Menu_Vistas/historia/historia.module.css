@@ -29,9 +29,9 @@
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
+      max-width: 1622px;
+    margin: 0 auto;
+    padding: 0 1rem;
 }
 
 /* Hero Section */
@@ -44,12 +44,40 @@
   overflow: hidden;
 }
 
+.journeyCta {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 3rem;
+  box-shadow: var(--shadow_xl);
+  max-width: 64rem;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;   /* ← agregar */
+  z-index: 10;          /* ← agregar */
+}
+
 .heroBackground {
   position: absolute;
   inset: 0;
   z-index: 0;
 }
 
+.ctaButton {
+  display: inline-block;
+  background: #25d366;
+  color: white !important;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none !important;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  position: relative;   /* ← agregar */
+  z-index: 10;          /* ← agregar */
+}
 .heroImage {
   position: absolute;
   inset: 0;
@@ -1560,4 +1588,34 @@
     width: 16rem;
     height: 16rem;
   }
+}
+
+/* ── HERO COLLAGE imagen única ── */
+.journeyCollage {
+  max-width: 100%;
+  margin: 0 auto 4rem;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+/* .collageOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.88); 
+  z-index: 0;
+  pointer-events: none;
+} */
+
+.collageHeroImg {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+
 }

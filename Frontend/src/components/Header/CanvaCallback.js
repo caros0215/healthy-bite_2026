@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
+import API_URL from "../config/api" // ajusta la ruta según dónde esté este archivo
 
 function CanvaCallback() {
   const navigate = useNavigate()
@@ -12,7 +13,6 @@ function CanvaCallback() {
   useEffect(() => {
     let isMounted = true
 
-    // Extrae los parámetros de la URL
     const getQueryParams = () => {
       const params = new URLSearchParams(location.search)
       return {
@@ -23,13 +23,11 @@ function CanvaCallback() {
       }
     }
 
-    // Intercambia el código por el token de acceso
     const exchangeCodeForToken = async (code) => {
       try {
         if (!isMounted) return
         setStatus("Intercambiando código por token de acceso...")
 
-        // Recupera el code_verifier del localStorage
         const codeVerifier = localStorage.getItem("canva_code_verifier")
         if (!codeVerifier) {
           setError("No se encontró el code_verifier en localStorage")
@@ -38,7 +36,6 @@ function CanvaCallback() {
           return
         }
 
-        // Recupera el usuario (opcional)
         const usuarioData = localStorage.getItem("usuario")
         let usuario_id = null
         if (usuarioData) {
@@ -47,13 +44,11 @@ function CanvaCallback() {
               const userData = JSON.parse(usuarioData)
               usuario_id = userData.id
             }
-          } catch (e) {
-            // Si no es JSON, ignora
-          }
+          } catch (e) {}
         }
 
-        // Llama a tu backend para intercambiar el código por el token
-        const response = await fetch("http://localhost:5000/api/canva/exchange-token", {
+        // ✅ Corregido
+        const response = await fetch(`${API_URL}/api/canva/exchange-token`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -76,7 +71,6 @@ function CanvaCallback() {
         const data = await response.json()
 
         if (data.access_token) {
-          // Guarda el token y su expiración
           const tokenData = {
             access_token: data.access_token,
             expires_at: Date.now() + (data.expires_in || 3600) * 1000,
@@ -105,7 +99,6 @@ function CanvaCallback() {
       }
     }
 
-    // Maneja el callback de Canva OAuth
     const handleCallback = async () => {
       const { code, error, error_description, state } = getQueryParams()
       const savedState = localStorage.getItem("canva_auth_state")
@@ -134,7 +127,6 @@ function CanvaCallback() {
       }
     }
 
-    // Verifica si ya hay un token válido
     const checkExistingToken = async () => {
       const existingToken = localStorage.getItem("canvaToken")
       const tokenDataStr = localStorage.getItem("canvaTokenData")
@@ -142,9 +134,9 @@ function CanvaCallback() {
         try {
           const tokenData = JSON.parse(tokenDataStr)
           if (tokenData.expires_at && tokenData.expires_at > Date.now()) {
-            // Opcional: verifica el token con el backend
             try {
-              const response = await fetch("http://localhost:5000/api/canva/verify-token", {
+              // ✅ Corregido
+              const response = await fetch(`${API_URL}/api/canva/verify-token`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ token: existingToken }),
@@ -154,20 +146,15 @@ function CanvaCallback() {
                 navigate("/canvas")
                 return true
               }
-            } catch (error) {
-              // Si falla la verificación, sigue con el flujo normal
-            }
+            } catch (error) {}
           }
-        } catch (error) {
-          // Si falla el parseo, sigue con el flujo normal
-        }
+        } catch (error) {}
       }
       localStorage.removeItem("canvaToken")
       localStorage.removeItem("canvaTokenData")
       return false
     }
 
-    // Flujo principal
     checkExistingToken().then((isValid) => {
       if (!isValid) handleCallback()
     })
@@ -186,7 +173,7 @@ function CanvaCallback() {
             <h3>Error:</h3>
             <p>{error}</p>
             <p>
-              Verifica que el servidor esté ejecutándose en http://localhost:5000 y que las rutas de API estén correctamente configuradas.
+              Verifica que el servidor esté ejecutándose en {API_URL} y que las rutas de API estén correctamente configuradas.
             </p>
             <button onClick={() => navigate("/dashboard")}>Volver al Dashboard</button>
           </div>

@@ -1,6 +1,7 @@
 import { useRef, useState } from "react"
 import styles from "./valerasection.module.css"
 import videoValera from "../../../assets/images/video_104.mp4"
+import bgHealthy from "../../../assets/images/fondo.jpeg"
 
 export default function ValeraSection() {
   const videoRef = useRef(null)
@@ -20,10 +21,13 @@ export default function ValeraSection() {
   }
 
   return (
-    <section className={styles.section}>
+    <section
+      className={styles.section}
+      style={{ '--bg-image': `url(${bgHealthy})` }}
+    >
       <div className={styles.container}>
 
-        {/* IZQUIERDA: Video */}
+        {/* IZQUIERDA: Video — 30% */}
         <div
           className={styles.videoWrapper}
           onMouseEnter={handleMouseEnter}
@@ -43,7 +47,7 @@ export default function ValeraSection() {
           </div>
         </div>
 
-        {/* DERECHA: Tarjeta valera */}
+        {/* DERECHA: Tarjeta valera — 70% */}
         <div className={styles.card}>
           <p className={styles.question}>¿Te <strong>GUSTÓ</strong> el almuerzo?</p>
 

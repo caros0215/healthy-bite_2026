@@ -4,6 +4,7 @@ import "./WelcomeOverlay.css";
 import loaderGif from '../../../assets/images/logo_oscillate.gif';
 // ✅ Importa tu imagen por defecto cuando la tengas — reemplaza la ruta
 import defaultImage from '../../../assets/images/artes-04.webp';
+import API_URL from "../../../config/api"
 const DEFAULT_IMAGE = defaultImage; // Cambia null por: defaultImage
 
 const WelcomeOverlay = ({ onClose }) => {
@@ -24,7 +25,7 @@ const WelcomeOverlay = ({ onClose }) => {
       setNoImage(false);
 
       const usuario_id = 1;
-      const response = await fetch(`http://localhost:5000/api/almuerzos/ultima-imagen/${usuario_id}`, {
+      const response = await fetch(`${API_URL}/api/almuerzos/ultima-imagen/${usuario_id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

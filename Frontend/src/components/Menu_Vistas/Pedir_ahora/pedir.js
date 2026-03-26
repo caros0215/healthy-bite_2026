@@ -153,15 +153,10 @@ export default function CantinaPage() {
         <div className={styles.greenMarqueeContainer}>
           <div className={styles.marqueeWrapper}>
             <div className={styles.marqueeContent}>
-              <span>IMPULSADO POR LA COCINA MEDITERRÁNEA</span>
-              <span className={styles.separator}>•</span>
-              <span>CERVEZA ARTESANAL</span>
               <span className={styles.separator}>•</span>
               <span>PRODUCTO DE ORIGEN RESPONSABLE</span>
               <span className={styles.separator}>•</span>
               <span>POSTRES VEGANOS</span>
-              <span className={styles.separator}>•</span>
-              <span>COCINA SALUDABLE IMPULSADA POR EL CHEF</span>
               <span className={styles.separator}>•</span>
               <span>DE TEMPORADA</span>
               <span className={styles.separator}>•</span>
@@ -170,15 +165,10 @@ export default function CantinaPage() {
               <span>PLATOS PERSONALIZADOS</span>
             </div>
             <div className={styles.marqueeContent}>
-              <span>IMPULSADO POR LA COCINA MEDITERRÁNEA</span>
-              <span className={styles.separator}>•</span>
-              <span>CERVEZA ARTESANAL</span>
               <span className={styles.separator}>•</span>
               <span>PRODUCTO DE ORIGEN RESPONSABLE</span>
               <span className={styles.separator}>•</span>
               <span>POSTRES VEGANOS</span>
-              <span className={styles.separator}>•</span>
-              <span>COCINA SALUDABLE IMPULSADA POR EL CHEF</span>
               <span className={styles.separator}>•</span>
               <span>DE TEMPORADA</span>
               <span className={styles.separator}>•</span>

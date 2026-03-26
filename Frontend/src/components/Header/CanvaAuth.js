@@ -1,4 +1,5 @@
 import { randomBytes } from 'crypto';
+import API_URL from '../config/api'; // ajusta la ruta según dónde esté este archivo
 
 /**
  * Genera valores PKCE (Proof Key for Code Exchange) para OAuth 2.0
@@ -6,18 +7,15 @@ import { randomBytes } from 'crypto';
  */
 export async function generatePKCE() {
   try {
-    // Generar un code verifier aleatorio
     const codeVerifier = randomBytes(32).toString('base64')
       .replace(/\+/g, '-')
       .replace(/\//g, '_')
       .replace(/=/g, '');
     
-    // Crear un code challenge a partir del code verifier
     const encoder = new TextEncoder();
     const data = encoder.encode(codeVerifier);
     const digest = await window.crypto.subtle.digest('SHA-256', data);
     
-    // Convertir el digest a base64-url
     const base64Digest = btoa(String.fromCharCode(...new Uint8Array(digest)))
       .replace(/\+/g, '-')
       .replace(/\//g, '_')
@@ -41,10 +39,10 @@ export async function generatePKCE() {
  */
 export async function exchangeCodeForToken(code, codeVerifier) {
   const clientId = "OC-AZbHRDPO55sD";
-  const redirectUri = "http://127.0.0.1:5000/oauth/redirect";
+  const redirectUri = `${API_URL}/oauth/redirect`; // ✅ también usa API_URL
   
   try {
-    const response = await fetch('http://localhost:5000/api/canva/exchange-token', {
+    const response = await fetch(`${API_URL}/api/canva/exchange-token`, { // ✅ corregido
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

@@ -26,9 +26,9 @@ export default function HonestiCatering() {
           Pide en un abrir y cerrar de ojos, nos encargamos del resto.
         </p>
         
-        <button className={styles.actionButton}>
+        {/* <button className={styles.actionButton}>
           Pedir ahora
-        </button>
+        </button> */}
       </div>
 
       {/* Imagen derecha */}

@@ -4,6 +4,7 @@ import { useState } from "react"
 import "./Login.css"
 import image1 from "../../assets/images/artes_Mesa de trabajo 1.1.webp"
 import image2 from "../../assets/images/logo_animado.gif"
+import API_URL from "../../config/api" // ✅ importar
 
 function LoginModal({ isOpen, onClose }) {
   const [usuario, setUsuario] = useState("")
@@ -24,11 +25,9 @@ function LoginModal({ isOpen, onClose }) {
     try {
       setLoading(true)
 
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch(`${API_URL}/api/auth/login`, { // ✅ corregido
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ usuario, contraseña }),
         credentials: "include",
       })
@@ -47,18 +46,15 @@ function LoginModal({ isOpen, onClose }) {
         throw new Error(data.message || "Error al iniciar sesión")
       }
 
-      // ✅ Mantener el loading un poco más para mostrar el gif
-      await new Promise((resolve) => setTimeout(resolve, 1800)) // 1.5 segundos extra
+      await new Promise((resolve) => setTimeout(resolve, 1800))
 
-      // ✅ Guardar en localStorage
       setAutenticado(true)
-      localStorage.setItem("usuario", JSON.stringify(data.usuario)) // Guarda el objeto completo
-      localStorage.setItem("canvaUserLoggedIn", "true") // Marca sesión iniciada
+      localStorage.setItem("usuario", JSON.stringify(data.usuario))
+      localStorage.setItem("canvaUserLoggedIn", "true")
 
-      // Redirigir al dashboard después de mostrar el mensaje de éxito
       setTimeout(() => {
         window.location.href = "/dashboard"
-      }, 2000) // 2 segundos para ver el mensaje de éxito
+      }, 2000)
     } catch (err) {
       console.error("Error de login:", err)
       setError(err.message || "Error al iniciar sesión")
@@ -71,9 +67,7 @@ function LoginModal({ isOpen, onClose }) {
   return (
     <div className="modal-overlay">
       <div className="modal-container">
-        <button className="modal-close-btn" onClick={onClose}>
-          &times;
-        </button>
+        <button className="modal-close-btn" onClick={onClose}>&times;</button>
 
         <div className="modal-content">
           {autenticado ? (
@@ -117,9 +111,7 @@ function LoginModal({ isOpen, onClose }) {
               </div>
 
               <div className="form-actions">
-                <button type="button" className="cancel-btn" onClick={onClose}>
-                  Cancelar
-                </button>
+                <button type="button" className="cancel-btn" onClick={onClose}>Cancelar</button>
                 <button type="submit" className="login-btn" disabled={loading}>
                   {loading ? "Procesando..." : "Iniciar Sesión"}
                 </button>

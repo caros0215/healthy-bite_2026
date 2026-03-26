@@ -2,6 +2,7 @@
  * Utilidades para la autenticación con Canva
  */
 
+import API_URL from "../../../config/api"
 /**
  * Genera un string aleatorio para usar como code_verifier
  * @param {number} length - Longitud del string aleatorio
@@ -98,7 +99,7 @@ export const verifyCanvaToken = async () => {
   }
 
   try {
-    const response = await fetch("http://localhost:5000/api/canva/verify-token", {
+    const response = await fetch("${API_URL}/api/canva/verify-token", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

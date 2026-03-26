@@ -7,23 +7,46 @@ const WebSocket = require("ws");
 const sharp = require("sharp");
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
+
 app.use(cors({
-  origin: ["http://localhost:3000", "http://localhost:5173"],
+  origin: function(origin, callback) {
+    callback(null, true);
+  },
   credentials: true,
 }));
 
+app.use((req, res, next) => {
+  res.setHeader('ngrok-skip-browser-warning', 'true');
+  next();
+});
+
 const db = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "healthybite",
+  host: process.env.DB_HOST || "127.0.0.1",
+  port: process.env.DB_PORT || 3307,
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || "",
+  database: process.env.DB_NAME || "healthybite",
   waitForConnections: true,
   connectionLimit: 10,
 });
+
+function connectWithRetry() {
+  db.getConnection((err, connection) => {
+    if (err) {
+      console.error("❌ MySQL no listo, reintentando en 3s...");
+      setTimeout(connectWithRetry, 3000);
+    } else {
+      console.log("✅ Conectado a MySQL");
+      connection.release();
+    }
+  });
+}
+
+connectWithRetry();
 
 const tablaCanvaMap = {
   almuerzos: "almuerzos_Canva",
@@ -67,20 +90,15 @@ function comprimirBase64SiEsNecesario(base64String) {
   return base64String;
 }
 
+// ✅ CORREGIDO: borra imágenes cuya fecha_evento ya pasó (ayer o antes)
 function limpiarImagenesAlmuerzo(usuario_id) {
   const q = `
     DELETE FROM almuerzos_Canva
-    WHERE id NOT IN (
-      SELECT id FROM (
-        SELECT id FROM almuerzos_Canva
-        WHERE usuario_id = ? AND fecha_guardado <= NOW()
-        ORDER BY fecha_guardado DESC
-        LIMIT 5
-      ) AS top5
-    ) AND usuario_id = ?;
+    WHERE usuario_id = ?
+    AND DATE(fecha_evento) < CURDATE()
   `;
-  db.query(q, [usuario_id, usuario_id], (err, r) => {
-    if (!err) console.log(`Almuerzo: ${r.affectedRows} eliminadas`);
+  db.query(q, [usuario_id], (err, r) => {
+    if (!err) console.log(`Almuerzo: ${r.affectedRows} imágenes eliminadas (fecha pasada)`);
     else console.error(`Error al limpiar almuerzos: ${err.message}`);
   });
 }
@@ -126,7 +144,7 @@ app.post("/api/auth/login", (req, res) => {
   }
 
   const query = `
-   SELECT id, nombre_usuario, nombre_completo, email
+  SELECT id, nombre_usuario, nombre_completo, email
   FROM usuarios
   WHERE nombre_usuario = ? AND contraseña = ?
   LIMIT 1
@@ -258,12 +276,13 @@ app.get("/api/:modulo/ultima-imagen/:usuario_id", (req, res) => {
   const fechaHoy = new Date().toISOString().split("T")[0];
 
   if (modulo === "almuerzos") {
+    // ✅ CORREGIDO: solo trae imágenes de hoy en adelante
     db.query(
-      `SELECT * FROM ${tabla} WHERE usuario_id = ? ORDER BY fecha_guardado DESC LIMIT 1`,
+      `SELECT * FROM ${tabla} WHERE usuario_id = ? AND DATE(fecha_evento) >= CURDATE() ORDER BY fecha_evento ASC LIMIT 1`,
       [userId],
       (err, results) => {
         if (err) return res.status(500).json({ success: false, error: "Error en la base de datos" });
-        if (results.length === 0) return res.json({ success: false, hasImage: false, message: "No hay imágenes guardadas" });
+        if (results.length === 0) return res.json({ success: false, hasImage: false, message: "No hay imagen para hoy" });
 
         let imagenValidada = null;
         try {
@@ -278,7 +297,7 @@ app.get("/api/:modulo/ultima-imagen/:usuario_id", (req, res) => {
           imagen: imagenValidada,
           fechaEvento: results[0].fecha_evento,
           esFuturo: false,
-          mensaje: `Última imagen de almuerzo: ${results[0].fecha_evento}`,
+          mensaje: `Menú de hoy: ${results[0].fecha_evento}`,
         });
       }
     );
@@ -386,25 +405,25 @@ app.post("/api/almuerzos/guardar-imagen", (req, res) => {
   const { usuario_id, fecha_evento, imagen_base64 } = req.body;
 
   if (!usuario_id || !fecha_evento || !imagen_base64) {
-    return res.status(400).json({ 
-      success: false, 
-      error: "Datos faltantes: se requiere usuario_id, fecha_evento e imagen_base64" 
+    return res.status(400).json({
+      success: false,
+      error: "Datos faltantes: se requiere usuario_id, fecha_evento e imagen_base64"
     });
   }
 
   const userId = Number.parseInt(usuario_id);
   if (isNaN(userId) || userId <= 0) {
-    return res.status(400).json({ 
-      success: false, 
-      error: "ID de usuario debe ser un número válido" 
+    return res.status(400).json({
+      success: false,
+      error: "ID de usuario debe ser un número válido"
     });
   }
 
   const imagenLimpia = validarYLimpiarBase64(imagen_base64, true);
   if (!imagenLimpia) {
-    return res.status(400).json({ 
-      success: false, 
-      error: "Imagen base64 inválida o corrupta" 
+    return res.status(400).json({
+      success: false,
+      error: "Imagen base64 inválida o corrupta"
     });
   }
 
@@ -420,9 +439,9 @@ app.post("/api/almuerzos/guardar-imagen", (req, res) => {
   db.query(checkQuery, [userId, fecha_evento], (err, results) => {
     if (err) {
       console.error('Error al verificar existencia:', err);
-      return res.status(500).json({ 
-        success: false, 
-        error: "Error al verificar existencia en base de datos" 
+      return res.status(500).json({
+        success: false,
+        error: "Error al verificar existencia en base de datos"
       });
     }
 
@@ -436,9 +455,9 @@ app.post("/api/almuerzos/guardar-imagen", (req, res) => {
       db.query(updateQuery, [imagenFinal, userId, fecha_evento], (err, result) => {
         if (err) {
           console.error('Error al actualizar imagen:', err);
-          return res.status(500).json({ 
-            success: false, 
-            error: `Error al actualizar imagen: ${err.message}` 
+          return res.status(500).json({
+            success: false,
+            error: `Error al actualizar imagen: ${err.message}`
           });
         }
 
@@ -460,9 +479,9 @@ app.post("/api/almuerzos/guardar-imagen", (req, res) => {
       db.query(insertQuery, [userId, fecha_evento, imagenFinal], (err, result) => {
         if (err) {
           console.error('Error al insertar imagen:', err);
-          return res.status(500).json({ 
-            success: false, 
-            error: `Error al guardar imagen: ${err.message}` 
+          return res.status(500).json({
+            success: false,
+            error: `Error al guardar imagen: ${err.message}`
           });
         }
 
@@ -482,21 +501,21 @@ app.post("/api/almuerzos/guardar-imagen", (req, res) => {
 app.get("/api/almuerzos/obtener-canva/:usuario_id/:year/:month", (req, res) => {
   const { usuario_id, year, month } = req.params;
   const userId = Number.parseInt(usuario_id);
-  
+
   if (!usuario_id || isNaN(userId) || userId <= 0) {
-    return res.status(400).json({ 
-      success: false, 
-      error: "ID de usuario requerido y válido" 
+    return res.status(400).json({
+      success: false,
+      error: "ID de usuario requerido y válido"
     });
   }
 
   const yearNum = Number.parseInt(year);
   const monthNum = Number.parseInt(month);
-  
+
   if (isNaN(yearNum) || isNaN(monthNum) || monthNum < 1 || monthNum > 12) {
-    return res.status(400).json({ 
-      success: false, 
-      error: "Año y mes deben ser números válidos" 
+    return res.status(400).json({
+      success: false,
+      error: "Año y mes deben ser números válidos"
     });
   }
 
@@ -519,16 +538,16 @@ app.get("/api/almuerzos/obtener-canva/:usuario_id/:year/:month", (req, res) => {
   db.query(query, [userId, yearNum, monthNum], (err, results) => {
     if (err) {
       console.error('Error al obtener imágenes de almuerzos_Canva:', err);
-      return res.status(500).json({ 
-        success: false, 
-        error: "Error en la base de datos", 
-        debug: err.message 
+      return res.status(500).json({
+        success: false,
+        error: "Error en la base de datos",
+        debug: err.message
       });
     }
 
     const imagenesProcessed = results.map(canva => {
       const canvaProcessed = { ...canva };
-      
+
       if (canva.imagen) {
         try {
           canvaProcessed.imagen_base64 = validarYLimpiarBase64(canva.imagen, false);
@@ -537,7 +556,7 @@ app.get("/api/almuerzos/obtener-canva/:usuario_id/:year/:month", (req, res) => {
           canvaProcessed.imagen_base64 = null;
         }
       }
-      
+
       if (canva.link_canva) {
         try {
           canvaProcessed.link_canva_parsed = JSON.parse(canva.link_canva);
@@ -545,7 +564,7 @@ app.get("/api/almuerzos/obtener-canva/:usuario_id/:year/:month", (req, res) => {
           canvaProcessed.link_canva_parsed = canva.link_canva;
         }
       }
-      
+
       return canvaProcessed;
     });
 
@@ -553,10 +572,10 @@ app.get("/api/almuerzos/obtener-canva/:usuario_id/:year/:month", (req, res) => {
       success: true,
       imagenes: imagenesProcessed,
       count: imagenesProcessed.length,
-      debug: { 
-        año: yearNum, 
+      debug: {
+        año: yearNum,
         mes: monthNum,
-        usuario_id: userId 
+        usuario_id: userId
       }
     });
   });
@@ -565,7 +584,7 @@ app.get("/api/almuerzos/obtener-canva/:usuario_id/:year/:month", (req, res) => {
 app.get("/api/almuerzos/imagen/:usuario_id/:fecha_evento", (req, res) => {
   const { usuario_id, fecha_evento } = req.params;
   const userId = Number.parseInt(usuario_id);
-  
+
   if (!usuario_id || isNaN(userId) || userId <= 0) {
     return res.status(400).json({ success: false, error: "ID de usuario requerido y válido" });
   }
@@ -607,25 +626,25 @@ app.post("/api/cursos/guardar-imagen", (req, res) => {
   const { usuario_id, fecha_evento, imagen_base64 } = req.body;
 
   if (!usuario_id || !fecha_evento || !imagen_base64) {
-    return res.status(400).json({ 
-      success: false, 
-      error: "Datos faltantes: se requiere usuario_id, fecha_evento e imagen_base64" 
+    return res.status(400).json({
+      success: false,
+      error: "Datos faltantes: se requiere usuario_id, fecha_evento e imagen_base64"
     });
   }
 
   const userId = Number.parseInt(usuario_id);
   if (isNaN(userId) || userId <= 0) {
-    return res.status(400).json({ 
-      success: false, 
-      error: "ID de usuario debe ser un número válido" 
+    return res.status(400).json({
+      success: false,
+      error: "ID de usuario debe ser un número válido"
     });
   }
 
   const imagenLimpia = validarYLimpiarBase64(imagen_base64, true);
   if (!imagenLimpia) {
-    return res.status(400).json({ 
-      success: false, 
-      error: "Imagen base64 inválida o corrupta" 
+    return res.status(400).json({
+      success: false,
+      error: "Imagen base64 inválida o corrupta"
     });
   }
 
@@ -641,9 +660,9 @@ app.post("/api/cursos/guardar-imagen", (req, res) => {
   db.query(checkQuery, [userId, fecha_evento], (err, results) => {
     if (err) {
       console.error('Error al verificar existencia:', err);
-      return res.status(500).json({ 
-        success: false, 
-        error: "Error al verificar existencia en base de datos" 
+      return res.status(500).json({
+        success: false,
+        error: "Error al verificar existencia en base de datos"
       });
     }
 
@@ -657,9 +676,9 @@ app.post("/api/cursos/guardar-imagen", (req, res) => {
       db.query(updateQuery, [imagenFinal, userId, fecha_evento], (err, result) => {
         if (err) {
           console.error('Error al actualizar imagen:', err);
-          return res.status(500).json({ 
-            success: false, 
-            error: `Error al actualizar imagen: ${err.message}` 
+          return res.status(500).json({
+            success: false,
+            error: `Error al actualizar imagen: ${err.message}`
           });
         }
 
@@ -681,9 +700,9 @@ app.post("/api/cursos/guardar-imagen", (req, res) => {
       db.query(insertQuery, [userId, fecha_evento, imagenFinal], (err, result) => {
         if (err) {
           console.error('Error al insertar imagen:', err);
-          return res.status(500).json({ 
-            success: false, 
-            error: `Error al guardar imagen: ${err.message}` 
+          return res.status(500).json({
+            success: false,
+            error: `Error al guardar imagen: ${err.message}`
           });
         }
 
@@ -703,18 +722,18 @@ app.post("/api/cursos/guardar-imagen", (req, res) => {
 app.get("/api/cursos/obtener-disenos/:usuario_id/:year/:month", (req, res) => {
   const { usuario_id, year, month } = req.params;
   const userId = Number.parseInt(usuario_id);
-  
+
   if (!usuario_id || isNaN(userId) || userId <= 0) {
     return res.status(400).json({ success: false, error: "ID de usuario requerido y válido" });
   }
 
   const yearNum = Number.parseInt(year);
   const monthNum = Number.parseInt(month);
-  
+
   if (isNaN(yearNum) || isNaN(monthNum) || monthNum < 1 || monthNum > 12) {
-    return res.status(400).json({ 
-      success: false, 
-      error: "Año y mes deben ser números válidos" 
+    return res.status(400).json({
+      success: false,
+      error: "Año y mes deben ser números válidos"
     });
   }
 
@@ -739,16 +758,11 @@ app.get("/api/cursos/obtener-disenos/:usuario_id/:year/:month", (req, res) => {
   db.query(query, [userId, yearNum, monthNum], (err, results) => {
     if (err) {
       console.error('Error en query de cursos:', err);
-      return res.status(500).json({ 
-        success: false, 
-        error: "Error en la base de datos", 
-        debug: err.message 
+      return res.status(500).json({
+        success: false,
+        error: "Error en la base de datos",
+        debug: err.message
       });
-    }
-
-    console.log(`📚 Diseños de cursos encontrados:`, results.length);
-    if (results.length > 0) {
-      console.log('Ejemplo de diseño:', results[0]);
     }
 
     const diseñosProcessed = results.map(curso => {
@@ -765,10 +779,10 @@ app.get("/api/cursos/obtener-disenos/:usuario_id/:year/:month", (req, res) => {
       success: true,
       diseños: diseñosProcessed,
       count: diseñosProcessed.length,
-      debug: { 
-        año: yearNum, 
+      debug: {
+        año: yearNum,
         mes: monthNum,
-        usuario: userId 
+        usuario: userId
       }
     });
   });
@@ -816,21 +830,21 @@ app.get("/api/cursos/imagen/:usuario_id/:fecha_evento", (req, res) => {
 app.get("/api/cursos/obtener-canva/:usuario_id/:year/:month", (req, res) => {
   const { usuario_id, year, month } = req.params;
   const userId = Number.parseInt(usuario_id);
-  
+
   if (!usuario_id || isNaN(userId) || userId <= 0) {
-    return res.status(400).json({ 
-      success: false, 
-      error: "ID de usuario requerido y válido" 
+    return res.status(400).json({
+      success: false,
+      error: "ID de usuario requerido y válido"
     });
   }
 
   const yearNum = Number.parseInt(year);
   const monthNum = Number.parseInt(month);
-  
+
   if (isNaN(yearNum) || isNaN(monthNum) || monthNum < 1 || monthNum > 12) {
-    return res.status(400).json({ 
-      success: false, 
-      error: "Año y mes deben ser números válidos" 
+    return res.status(400).json({
+      success: false,
+      error: "Año y mes deben ser números válidos"
     });
   }
 
@@ -853,16 +867,16 @@ app.get("/api/cursos/obtener-canva/:usuario_id/:year/:month", (req, res) => {
   db.query(query, [userId, yearNum, monthNum], (err, results) => {
     if (err) {
       console.error('Error al obtener imágenes de cursos_canva:', err);
-      return res.status(500).json({ 
-        success: false, 
-        error: "Error en la base de datos", 
-        debug: err.message 
+      return res.status(500).json({
+        success: false,
+        error: "Error en la base de datos",
+        debug: err.message
       });
     }
 
     const imagenesProcessed = results.map(canva => {
       const canvaProcessed = { ...canva };
-      
+
       if (canva.imagen) {
         try {
           canvaProcessed.imagen_base64 = validarYLimpiarBase64(canva.imagen, false);
@@ -871,7 +885,7 @@ app.get("/api/cursos/obtener-canva/:usuario_id/:year/:month", (req, res) => {
           canvaProcessed.imagen_base64 = null;
         }
       }
-      
+
       if (canva.link_canva) {
         try {
           canvaProcessed.link_canva_parsed = JSON.parse(canva.link_canva);
@@ -879,7 +893,7 @@ app.get("/api/cursos/obtener-canva/:usuario_id/:year/:month", (req, res) => {
           canvaProcessed.link_canva_parsed = canva.link_canva;
         }
       }
-      
+
       return canvaProcessed;
     });
 
@@ -887,10 +901,10 @@ app.get("/api/cursos/obtener-canva/:usuario_id/:year/:month", (req, res) => {
       success: true,
       imagenes: imagenesProcessed,
       count: imagenesProcessed.length,
-      debug: { 
-        año: yearNum, 
+      debug: {
+        año: yearNum,
         mes: monthNum,
-        usuario_id: userId 
+        usuario_id: userId
       }
     });
   });
@@ -901,25 +915,25 @@ app.post("/api/running/guardar-imagen", (req, res) => {
   const { usuario_id, fecha_evento, imagen_base64 } = req.body;
 
   if (!usuario_id || !fecha_evento || !imagen_base64) {
-    return res.status(400).json({ 
-      success: false, 
-      error: "Datos faltantes: se requiere usuario_id, fecha_evento e imagen_base64" 
+    return res.status(400).json({
+      success: false,
+      error: "Datos faltantes: se requiere usuario_id, fecha_evento e imagen_base64"
     });
   }
 
   const userId = Number.parseInt(usuario_id);
   if (isNaN(userId) || userId <= 0) {
-    return res.status(400).json({ 
-      success: false, 
-      error: "ID de usuario debe ser un número válido" 
+    return res.status(400).json({
+      success: false,
+      error: "ID de usuario debe ser un número válido"
     });
   }
 
   const imagenLimpia = validarYLimpiarBase64(imagen_base64, true);
   if (!imagenLimpia) {
-    return res.status(400).json({ 
-      success: false, 
-      error: "Imagen base64 inválida o corrupta" 
+    return res.status(400).json({
+      success: false,
+      error: "Imagen base64 inválida o corrupta"
     });
   }
 
@@ -935,9 +949,9 @@ app.post("/api/running/guardar-imagen", (req, res) => {
   db.query(checkQuery, [userId, fecha_evento], (err, results) => {
     if (err) {
       console.error('Error al verificar existencia:', err);
-      return res.status(500).json({ 
-        success: false, 
-        error: "Error al verificar existencia en base de datos" 
+      return res.status(500).json({
+        success: false,
+        error: "Error al verificar existencia en base de datos"
       });
     }
 
@@ -951,9 +965,9 @@ app.post("/api/running/guardar-imagen", (req, res) => {
       db.query(updateQuery, [imagenFinal, userId, fecha_evento], (err, result) => {
         if (err) {
           console.error('Error al actualizar imagen:', err);
-          return res.status(500).json({ 
-            success: false, 
-            error: `Error al actualizar imagen: ${err.message}` 
+          return res.status(500).json({
+            success: false,
+            error: `Error al actualizar imagen: ${err.message}`
           });
         }
 
@@ -975,9 +989,9 @@ app.post("/api/running/guardar-imagen", (req, res) => {
       db.query(insertQuery, [userId, fecha_evento, imagenFinal], (err, result) => {
         if (err) {
           console.error('Error al insertar imagen:', err);
-          return res.status(500).json({ 
-            success: false, 
-            error: `Error al guardar imagen: ${err.message}` 
+          return res.status(500).json({
+            success: false,
+            error: `Error al guardar imagen: ${err.message}`
           });
         }
 
@@ -997,7 +1011,7 @@ app.post("/api/running/guardar-imagen", (req, res) => {
 app.get("/api/running/obtener-disenos/:usuario_id/:year/:month", (req, res) => {
   const { usuario_id, year, month } = req.params;
   const userId = Number.parseInt(usuario_id);
-  
+
   if (!usuario_id || isNaN(userId) || userId <= 0) {
     return res.status(400).json({ success: false, error: "ID de usuario requerido y válido" });
   }
@@ -1036,21 +1050,21 @@ app.get("/api/running/obtener-disenos/:usuario_id/:year/:month", (req, res) => {
 app.get("/api/running/obtener-canva/:usuario_id/:year/:month", (req, res) => {
   const { usuario_id, year, month } = req.params;
   const userId = Number.parseInt(usuario_id);
-  
+
   if (!usuario_id || isNaN(userId) || userId <= 0) {
-    return res.status(400).json({ 
-      success: false, 
-      error: "ID de usuario requerido y válido" 
+    return res.status(400).json({
+      success: false,
+      error: "ID de usuario requerido y válido"
     });
   }
 
   const yearNum = Number.parseInt(year);
   const monthNum = Number.parseInt(month);
-  
+
   if (isNaN(yearNum) || isNaN(monthNum) || monthNum < 1 || monthNum > 12) {
-    return res.status(400).json({ 
-      success: false, 
-      error: "Año y mes deben ser números válidos" 
+    return res.status(400).json({
+      success: false,
+      error: "Año y mes deben ser números válidos"
     });
   }
 
@@ -1073,16 +1087,16 @@ app.get("/api/running/obtener-canva/:usuario_id/:year/:month", (req, res) => {
   db.query(query, [userId, yearNum, monthNum], (err, results) => {
     if (err) {
       console.error('Error al obtener imágenes de running_canva:', err);
-      return res.status(500).json({ 
-        success: false, 
-        error: "Error en la base de datos", 
-        debug: err.message 
+      return res.status(500).json({
+        success: false,
+        error: "Error en la base de datos",
+        debug: err.message
       });
     }
 
     const imagenesProcessed = results.map(canva => {
       const canvaProcessed = { ...canva };
-      
+
       if (canva.imagen) {
         try {
           canvaProcessed.imagen_base64 = validarYLimpiarBase64(canva.imagen, false);
@@ -1091,7 +1105,7 @@ app.get("/api/running/obtener-canva/:usuario_id/:year/:month", (req, res) => {
           canvaProcessed.imagen_base64 = null;
         }
       }
-      
+
       if (canva.link_canva) {
         try {
           canvaProcessed.link_canva_parsed = JSON.parse(canva.link_canva);
@@ -1099,7 +1113,7 @@ app.get("/api/running/obtener-canva/:usuario_id/:year/:month", (req, res) => {
           canvaProcessed.link_canva_parsed = canva.link_canva;
         }
       }
-      
+
       return canvaProcessed;
     });
 
@@ -1107,10 +1121,10 @@ app.get("/api/running/obtener-canva/:usuario_id/:year/:month", (req, res) => {
       success: true,
       imagenes: imagenesProcessed,
       count: imagenesProcessed.length,
-      debug: { 
-        año: yearNum, 
+      debug: {
+        año: yearNum,
         mes: monthNum,
-        usuario_id: userId 
+        usuario_id: userId
       }
     });
   });
@@ -1119,7 +1133,7 @@ app.get("/api/running/obtener-canva/:usuario_id/:year/:month", (req, res) => {
 app.get("/api/running/imagen/:usuario_id/:fecha_evento", (req, res) => {
   const { usuario_id, fecha_evento } = req.params;
   const userId = Number.parseInt(usuario_id);
-  
+
   if (!usuario_id || isNaN(userId) || userId <= 0) {
     return res.status(400).json({ success: false, error: "ID de usuario requerido y válido" });
   }
@@ -1156,6 +1170,44 @@ app.get("/api/running/imagen/:usuario_id/:fecha_evento", (req, res) => {
   });
 });
 
+// ===== MENU PARA DROPDOWN =====
+app.get("/api/menu", (req, res) => {
+  const query = "SELECT id, nombre, precio FROM menu WHERE activo = 1 ORDER BY nombre";
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Error obteniendo menú:", err);
+      return res.status(500).json({
+        success: false,
+        error: "Error en base de datos"
+      });
+    }
+
+    res.json(results);
+  });
+});
+
+app.get("/api/precios-domicilio", (req, res) => {
+  const query = `
+    SELECT id, barrio, precio 
+    FROM precios_domicilio
+    WHERE activo = 1 
+    ORDER BY barrio
+  `;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Error obteniendo domicilios:", err);
+      return res.status(500).json({
+        success: false,
+        error: "Error en base de datos"
+      });
+    }
+
+    res.json(results);
+  });
+});
+
 // ========== WEBSOCKET SETUP ==========
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server, path: "/ws" });
@@ -1175,8 +1227,8 @@ wss.on("connection", (ws) => {
 });
 
 // ========== INICIAR SERVIDOR ==========
-server.listen(port, () => {
-  console.log(`Backend + WebSocket corriendo en http://localhost:${port}`);
+server.listen(port, '0.0.0.0', () => {
+  console.log(`Backend + WebSocket corriendo en http://0.0.0.0:${port}`);
   console.log(`Endpoints disponibles:`);
   console.log(`   POST /api/auth/login`);
   console.log(`   GET  /api/db-test`);
@@ -1193,5 +1245,5 @@ server.listen(port, () => {
   console.log(`   GET  /api/running/obtener-disenos/:usuario_id/:year/:month`);
   console.log(`   GET  /api/running/obtener-canva/:usuario_id/:year/:month`);
   console.log(`   GET  /api/running/imagen/:usuario_id/:fecha_evento`);
-  console.log(`WebSocket disponible en: ws://localhost:${port}/ws`);
+  console.log(`WebSocket disponible en: ws://0.0.0.0:${port}/ws`);
 });

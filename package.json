@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "description": "Proyecto Healthy Bite: frontend, backend y XAMPP en ejecución conjunta.",
-  "scripts": {
-    "start": "concurrently \"npm run xampp\" \"npm run mysql\" \"npm --prefix frontend start\" \"npm --prefix backend start\"",
-    "xampp": "powershell -ExecutionPolicy Bypass -File ./start-xampp.ps1",
-    "mysql": "powershell -ExecutionPolicy Bypass -File ./start-mysql.ps1"
-  },
+ "scripts": {
+  "start": "concurrently \"npm run xampp\" \"npm run start-backend-js\" \"npm --prefix frontend start\"",
+  "xampp": "powershell -ExecutionPolicy Bypass -File ./start-xampp.ps1",
+  "start-backend-js": "node start-backend.js"
+},
   "devDependencies": {
     "autoprefixer": "^10.4.21",
     "concurrently": "^9.1.2",

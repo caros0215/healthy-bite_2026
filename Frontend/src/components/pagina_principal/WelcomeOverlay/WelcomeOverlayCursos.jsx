@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect, useRef } from "react"
 import styles from "./WelcomeOverlayCursos.module.css"
+import API_URL from "../../../config/api"
 
 const WelcomeOverlayCursos = ({ onClose, usuario_id = 1 }) => {
   const [imageUrl, setImageUrl] = useState("")
@@ -63,7 +64,7 @@ const WelcomeOverlayCursos = ({ onClose, usuario_id = 1 }) => {
       const controller = new AbortController()
       const timeoutId = setTimeout(() => controller.abort(), 10000) // 10s timeout
 
-      const response = await fetch(`http://localhost:5000/api/cursos/ultima-imagen/${usuario_id}`, {
+      const response = await fetch(`${API_URL}/api/cursos/ultima-imagen/${usuario_id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

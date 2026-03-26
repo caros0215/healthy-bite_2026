@@ -2,8 +2,8 @@
 
 import { useRef, useState, useEffect } from "react"
 import styles from "./EventosSliders.module.css"
-import video1 from "../../../assets/images/video_21.mp4"
-import video2 from "../../../assets/images/vid_3.mp4"
+import video1 from "../../../assets/images/video_21.webm"
+import video2 from "../../../assets/images/cursos.mp4"
 import video4 from "../../../assets/images/vid_1.webm"
 import video3 from "../../../assets/images/vid_2.webm"
 import imagen5 from "../../../assets/images/imagen_3.webp"
