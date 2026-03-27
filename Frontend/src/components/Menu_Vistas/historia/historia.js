@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react"
 import styles from "./historia.module.css"
 import imagen1 from "../../../assets/images/12.webp"
-import imagen2 from "../../../assets/images/fundador_3-.webp"
-import imagen3 from "../../../assets/images/IMG_8719.webp"
-import imagen4 from "../../../assets/images/bowl.webp"
-import imagen5 from "../../../assets/images/helado_2.webp"
-import heroCollage from "../../../assets/images/hero_2.webp"
+const imagen2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620253/fundador_3-_gy9lxf.webp";
+const imagen3 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620309/IMG_8719_r03hoo.webp";
+const imagen4 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620191/bowl_e2zgbf.webp";
+const imagen5 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620294/helado_2_hpgmjj.webp";
+const heroCollage = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620294/hero_2_efwbq4.webp";
 import bgHealthy from "../../../assets/images/fondo.jpeg"
 
 // ← Cambiá este número por el tuyo

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import CookieConsent from "../../pagina_principal/CookieConsent/CookieConsent"
-import LogoWhite from "../../../assets/images/logo_blanco.webp"
+const LogoWhite = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620329/logo_blanco_speogo.webp";
 import styles from "./Real_food_revolution.module.css"
 import imagen_1 from "../../../assets/images/platos_2.webp"
 import Proposito from "./Proposito"

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './Frases.module.css';
-import imagen2 from "../../../assets/images/healthy_bite_qr.webp";
+const imagen2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620280/healthy_bite_qr_ftcd7l.webp";
 import { Facebook, Instagram, Twitter, Youtube, QrCode, Music, Plus, Share2 } from 'lucide-react';
 
 const Footer = () => {

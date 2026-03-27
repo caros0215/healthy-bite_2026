@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import CookieConsent from "../../pagina_principal/CookieConsent/CookieConsent"
 import styles from "./catering.module.css"
-import imagen_1 from "../../../assets/images/portada_2.webp"
-import image2 from "../../../assets/images/empresarial.webp"
+const imagen_1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620356/portada_2_suvktk.webp";
+const image2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620235/empresarial_gvribl.webp";
 import Corporativo from "./Corporativo"
 import ServiciosCorporativos from "./wellness-services"
 import MenuSlider3 from "./Menuslider_3"

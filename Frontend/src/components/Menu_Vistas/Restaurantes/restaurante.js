@@ -5,15 +5,15 @@ import { useEffect, useRef, useState } from "react"
 import styles from "./LandingPage.module.css"
 import CookieConsent from "../CookieConsent/CookieConsent"
 import miVideo from "../../../assets/images/video_1.mp4"
-import LogoColor from "../../../assets/images/logo_verde.webp"
-import LogoWhite from "../../../assets/images/logo_blanco.webp"
+const LogoColor = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620330/logo_verde_fezbm7.png";
+const LogoWhite = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620329/logo_blanco_speogo.webp";
 import MenuSlider from "../MenuSlider/MenuSlider"
 import EventosSlider from "../EventosSlider/EventosSlider"
 import TieredCollapsible from "../TieredCollapsible/TieredCollapsible"
 import Frases from "../Frases/Frases"
 import GridSections from "../GridSections/GridSections"
 import phoneImage from "../../../assets/images/phone_14_01-Photoroom.webp"
-import phoneImage2 from "../../../assets/images/diagonal_2.webp"
+const phoneImage2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620234/diagonal_2_y3mosb.webp";
 import { menuImages } from "../../../data/menuImages"
 
 export default function CantinaPage() {

@@ -2,12 +2,12 @@
 
 import { useRef, useState } from "react"
 import styles from "./MenuSliderFood.module.css"
-import imagen1 from "../../../assets/images/plato_4.webp"
-import imagen2 from "../../../assets/images/plato_5.webp"
-import imagen3 from "../../../assets/images/plato_6-.webp"
-import imagen4 from "../../../assets/images/plato_7.webp"
-import imagen5 from "../../../assets/images/plato_8.webp"
-import imagen6 from "../../../assets/images/plato_9.webp"
+const imagen1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620340/plato_4_eupcd3.webp";
+const imagen2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620340/plato_5_uqka1v.webp";
+const imagen3 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620347/plato_6-_npmlwk.webp";
+const imagen4 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620347/plato_7_snlxmt.webp";
+const imagen5 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620347/plato_8_wax5jt.webp";
+const imagen6 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620351/plato_9_k7la4q.webp";
 
 const MenuSlider = () => {
   const containerRef = useRef(null)

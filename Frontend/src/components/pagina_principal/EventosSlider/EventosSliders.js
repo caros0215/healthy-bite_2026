@@ -6,9 +6,9 @@ import video1 from "../../../assets/images/video_21.webm"
 import video2 from "../../../assets/images/cursos.mp4"
 import video4 from "../../../assets/images/vid_1.webm"
 import video3 from "../../../assets/images/vid_2.webm"
-import imagen5 from "../../../assets/images/imagen_3.webp"
-import imagen6 from "../../../assets/images/imagen_5.webp"
-import logo from "../../../assets/images/artes_Mesa de trabajo 1.webp"
+const imagen5 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620301/imagen_3_pba6t4.webp";
+const imagen6 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620305/imagen_5_j3tk3k.webp";
+const logo = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620188/artes_Mesa_de_trabajo_1_oytyhc.webp";
 
 const EventosSlider = () => {
   const containerRef = useRef(null)

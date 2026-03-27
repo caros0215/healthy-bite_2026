@@ -13,8 +13,8 @@ import Pedido from "../catering/pedido"
 import Verde from "../catering/verde"
 
 // Importar las imágenes directamente
-import image1 from "../../../assets/images/plato_2.webp"
-import image2 from "../../../assets/images/portada_2.webp"
+const image1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620340/plato_2_rw0img.webp";
+const image2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620356/portada_2_suvktk.webp";
 import imagen_1 from "../../../assets/images/1.webp"
 import imagenAlimentacion from "../../../assets/images/16.webp"
 

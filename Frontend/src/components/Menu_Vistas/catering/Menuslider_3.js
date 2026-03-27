@@ -1,11 +1,11 @@
 import styles from "./Menuslider.module.css"
-import heroImage from "../../../assets/images/run_2.webp"
-import imagen_1 from "../../../assets/images/101.webp"
-import imagen_2 from "../../../assets/images/102.webp"
-import imagen_3 from "../../../assets/images/103.webp"
-import imagen_4 from "../../../assets/images/104.webp"
-import imagen_5 from "../../../assets/images/105.webp"
-import imagen_6 from "../../../assets/images/101.webp"
+const heroImage = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620366/run_2_apufyf.webp";
+import imagen_1 from "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620366/101_fsjpga.webp"
+import imagen_2 from "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620366/102_qhqgul.webp"
+import imagen_3 from "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620366/103_hqowin.webp"
+import imagen_4 from "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620366/104_xpyzsx.webp"
+import imagen_5 from "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620366/105_xn2cqo.webp"
+import imagen_6 from "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620366/101_fsjpga.webp"
 
 const MenuRestaurant = () => {
   // Datos de los platos

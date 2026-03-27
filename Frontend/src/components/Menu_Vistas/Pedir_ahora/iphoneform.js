@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
 import styles from './IPhoneForm.module.css'
-import imagen1 from '../../../assets/images/phone_14_01-Photoroom-1.webp';
-import imagen2 from '../../../assets/images/ipad21_2.webp';
-import imagen3 from '../../../assets/images/senal_3.webp';
-import imagen4 from '../../../assets/images/artes-04.webp';
+const imagen1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620337/phone_14_01-Photoroom-1_znku7l.webp";
+const imagen2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620318/ipad21_2_uocoir.webp";
+const imagen3 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620367/senal_3_wtvntt.webp";
+const imagen4 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620189/artes-04_rthq5e.webp";
 import menu1 from '../../../assets/images/2026 MENU HEALTHYBITE-1.webp';
 import menu2 from '../../../assets/images/2026 MENU HEALTHYBITE-2.webp';
 import menu3 from '../../../assets/images/2026 MENU HEALTHYBITE-3.webp';

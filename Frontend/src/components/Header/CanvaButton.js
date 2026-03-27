@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import "./CanvaButton.css"
-import imagen1 from "../../assets/images/canva.webp" // Asegúrate de que la ruta sea correcta
+const imagen1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620215/canva_xtx6mo.webp";
 
 export default function CanvaIntegration() {
   const [isLoading, setIsLoading] = useState(false)

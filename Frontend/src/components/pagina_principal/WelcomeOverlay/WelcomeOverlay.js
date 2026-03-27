@@ -1,9 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
 import "./WelcomeOverlay.css";
-import loaderGif from '../../../assets/images/logo_oscillate.gif';
+const loaderGif = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620330/logo_oscillate_dfzlda.gif";
 // ✅ Importa tu imagen por defecto cuando la tengas — reemplaza la ruta
-import defaultImage from '../../../assets/images/artes-04.webp';
+const defaultImage = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620189/artes-04_rthq5e.webp";
 import API_URL from "../../../config/api"
 const DEFAULT_IMAGE = defaultImage; // Cambia null por: defaultImage
 
