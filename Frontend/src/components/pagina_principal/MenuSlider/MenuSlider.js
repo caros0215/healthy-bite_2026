@@ -2,12 +2,12 @@
 
 import { useRef } from "react"
 import "./MenuSlider.css"
-import imagen1 from "../../../assets/images/21.webp"
-import imagen2 from "../../../assets/images/1.webp"
-import imagen3 from "../../../assets/images/18.webp"
-import imagen4 from "../../../assets/images/2.webp"
-import imagen5 from "../../../assets/images/17.webp"
-import imagen6 from "../../../assets/images/14.webp"
+const imagen1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620151/21_biljox.webp";
+const imagen2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620133/1_fvkwsy.webp";
+const imagen3 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620147/18_ghcud8.webp";
+const imagen4 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620134/2_gzl2jz.webp";
+const imagen5 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620147/17_r0vqqz.webp";
+const imagen6 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620143/14_tkuhg7.webp";
 
 const MenuSlider = () => {
   const containerRef = useRef(null)
