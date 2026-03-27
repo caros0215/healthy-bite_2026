@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import CookieConsent from "../../pagina_principal/CookieConsent/CookieConsent"
 const LogoWhite = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620329/logo_blanco_speogo.webp";
 import styles from "./Real_food_revolution.module.css"
-import imagen_1 from "../../../assets/images/platos_2.webp"
+const imagen_1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620340/plato_2_rw0img.webp";
 import Proposito from "./Proposito"
 import MenuSlider2 from "../Real_food/MenuSliderFood"
 import Frases2 from "../Real_food/Frases2"

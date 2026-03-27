@@ -2,10 +2,10 @@
 
 import { useRef, useState, useEffect } from "react"
 import styles from "./EventosSliders.module.css"
-import video1 from "../../../assets/images/video_21.webm"
-import video2 from "../../../assets/images/cursos.mp4"
-import video4 from "../../../assets/images/vid_1.webm"
-import video3 from "../../../assets/images/vid_2.webm"
+const video1 = "https://res.cloudinary.com/dxh5zrylb/video/upload/vid_21_sphwjq.webm";
+const video2 = "https://res.cloudinary.com/dxh5zrylb/video/upload/cursos_zdc30f.mp4";
+const video4 = "https://res.cloudinary.com/dxh5zrylb/video/upload/vid_1_r9eijh.webm";
+const video3 = "https://res.cloudinary.com/dxh5zrylb/video/upload/vid_2_pvlukp.webm";
 const imagen5 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620301/imagen_3_pba6t4.webp";
 const imagen6 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620305/imagen_5_j3tk3k.webp";
 const logo = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620188/artes_Mesa_de_trabajo_1_oytyhc.webp";

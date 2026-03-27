@@ -4,16 +4,16 @@ const imagen1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620337/p
 const imagen2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620318/ipad21_2_uocoir.webp";
 const imagen3 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620367/senal_3_wtvntt.webp";
 const imagen4 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620189/artes-04_rthq5e.webp";
-import menu1 from '../../../assets/images/2026 MENU HEALTHYBITE-1.webp';
-import menu2 from '../../../assets/images/2026 MENU HEALTHYBITE-2.webp';
-import menu3 from '../../../assets/images/2026 MENU HEALTHYBITE-3.webp';
-import menu4 from '../../../assets/images/2026 MENU HEALTHYBITE-4.webp';
-import menu5 from '../../../assets/images/2026 MENU HEALTHYBITE-5.webp';
-import menu6 from '../../../assets/images/2026 MENU HEALTHYBITE-6.webp';
-import menu7 from '../../../assets/images/2026 MENU HEALTHYBITE-7.webp';
-import menu8 from '../../../assets/images/2026 MENU HEALTHYBITE-8.webp';
-import menu9 from '../../../assets/images/2026 MENU HEALTHYBITE-9.webp';
-import menu10 from '../../../assets/images/2026 MENU HEALTHYBITE-10.webp';
+const menu1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620165/2026_MENU_HEALTHYBITE-1_qdl8px.webp";
+const menu2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620165/2026_MENU_HEALTHYBITE-2_gvr7th.webp";
+const menu3 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620167/2026_MENU_HEALTHYBITE-3_wgz2sh.webp";
+const menu4 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620171/2026_MENU_HEALTHYBITE-4_ur8hh3.webp";
+const menu5 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620171/2026_MENU_HEALTHYBITE-5_uaz1fj.webp";
+const menu6 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620172/2026_MENU_HEALTHYBITE-6_gootga.webp";
+const menu7 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620175/2026_MENU_HEALTHYBITE-7_fg2q3z.webp";
+const menu8 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620175/2026_MENU_HEALTHYBITE-8_bzhpmp.webp";
+const menu9 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620175/2026_MENU_HEALTHYBITE-9_oqc5pn.webp";
+const menu10 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620176/2026_MENU_HEALTHYBITE-10_adp7gp.webp";
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000"
 

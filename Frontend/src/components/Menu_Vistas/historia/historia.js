@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react"
 import styles from "./historia.module.css"
-import imagen1 from "../../../assets/images/12.webp"
+const imagen1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620142/12_i0jxep.webp";
 const imagen2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620253/fundador_3-_gy9lxf.webp";
 const imagen3 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620309/IMG_8719_r03hoo.webp";
 const imagen4 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620191/bowl_e2zgbf.webp";
 const imagen5 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620294/helado_2_hpgmjj.webp";
 const heroCollage = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620294/hero_2_efwbq4.webp";
-import bgHealthy from "../../../assets/images/fondo.jpeg"
+const bgHealthy = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620240/fondo_ykmrm0.jpg";
 
 // ← Cambiá este número por el tuyo
 const WHATSAPP_NUMBER = "573001234567"
