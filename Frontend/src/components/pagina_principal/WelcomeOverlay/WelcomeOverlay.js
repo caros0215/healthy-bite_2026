@@ -1,17 +1,19 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import "./WelcomeOverlay.css";
+
 const loaderGif = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620330/logo_oscillate_dfzlda.gif";
-// ✅ Importa tu imagen por defecto cuando la tengas — reemplaza la ruta
 const defaultImage = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620189/artes-04_rthq5e.webp";
 import API_URL from "../../../config/api"
-const DEFAULT_IMAGE = defaultImage; // Cambia null por: defaultImage
+const DEFAULT_IMAGE = defaultImage;
 
 const WelcomeOverlay = ({ onClose }) => {
+  const router = useRouter();
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [noImage, setNoImage] = useState(false); // ✅ nuevo: controla si no hay imagen
+  const [noImage, setNoImage] = useState(false);
   const [isCanvaLink, setIsCanvaLink] = useState(false);
 
   useEffect(() => {
@@ -56,13 +58,11 @@ const WelcomeOverlay = ({ onClose }) => {
         }
         console.log("✅ Imagen cargada exitosamente");
       } else {
-        // ✅ CAMBIO: en vez de error, marcar noImage
         setNoImage(true);
         setImageUrl(DEFAULT_IMAGE || "");
       }
     } catch (err) {
       console.error("❌ Error fetching latest image:", err);
-      // ✅ CAMBIO: mostrar "No hay imagen creada" en vez del mensaje de error técnico
       setNoImage(true);
       setImageUrl(DEFAULT_IMAGE || "");
       setError("No hay imagen creada");
@@ -76,15 +76,21 @@ const WelcomeOverlay = ({ onClose }) => {
     console.log("🎨 Imagen actual:", imageUrl);
     console.log("🔗 Es link de Canva:", isCanvaLink);
 
+    // Guardar información en sessionStorage si es necesario
+    if (imageUrl && !noImage) {
+      sessionStorage.setItem('ultimaImagen', imageUrl);
+      sessionStorage.setItem('esCanvaLink', isCanvaLink.toString());
+    }
+
     if (isCanvaLink) {
       const mensaje = `Hola! Me interesa este diseño de Canva: ${imageUrl}`;
-      // window.open(`https://wa.me/1234567890?text=${encodeURIComponent(mensaje)}`)
       console.log("📱 Mensaje para WhatsApp:", mensaje);
     } else {
       console.log("📱 Se puede crear mensaje con la imagen base64 o usar otro método");
     }
 
     onClose();
+    router.push("/pedir");
   };
 
   const handleBackgroundClick = (e) => {
@@ -96,7 +102,6 @@ const WelcomeOverlay = ({ onClose }) => {
   const handleImageError = () => {
     console.error("❌ Error loading image from URL/Base64:", imageUrl);
     console.error("🔗 Es link de Canva:", isCanvaLink);
-    // ✅ CAMBIO: en vez de SVG de error, marcar noImage
     setNoImage(true);
     setImageUrl(DEFAULT_IMAGE || "");
   };
@@ -142,7 +147,7 @@ const WelcomeOverlay = ({ onClose }) => {
                 </div>
               </div>
             ) : noImage && !DEFAULT_IMAGE ? (
-              /* ✅ NUEVO: bloque "No hay imagen creada" */
+              /* NUEVO: bloque "No hay imagen creada" */
               <div className="no-image-container">
                 <div className="no-image-icon">🍽️</div>
                 <p className="no-image-text">No hay imagen creada</p>
@@ -188,7 +193,6 @@ const WelcomeOverlay = ({ onClose }) => {
 
           {error && (
             <div className="error-container">
-              {/* ✅ CAMBIO: mensaje limpio en vez de técnico */}
               <p className="error-message">⚠️ {error}</p>
               <button onClick={fetchLatestImage} className="retry-button">
                 Reintentar
