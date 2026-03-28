@@ -1,14 +1,11 @@
-"use client";
+"use client";   // ← Puedes quitar esta línea si no estás usando Next.js
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";   // ← Importante
 import "./WelcomeOverlay.css";
 
 const loaderGif = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620330/logo_oscillate_dfzlda.gif";
 const defaultImage = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620189/artes-04_rthq5e.webp";
 
 const WelcomeOverlay = ({ onClose }) => {
-  const router = useRouter();                    // ← Nuevo
-
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -28,14 +25,10 @@ const WelcomeOverlay = ({ onClose }) => {
       const usuario_id = 1;
       const response = await fetch(`${API_URL}/api/almuerzos/ultima-imagen/${usuario_id}`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       });
 
-      if (!response.ok) {
-        throw new Error(`Error ${response.status}: ${response.statusText}`);
-      }
+      if (!response.ok) throw new Error(`Error ${response.status}`);
 
       const data = await response.json();
 
@@ -49,15 +42,13 @@ const WelcomeOverlay = ({ onClose }) => {
             : `data:image/png;base64,${data.imagen}`;
           setImageUrl(base64Image);
           setIsCanvaLink(false);
-        } else {
-          throw new Error("No hay imagen disponible");
         }
       } else {
         setNoImage(true);
         setImageUrl(defaultImage);
       }
     } catch (err) {
-      console.error("❌ Error fetching latest image:", err);
+      console.error("❌ Error fetching image:", err);
       setNoImage(true);
       setImageUrl(defaultImage);
       setError("No hay imagen creada");
@@ -66,21 +57,20 @@ const WelcomeOverlay = ({ onClose }) => {
     }
   };
 
-  // ✅ NUEVA FUNCIÓN - Navega a /Pedir
+  // ✅ Función corregida para Create React App
   const handlePedirAhora = () => {
     console.log("🛒 Redirigiendo a /Pedir...");
-    onClose();           // Cierra el overlay
-    router.push("/Pedir");   // Navega a la página de Pedir
+    onClose();                    // Cierra el overlay primero
+    
+    // Redirección simple y confiable
+    window.location.href = "/Pedir";
   };
 
   const handleBackgroundClick = (e) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
+    if (e.target === e.currentTarget) onClose();
   };
 
   const handleImageError = () => {
-    console.error("❌ Error loading image:", imageUrl);
     setNoImage(true);
     setImageUrl(defaultImage);
   };
@@ -89,39 +79,18 @@ const WelcomeOverlay = ({ onClose }) => {
     <div className="welcome-overlay" onClick={handleBackgroundClick}>
       <div className="welcome-main-container">
         
-        {/* Contenedor de la imagen */}
+        {/* Imagen + Cerrar */}
         <div className="welcome-content">
-          <button
-            onClick={onClose}
-            className="close-button"
-            aria-label="Cerrar"
-          >
-            <svg
-              width="24"
-              height="24"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
+          <button onClick={onClose} className="close-button" aria-label="Cerrar">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
 
           <div className="image-container">
             {loading ? (
               <div className="image-loading">
-                <div className="spinner">
-                  <img
-                    src={loaderGif}
-                    alt="Cargando..."
-                    className="loading-gif"
-                  />
-                </div>
+                <img src={loaderGif} alt="Cargando..." className="loading-gif" />
               </div>
             ) : noImage ? (
               <div className="no-image-container">
@@ -131,23 +100,18 @@ const WelcomeOverlay = ({ onClose }) => {
             ) : (
               <div className="image-wrapper">
                 <img
-                  src={imageUrl}
+                  src={imageUrl || defaultImage}
                   alt="Última imagen"
                   className="welcome-image"
                   onError={handleImageError}
-                  crossOrigin="anonymous"
                 />
-                {isCanvaLink && (
-                  <div className="canva-badge">
-                    <span>🎨 Canva</span>
-                  </div>
-                )}
+                {isCanvaLink && <div className="canva-badge"><span>🎨 Canva</span></div>}
               </div>
             )}
           </div>
         </div>
 
-        {/* Contenedor del texto y botón */}
+        {/* Texto y Botón */}
         <div className="welcome-text-content">
           <h3 className="welcome-title">¡Bienvenido!</h3>
 
@@ -156,10 +120,7 @@ const WelcomeOverlay = ({ onClose }) => {
             si deseas pedir dale click al botón <strong>Pedir Ahora</strong>
           </p>
 
-          <button 
-            onClick={handlePedirAhora} 
-            className="pedir-button"
-          >
+          <button onClick={handlePedirAhora} className="pedir-button">
             Pedir Ahora
           </button>
 
