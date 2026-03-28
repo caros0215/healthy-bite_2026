@@ -1,3 +1,7 @@
+/* ============================================= */
+/*          SECTION - VIDEO + CARD               */
+/* ============================================= */
+
 .section {
   background: #ffffff;
   padding: 80px 24px;
@@ -30,7 +34,7 @@
   z-index: 1;
 }
 
-/* ── VIDEO ── */
+/* ==================== VIDEO ==================== */
 .videoWrapper {
   position: relative;
   border-radius: 20px;
@@ -40,6 +44,8 @@
   max-height: 720px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 0 auto;           /* Centrado */
+  max-width: 100%;
 }
 
 .videoWrapper:hover {
@@ -77,7 +83,7 @@
   letter-spacing: 0.02em;
 }
 
-/* ── CARD ── */
+/* ==================== CARD ==================== */
 .card {
   background: #f7f9f426;
   border: 1.5px solid #d4e6c3;
@@ -94,7 +100,7 @@
   width: 100%;
 }
 
-/* ── BALOO BHAIJAAN 2 — títulos destacados ── */
+/* ==================== TIPOGRAFÍA ==================== */
 .question {
   font-family: 'Baloo Bhaijaan 2', cursive;
   font-size: clamp(28px, 3.5vw, 52px);
@@ -105,7 +111,6 @@
 
 .question strong {
   color: #2d6a2d;
-  display: inline;
 }
 
 .divider {
@@ -130,7 +135,6 @@
   font-weight: 700;
   color: #2d6a2d;
   line-height: 1;
-  display: block;
 }
 
 .logo {
@@ -141,12 +145,7 @@
   align-self: center;
 }
 
-.dot {
-  font-size: 16px;
-  vertical-align: super;
-}
-
-/* ── POPPINS LIGHT — textos informativos ── */
+/* ==================== PRECIOS Y TEXTOS ==================== */
 .badge {
   display: inline-block;
   border: 1.5px solid #1a1a1a;
@@ -166,7 +165,6 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  text-align: center;
 }
 
 .priceMain {
@@ -174,7 +172,6 @@
   font-weight: 300;
   font-size: clamp(18px, 2vw, 30px);
   color: #1a1a1a;
-  margin: 0;
 }
 
 .priceValue {
@@ -182,7 +179,6 @@
   font-weight: 600;
   font-size: clamp(38px, 4.5vw, 65px);
   color: #1a1a1a;
-  margin: 0;
 }
 
 .savings {
@@ -190,7 +186,6 @@
   font-weight: 300;
   font-size: clamp(13px, 1.3vw, 20px);
   color: #555;
-  margin: 0;
 }
 
 .notes {
@@ -212,54 +207,70 @@
   margin: 0;
 }
 
-/* ── RESPONSIVE ── */
+/* ==================== RESPONSIVE ==================== */
+
 @media (max-width: 1024px) {
   .container {
-    grid-template-columns: 0.4fr 0.6fr;
-    gap: 24px;
+    grid-template-columns: 0.45fr 0.55fr;
+    gap: 30px;
   }
 }
 
 @media (max-width: 768px) {
   .section {
-    padding: 50px 20px;
+    padding: 60px 20px;
   }
 
   .container {
     grid-template-columns: 1fr;
-    gap: 36px;
+    gap: 40px;
   }
 
-  .video {
-    margin-left: 5%;
-  }
-
+  /* VIDEO CENTRADO EN CELULARES */
   .videoWrapper {
-    max-height: 400px;
+    max-width: 320px;      /* Ancho ideal para video vertical */
+    margin: 0 auto;        /* Centrado horizontal */
+    max-height: 460px;
   }
 
   .card {
-    padding: 32px 24px;
+    padding: 36px 28px;
   }
 
   .question {
-    font-size: 26px;
+    font-size: 28px;
   }
 
   .subtitle {
-    font-size: 20px;
+    font-size: 22px;
   }
 
   .number {
-    font-size: 56px;
+    font-size: 62px;
   }
 
   .priceValue {
-    font-size: 32px;
+    font-size: 36px;
   }
 
   .badge {
-    font-size: 14px;
-    padding: 10px 24px;
+    padding: 12px 28px;
+    font-size: 15px;
+  }
+}
+
+/* Celulares más pequeños */
+@media (max-width: 480px) {
+  .videoWrapper {
+    max-width: 280px;
+    max-height: 400px;
+  }
+
+  .section {
+    padding: 50px 16px;
+  }
+
+  .card {
+    padding: 32px 20px;
   }
 }
