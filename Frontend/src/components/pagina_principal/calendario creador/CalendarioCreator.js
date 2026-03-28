@@ -29,38 +29,23 @@ const CalendarioCreator = () => {
   const [selectedCategory, setSelectedCategory] = useState('cursos');
   const [mobileTab, setMobileTab] = useState('controls');
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  // Offset real del header externo (medido dinámicamente)
-  const [headerOffset, setHeaderOffset] = useState(0);
+  // Offset real del header externo (valor fijo para evitar solapamiento)
+  // Ajusta este valor segun la altura real de tu header externo (ej: 60px, 70px, etc.)
+  const HEADER_HEIGHT = 60;
 
   const canvasRef = useRef(null);
   const wrapperRef = useRef(null);
   const elementCounter = useRef(1);
 
-  // Medir la distancia desde el top del viewport hasta donde empieza nuestro componente
-  // Eso nos da el alto del header externo para usarlo como `top` en sticky
-  const measureHeaderOffset = useCallback(() => {
-    if (!wrapperRef.current) return;
-    const rect = wrapperRef.current.getBoundingClientRect();
-    // rect.top = distancia desde el top del viewport al inicio de nuestro componente
-    // Si es negativa (ya hicieron scroll) la ignoramos y usamos 0
-    setHeaderOffset(Math.max(rect.top, 0));
-  }, []);
-
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
-      measureHeaderOffset();
     };
     window.addEventListener('resize', handleResize);
-    window.addEventListener('scroll', measureHeaderOffset, { passive: true });
-    measureHeaderOffset();
-    const t = setTimeout(measureHeaderOffset, 200);
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('scroll', measureHeaderOffset);
-      clearTimeout(t);
     };
-  }, [measureHeaderOffset]);
+  }, []);
 
   const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   const daysOfWeek = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
@@ -259,7 +244,7 @@ const CalendarioCreator = () => {
 
   // Canvas en móvil: ocupa 75% del viewport height menos el offset del header
   const mobileCanvasW = Math.min(window.innerWidth - 20, 500);
-  const mobileCanvasH = Math.max(Math.round(window.innerHeight * 0.75) - headerOffset - 48, 220);
+  const mobileCanvasH = Math.max(Math.round(window.innerHeight * 0.75) - HEADER_HEIGHT - 48, 220);
 
   // ===== SIDEBAR =====
   const sidebarContent = (
@@ -398,7 +383,7 @@ const CalendarioCreator = () => {
   );
 
   return (
-    <div ref={wrapperRef} style={{ display: 'flex', flexDirection: 'column', width: '100%', height: isMobile ? 'auto' : '100vh', fontFamily: 'system-ui, -apple-system, sans-serif', background: '#f8f9fa' }}>
+    <div ref={wrapperRef} style={{ display: 'flex', flexDirection: 'column', width: '100%', height: isMobile ? 'auto' : '100vh', fontFamily: 'system-ui, -apple-system, sans-serif', background: '#f8f9fa', paddingTop: isMobile ? `${HEADER_HEIGHT}px` : 0 }}>
 
       {/* ── TAB BAR MÓVIL ──
           position: sticky + top = headerOffset  →  se queda visible pegado
@@ -410,7 +395,7 @@ const CalendarioCreator = () => {
           borderBottom: '2px solid #e9ecef',
           borderTop: '1px solid #e9ecef',
           position: 'sticky',
-          top: `${headerOffset}px`,   // respeta la altura real del header externo
+          top: 0,   // ahora el padding-top del contenedor ya da el espacio necesario
           zIndex: 100,
           flexShrink: 0,
         }}>
