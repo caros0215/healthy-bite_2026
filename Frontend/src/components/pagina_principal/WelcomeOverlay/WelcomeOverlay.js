@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import "./WelcomeOverlay.css";
 
 const loaderGif = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620330/logo_oscillate_dfzlda.gif";
@@ -9,7 +9,7 @@ import API_URL from "../../../config/api"
 const DEFAULT_IMAGE = defaultImage;
 
 const WelcomeOverlay = ({ onClose }) => {
-  const router = useRouter();
+  const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -90,7 +90,7 @@ const WelcomeOverlay = ({ onClose }) => {
     }
 
     onClose();
-    router.push("/pedir");
+    navigate("/pedir");
   };
 
   const handleBackgroundClick = (e) => {
