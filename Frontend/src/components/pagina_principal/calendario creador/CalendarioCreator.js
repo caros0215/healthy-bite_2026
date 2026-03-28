@@ -29,16 +29,47 @@ const CalendarioCreator = () => {
   const [selectedCategory, setSelectedCategory] = useState('cursos');
   const [mobileTab, setMobileTab] = useState('controls');
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  // Altura disponible para el canvas en móvil (medida dinámicamente)
+  const [canvasAreaHeight, setCanvasAreaHeight] = useState(400);
 
   const canvasRef = useRef(null);
+  const wrapperRef = useRef(null);
+  const tabBarRef = useRef(null);
   const elementCounter = useRef(1);
 
-  // Detectar cambios de tamaño
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+  // Medir cuánto espacio queda desde el tab bar hacia abajo
+  const measureCanvasHeight = useCallback(() => {
+    if (!tabBarRef.current) return;
+    const tabRect = tabBarRef.current.getBoundingClientRect();
+    const tabBottom = tabRect.bottom; // posición Y donde termina el tab bar
+    const viewportH = window.innerHeight;
+    const available = viewportH - tabBottom - 20; // 20px de padding
+    setCanvasAreaHeight(Math.max(available, 200));
   }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      measureCanvasHeight();
+    };
+    window.addEventListener('resize', handleResize);
+    // Medir tras render inicial y con pequeño delay por si el layout aún no asentó
+    const t1 = setTimeout(measureCanvasHeight, 50);
+    const t2 = setTimeout(measureCanvasHeight, 300);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [measureCanvasHeight]);
+
+  // Re-medir cuando cambia el tab en móvil
+  useEffect(() => {
+    if (isMobile) {
+      const t = setTimeout(measureCanvasHeight, 50);
+      return () => clearTimeout(t);
+    }
+  }, [mobileTab, isMobile, measureCanvasHeight]);
 
   const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   const daysOfWeek = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
@@ -79,14 +110,8 @@ const CalendarioCreator = () => {
     return d.toISOString().split('T')[0];
   };
 
-  useEffect(() => {
-    loadMonthDesigns();
-    cleanPreviousMonths();
-  }, [currentDate, selectedCategory]);
-
-  useEffect(() => {
-    loadDesignForDate(selectedDate);
-  }, [selectedDate, selectedCategory]);
+  useEffect(() => { loadMonthDesigns(); cleanPreviousMonths(); }, [currentDate, selectedCategory]);
+  useEffect(() => { loadDesignForDate(selectedDate); }, [selectedDate, selectedCategory]);
 
   const loadMonthDesigns = async () => {
     setIsLoading(true);
@@ -98,16 +123,11 @@ const CalendarioCreator = () => {
       const data = await response.json();
       if (data.success) {
         const designsByDay = {};
-        data.diseños.forEach(design => {
-          designsByDay[new Date(design.fecha).getDate()] = design;
-        });
+        data.diseños.forEach(design => { designsByDay[new Date(design.fecha).getDate()] = design; });
         setCalendarDesigns(designsByDay);
       }
-    } catch (error) {
-      console.error('Error cargando diseños:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    } catch (error) { console.error('Error cargando diseños:', error); }
+    finally { setIsLoading(false); }
   };
 
   const loadDesignForDate = async (date) => {
@@ -124,19 +144,10 @@ const CalendarioCreator = () => {
         if (design.elementos?.length > 0) {
           const first = design.elementos[0];
           setSelectedElement(first.id);
-          if (first.type === 'text') {
-            setText(first.content);
-            setFontSize(first.fontSize);
-            setSelectedColor(first.color);
-            setSelectedFont(first.fontFamily);
-          }
+          if (first.type === 'text') { setText(first.content); setFontSize(first.fontSize); setSelectedColor(first.color); setSelectedFont(first.fontFamily); }
         }
-      } else {
-        resetToDefault();
-      }
-    } catch (error) {
-      resetToDefault();
-    }
+      } else { resetToDefault(); }
+    } catch (error) { resetToDefault(); }
   };
 
   const cleanPreviousMonths = async () => {
@@ -145,23 +156,17 @@ const CalendarioCreator = () => {
       const mes = currentDate.getMonth() + 1;
       const endpoint = selectedCategory === 'cursos' ? 'cursos/limpiar-mes-anterior' : 'running/limpiar-mes-anterior';
       await fetch(`${API_URL}/api/${endpoint}/${userId}/${año}/${mes}`, { method: 'DELETE' });
-    } catch (error) {
-      console.error('Error limpiando meses:', error);
-    }
+    } catch (error) { console.error('Error limpiando meses:', error); }
   };
 
   const resetToDefault = () => {
     setElements([{ id: 'mainText', type: 'text', content: '¡Hola Mundo!', x: 200, y: 250, fontSize: 32, color: '#333333', fontFamily: 'Poppins', fontWeight: 'normal', fontStyle: 'normal', textShadow: '2px 2px 4px rgba(0,0,0,0.1)', webkitTextStroke: 'none' }]);
-    setSelectedElement('mainText');
-    setText('¡Hola Mundo!');
-    setBackground('white');
-    setDesignTitle('');
+    setSelectedElement('mainText'); setText('¡Hola Mundo!'); setBackground('white'); setDesignTitle('');
   };
 
   const saveDesign = async () => {
     if (!designTitle.trim()) { alert('Por favor ingresa un título'); return; }
-    setIsLoading(true);
-    setSaveStatus('Guardando...');
+    setIsLoading(true); setSaveStatus('Guardando...');
     try {
       const response = await fetch(`${API_URL}/api/${selectedCategory}/guardar-diseno`, {
         method: 'POST',
@@ -169,20 +174,10 @@ const CalendarioCreator = () => {
         body: JSON.stringify({ usuario_id: userId, fecha: formatDate(selectedDate), titulo: designTitle, elementos: elements, fondo: background })
       });
       const data = await response.json();
-      if (data.success) {
-        setSaveStatus('✅ Guardado correctamente');
-        await loadMonthDesigns();
-        setTimeout(() => setSaveStatus(''), 3000);
-      } else {
-        setSaveStatus('❌ Error al guardar');
-        setTimeout(() => setSaveStatus(''), 3000);
-      }
-    } catch (error) {
-      setSaveStatus('❌ Error al guardar');
-      setTimeout(() => setSaveStatus(''), 3000);
-    } finally {
-      setIsLoading(false);
-    }
+      if (data.success) { setSaveStatus('✅ Guardado correctamente'); await loadMonthDesigns(); setTimeout(() => setSaveStatus(''), 3000); }
+      else { setSaveStatus('❌ Error al guardar'); setTimeout(() => setSaveStatus(''), 3000); }
+    } catch (error) { setSaveStatus('❌ Error al guardar'); setTimeout(() => setSaveStatus(''), 3000); }
+    finally { setIsLoading(false); }
   };
 
   const updateSelectedElement = useCallback((updates) => {
@@ -207,23 +202,19 @@ const CalendarioCreator = () => {
   };
 
   const addSticker = (emoji) => {
-    const s = { id: `sticker_${elementCounter.current++}`, type: 'sticker', content: emoji, x: Math.random() * 400 + 200, y: Math.random() * 300 + 150, fontSize: 40 };
-    setElements(prev => [...prev, s]);
-    setSelectedElement(s.id);
+    const s = { id: `sticker_${elementCounter.current++}`, type: 'sticker', content: emoji, x: Math.random() * 300 + 50, y: Math.random() * 150 + 50, fontSize: 40 };
+    setElements(prev => [...prev, s]); setSelectedElement(s.id);
   };
 
   const addNewText = () => {
-    const t = { id: `text_${elementCounter.current++}`, type: 'text', content: 'Nuevo texto', x: Math.random() * 400 + 100, y: Math.random() * 300 + 100, fontSize: 32, color: '#333333', fontFamily: 'Poppins', fontWeight: 'normal', fontStyle: 'normal', textShadow: '2px 2px 4px rgba(0,0,0,0.1)', webkitTextStroke: 'none' };
-    setElements(prev => [...prev, t]);
-    setSelectedElement(t.id);
-    setText('Nuevo texto');
+    const t = { id: `text_${elementCounter.current++}`, type: 'text', content: 'Nuevo texto', x: Math.random() * 200 + 50, y: Math.random() * 100 + 50, fontSize: 32, color: '#333333', fontFamily: 'Poppins', fontWeight: 'normal', fontStyle: 'normal', textShadow: '2px 2px 4px rgba(0,0,0,0.1)', webkitTextStroke: 'none' };
+    setElements(prev => [...prev, t]); setSelectedElement(t.id); setText('Nuevo texto');
   };
 
   const deleteElement = () => {
     if (elements.length > 1) {
       const remaining = elements.filter(el => el.id !== selectedElement);
-      setElements(remaining);
-      setSelectedElement(remaining[0].id);
+      setElements(remaining); setSelectedElement(remaining[0].id);
     }
   };
 
@@ -256,9 +247,7 @@ const CalendarioCreator = () => {
   };
 
   const handleMouseDown = (e, elementId) => {
-    e.preventDefault();
-    setIsDragging(true);
-    setSelectedElement(elementId);
+    e.preventDefault(); setIsDragging(true); setSelectedElement(elementId);
     const rect = canvasRef.current.getBoundingClientRect();
     const element = elements.find(el => el.id === elementId);
     setDragOffset({ x: e.clientX - rect.left - element.x, y: e.clientY - rect.top - element.y });
@@ -279,7 +268,11 @@ const CalendarioCreator = () => {
     if (el?.type === 'text') { setText(el.content); setFontSize(el.fontSize); setSelectedColor(el.color); setSelectedFont(el.fontFamily); }
   };
 
-  // ===== SIDEBAR CONTENT (reutilizable) =====
+  // Dimensiones del canvas en móvil
+  const mobileCanvasW = Math.min(window.innerWidth - 20, 500);
+  const mobileCanvasH = Math.max(canvasAreaHeight - 20, 200);
+
+  // ===== SIDEBAR =====
   const sidebarContent = (
     <>
       <div style={{ marginBottom: '20px' }}>
@@ -290,8 +283,6 @@ const CalendarioCreator = () => {
           {selectedCategory === 'cursos' ? 'Diseños para cursos y capacitaciones' : 'Diseños para plan de entrenamiento'}
         </p>
       </div>
-
-      {/* Categoría */}
       <div style={{ marginBottom: '15px' }}>
         <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#333', fontSize: '13px' }}>Guardar en:</label>
         <div style={{ display: 'flex', gap: '8px' }}>
@@ -302,15 +293,11 @@ const CalendarioCreator = () => {
           ))}
         </div>
       </div>
-
-      {/* Toggle calendario */}
       <div style={{ marginBottom: '15px' }}>
         <button onClick={() => setShowCalendar(!showCalendar)} style={{ width: '100%', padding: '8px', background: showCalendar ? '#007bff' : '#6c757d', color: 'white', border: 'none', borderRadius: '8px', fontSize: '13px', cursor: 'pointer' }}>
           {showCalendar ? '🗓️ Ocultar Calendario' : '🗓️ Mostrar Calendario'}
         </button>
       </div>
-
-      {/* Calendario */}
       {showCalendar && (
         <div style={{ marginBottom: '20px', padding: '12px', background: '#f8f9fa', borderRadius: '12px', border: '1px solid #e9ecef' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
@@ -322,29 +309,21 @@ const CalendarioCreator = () => {
             {daysOfWeek.map(d => <div key={d} style={{ textAlign: 'center', fontSize: '11px', fontWeight: '600', color: '#666', padding: '6px 2px' }}>{d}</div>)}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '2px' }}>{renderCalendar()}</div>
-          <div style={{ marginTop: '10px', fontSize: '11px', color: '#666', textAlign: 'center' }}>
-            Seleccionado: {selectedDate.toLocaleDateString('es-ES')}
-          </div>
+          <div style={{ marginTop: '10px', fontSize: '11px', color: '#666', textAlign: 'center' }}>Seleccionado: {selectedDate.toLocaleDateString('es-ES')}</div>
         </div>
       )}
-
-      {/* Título */}
       <div style={{ marginBottom: '15px' }}>
         <label style={{ display: 'block', marginBottom: '6px', fontWeight: '600', color: '#333', fontSize: '13px' }}>Título del diseño:</label>
         <input type="text" value={designTitle} onChange={(e) => setDesignTitle(e.target.value)}
           placeholder={selectedCategory === 'cursos' ? "Ej: Curso de Marketing" : "Ej: Entrenamiento semanal"}
           style={{ width: '100%', padding: '8px 10px', border: '2px solid #e9ecef', borderRadius: '8px', fontSize: '13px', boxSizing: 'border-box' }} />
       </div>
-
-      {/* Guardar */}
       <div style={{ marginBottom: '20px' }}>
         <button onClick={saveDesign} disabled={isLoading} style={{ width: '100%', padding: '10px', background: isLoading ? '#6c757d' : '#28a745', color: 'white', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 'bold', cursor: isLoading ? 'not-allowed' : 'pointer' }}>
           {isLoading ? 'Guardando...' : '💾 Guardar Diseño'}
         </button>
         {saveStatus && <div style={{ marginTop: '8px', textAlign: 'center', fontSize: '13px', color: saveStatus.includes('✅') ? '#28a745' : '#dc3545' }}>{saveStatus}</div>}
       </div>
-
-      {/* Texto */}
       <div style={{ marginBottom: '20px' }}>
         <h3 style={{ fontSize: '14px', marginBottom: '12px', color: '#333' }}>📝 Texto</h3>
         <textarea value={text} onChange={handleTextChange} style={{ width: '100%', height: '55px', padding: '8px', border: '2px solid #e9ecef', borderRadius: '6px', fontSize: '13px', resize: 'vertical', boxSizing: 'border-box', marginBottom: '10px' }} />
@@ -375,16 +354,12 @@ const CalendarioCreator = () => {
           <button onClick={deleteElement} disabled={elements.length <= 1} style={{ flex: 1, padding: '8px', background: elements.length <= 1 ? '#6c757d' : '#dc3545', color: 'white', border: 'none', borderRadius: '6px', cursor: elements.length <= 1 ? 'not-allowed' : 'pointer', fontSize: '11px' }}>🗑️ Eliminar</button>
         </div>
       </div>
-
-      {/* Stickers */}
       <div style={{ marginBottom: '20px' }}>
         <h3 style={{ fontSize: '14px', marginBottom: '12px', color: '#333' }}>😊 Stickers</h3>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '6px' }}>
           {stickers.map(s => <button key={s} onClick={() => addSticker(s)} style={{ padding: '8px', background: '#f8f9fa', border: '2px solid #e9ecef', borderRadius: '8px', cursor: 'pointer', fontSize: '18px' }}>{s}</button>)}
         </div>
       </div>
-
-      {/* Fondos */}
       <div style={{ marginBottom: '20px' }}>
         <h3 style={{ fontSize: '14px', marginBottom: '12px', color: '#333' }}>🎨 Fondos</h3>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px' }}>
@@ -394,14 +369,50 @@ const CalendarioCreator = () => {
     </>
   );
 
-  // ===== CANVAS CONTENT =====
+  // ===== CANVAS =====
   const canvasContent = (
-    <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: isMobile ? 'flex-start' : 'center', padding: isMobile ? '10px' : '20px', background: '#f8f9fa', overflowX: 'auto', minHeight: isMobile ? 'auto' : '100%' }}>
-      <div ref={canvasRef} style={{ width: isMobile ? '100%' : '800px', maxWidth: '800px', height: isMobile ? '350px' : '600px', position: 'relative', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)', overflow: 'hidden', flexShrink: 0, ...getBackgroundStyle() }}
-        onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}>
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'flex-start',
+      padding: '10px',
+      background: '#f8f9fa',
+      width: '100%',
+      boxSizing: 'border-box',
+    }}>
+      <div
+        ref={canvasRef}
+        style={{
+          width: isMobile ? `${mobileCanvasW}px` : '800px',
+          height: isMobile ? `${mobileCanvasH}px` : '600px',
+          position: 'relative',
+          borderRadius: '12px',
+          boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+          overflow: 'hidden',
+          flexShrink: 0,
+          ...getBackgroundStyle()
+        }}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+      >
         {elements.map(element => (
-          <div key={element.id} onClick={() => handleElementClick(element.id)} onMouseDown={(e) => handleMouseDown(e, element.id)}
-            style={{ position: 'absolute', left: `${element.x}px`, top: `${element.y}px`, fontSize: `${element.fontSize}px`, color: element.color, fontFamily: element.fontFamily, fontWeight: element.fontWeight || 'normal', fontStyle: element.fontStyle || 'normal', textShadow: element.textShadow || 'none', WebkitTextStroke: element.webkitTextStroke || 'none', cursor: 'move', userSelect: 'none', padding: '4px', border: selectedElement === element.id ? '2px dashed #007bff' : '2px dashed transparent', borderRadius: '4px', background: selectedElement === element.id ? 'rgba(0,123,255,0.1)' : 'transparent', minWidth: '20px', minHeight: '20px' }}>
+          <div
+            key={element.id}
+            onClick={() => handleElementClick(element.id)}
+            onMouseDown={(e) => handleMouseDown(e, element.id)}
+            style={{
+              position: 'absolute', left: `${element.x}px`, top: `${element.y}px`,
+              fontSize: `${element.fontSize}px`, color: element.color, fontFamily: element.fontFamily,
+              fontWeight: element.fontWeight || 'normal', fontStyle: element.fontStyle || 'normal',
+              textShadow: element.textShadow || 'none', WebkitTextStroke: element.webkitTextStroke || 'none',
+              cursor: 'move', userSelect: 'none', padding: '4px',
+              border: selectedElement === element.id ? '2px dashed #007bff' : '2px dashed transparent',
+              borderRadius: '4px',
+              background: selectedElement === element.id ? 'rgba(0,123,255,0.1)' : 'transparent',
+              minWidth: '20px', minHeight: '20px'
+            }}
+          >
             {element.content}
           </div>
         ))}
@@ -416,22 +427,56 @@ const CalendarioCreator = () => {
   );
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'system-ui, -apple-system, sans-serif', background: '#f8f9fa' }}>
-
-      {/* TABS MÓVIL */}
+    <div
+      ref={wrapperRef}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        // ⚠️ NO usar height:100vh — el componente vive dentro de una página con su propio header
+        // En desktop: altura fija. En móvil: fluye naturalmente
+        height: isMobile ? 'auto' : '100vh',
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+        background: '#f8f9fa',
+      }}
+    >
+      {/* TAB BAR MÓVIL
+          - NO es sticky ni fixed: fluye debajo del header externo de la página
+          - marginTop: 10px para separarse del header */}
       {isMobile && (
-        <div style={{ display: 'flex', background: 'white', borderBottom: '2px solid #e9ecef', position: 'sticky', top: 0, zIndex: 200 }}>
-          <button onClick={() => setMobileTab('controls')} style={{ flex: 1, padding: '12px', background: mobileTab === 'controls' ? '#007bff' : 'white', color: mobileTab === 'controls' ? 'white' : '#333', border: 'none', cursor: 'pointer', fontWeight: '600', fontSize: '14px' }}>
+        <div
+          ref={tabBarRef}
+          style={{
+            display: 'flex',
+            background: 'white',
+            borderBottom: '2px solid #e9ecef',
+            marginTop: '10px',
+            flexShrink: 0,
+          }}
+        >
+          <button
+            onClick={() => setMobileTab('controls')}
+            style={{ flex: 1, padding: '12px', background: mobileTab === 'controls' ? '#007bff' : 'white', color: mobileTab === 'controls' ? 'white' : '#333', border: 'none', cursor: 'pointer', fontWeight: '600', fontSize: '14px' }}
+          >
             🎨 Controles
           </button>
-          <button onClick={() => setMobileTab('canvas')} style={{ flex: 1, padding: '12px', background: mobileTab === 'canvas' ? '#007bff' : 'white', color: mobileTab === 'canvas' ? 'white' : '#333', border: 'none', cursor: 'pointer', fontWeight: '600', fontSize: '14px' }}>
+          <button
+            onClick={() => setMobileTab('canvas')}
+            style={{ flex: 1, padding: '12px', background: mobileTab === 'canvas' ? '#007bff' : 'white', color: mobileTab === 'canvas' ? 'white' : '#333', border: 'none', cursor: 'pointer', fontWeight: '600', fontSize: '14px' }}
+          >
             🖼️ Canvas
           </button>
         </div>
       )}
 
-      <div style={{ display: 'flex', flex: 1, flexDirection: 'row', overflow: 'hidden' }}>
-
+      {/* CONTENIDO PRINCIPAL */}
+      <div style={{
+        display: 'flex',
+        flex: isMobile ? 'none' : 1,
+        flexDirection: 'row',
+        overflow: isMobile ? 'visible' : 'hidden',
+        minHeight: 0,
+      }}>
         {/* SIDEBAR */}
         <div style={{
           width: isMobile ? '100%' : '320px',
@@ -440,15 +485,21 @@ const CalendarioCreator = () => {
           padding: '15px',
           boxShadow: isMobile ? 'none' : '2px 0 10px rgba(0,0,0,0.1)',
           overflowY: 'auto',
-          height: isMobile ? 'calc(100vh - 48px)' : '100vh',
+          height: isMobile ? 'auto' : '100%',
           display: isMobile ? (mobileTab === 'controls' ? 'block' : 'none') : 'block',
-          boxSizing: 'border-box'
+          boxSizing: 'border-box',
         }}>
           {sidebarContent}
         </div>
 
-        {/* CANVAS */}
-        <div style={{ display: isMobile ? (mobileTab === 'canvas' ? 'flex' : 'none') : 'flex', flex: 1, width: isMobile ? '100%' : 'auto' }}>
+        {/* CANVAS — en móvil: altura = espacio medido desde el tab bar al fondo del viewport */}
+        <div style={{
+          display: isMobile ? (mobileTab === 'canvas' ? 'block' : 'none') : 'flex',
+          flex: isMobile ? 'none' : 1,
+          width: '100%',
+          height: isMobile ? `${canvasAreaHeight}px` : 'auto',
+          overflow: 'hidden',
+        }}>
           {canvasContent}
         </div>
       </div>
