@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import "./WelcomeOverlay.css";
 
 const loaderGif = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620330/logo_oscillate_dfzlda.gif";
@@ -9,7 +8,6 @@ import API_URL from "../../../config/api"
 const DEFAULT_IMAGE = defaultImage;
 
 const WelcomeOverlay = ({ onClose }) => {
-  const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -76,12 +74,6 @@ const WelcomeOverlay = ({ onClose }) => {
     console.log("🎨 Imagen actual:", imageUrl);
     console.log("🔗 Es link de Canva:", isCanvaLink);
 
-    // Guardar información en sessionStorage si es necesario
-    if (imageUrl && !noImage) {
-      sessionStorage.setItem('ultimaImagen', imageUrl);
-      sessionStorage.setItem('esCanvaLink', isCanvaLink.toString());
-    }
-
     if (isCanvaLink) {
       const mensaje = `Hola! Me interesa este diseño de Canva: ${imageUrl}`;
       console.log("📱 Mensaje para WhatsApp:", mensaje);
@@ -90,7 +82,7 @@ const WelcomeOverlay = ({ onClose }) => {
     }
 
     onClose();
-    navigate("/pedir");
+    window.location.href = "/pedir";
   };
 
   const handleBackgroundClick = (e) => {
@@ -147,7 +139,6 @@ const WelcomeOverlay = ({ onClose }) => {
                 </div>
               </div>
             ) : noImage && !DEFAULT_IMAGE ? (
-              /* NUEVO: bloque "No hay imagen creada" */
               <div className="no-image-container">
                 <div className="no-image-icon">🍽️</div>
                 <p className="no-image-text">No hay imagen creada</p>
