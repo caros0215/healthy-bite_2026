@@ -140,7 +140,7 @@ function CanvaButtonPage() {
       return false;
     }
 
-    const endpoint = `http://localhost:5000/api/${category}/guardar-imagen`;
+   const endpoint = `${API_URL}/api/${category}/guardar-imagen`;
 
     try {
       const response = await axios.post(endpoint, {
