@@ -44,7 +44,7 @@ export default function CursosPage() {
     const month = currentDate.getMonth() + 1
 
     try {
-      const designsResponse = await fetch(`${API_URL}/api/api/cursos/obtener-disenos/${userId}/${year}/${month}`)
+      const designsResponse = await fetch(`${API_URL}/api/cursos/obtener-disenos/${userId}/${year}/${month}`)
       if (!designsResponse.ok) {
         const errorText = await designsResponse.text()
         throw new Error(`HTTP error! status: ${designsResponse.status} - ${errorText}`)
