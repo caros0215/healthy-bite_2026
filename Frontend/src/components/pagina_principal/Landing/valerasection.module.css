@@ -230,6 +230,10 @@
     gap: 36px;
   }
 
+  .video {
+    margin-left: 5%;
+  }
+
   .videoWrapper {
     max-height: 400px;
   }
