@@ -4,10 +4,11 @@ import axios from "axios";
 import DashboardHeader from "../Header/DashboardHeader";
 import "./CanvaButtonPage.css";
 const imagen1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620215/canva_xtx6mo.webp";
-import API_URL from "../../../config/api";
+
 
 function CanvaButtonPage() {
   // Estados para subida de archivos
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
   const [uploadStatus, setUploadStatus] = useState("");
