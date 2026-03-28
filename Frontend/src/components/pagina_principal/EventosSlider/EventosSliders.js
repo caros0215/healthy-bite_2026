@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from "react"
 import styles from "./EventosSliders.module.css"
-const video1 = "https://res.cloudinary.com/dxh5zrylb/video/upload/vid_21_sphwjq.webm";
+const video1 = "https://res.cloudinary.com/dxh5zrylb/video/upload/video_21_jtdofg.webm";
 const video2 = "https://res.cloudinary.com/dxh5zrylb/video/upload/cursos_zdc30f.mp4";
 const video4 = "https://res.cloudinary.com/dxh5zrylb/video/upload/vid_1_r9eijh.webm";
 const video3 = "https://res.cloudinary.com/dxh5zrylb/video/upload/vid_2_pvlukp.webm";

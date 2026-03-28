@@ -4,6 +4,7 @@ import axios from "axios";
 import DashboardHeader from "../Header/DashboardHeader";
 import "./CanvaButtonPage.css";
 const imagen1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620215/canva_xtx6mo.webp";
+import API_URL from "../../../config/api";
 
 function CanvaButtonPage() {
   // Estados para subida de archivos
@@ -90,7 +91,7 @@ function CanvaButtonPage() {
     setSaveStatus(null);
     setErrorMessage("");
 
-    const endpoint = `http://localhost:5000/api/${category}/guardar-diseno`;
+    const endpoint = `${API_URL}/api/${category}/guardar-diseno`;
     const elementosData = [{ type: "link", src: content }];
 
     try {
