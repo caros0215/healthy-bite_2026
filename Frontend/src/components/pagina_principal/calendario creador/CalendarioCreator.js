@@ -29,47 +29,38 @@ const CalendarioCreator = () => {
   const [selectedCategory, setSelectedCategory] = useState('cursos');
   const [mobileTab, setMobileTab] = useState('controls');
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  // Altura disponible para el canvas en móvil (medida dinámicamente)
-  const [canvasAreaHeight, setCanvasAreaHeight] = useState(400);
+  // Offset real del header externo (medido dinámicamente)
+  const [headerOffset, setHeaderOffset] = useState(0);
 
   const canvasRef = useRef(null);
   const wrapperRef = useRef(null);
-  const tabBarRef = useRef(null);
   const elementCounter = useRef(1);
 
-  // Medir cuánto espacio queda desde el tab bar hacia abajo
-  const measureCanvasHeight = useCallback(() => {
-    if (!tabBarRef.current) return;
-    const tabRect = tabBarRef.current.getBoundingClientRect();
-    const tabBottom = tabRect.bottom; // posición Y donde termina el tab bar
-    const viewportH = window.innerHeight;
-    const available = viewportH - tabBottom - 20; // 20px de padding
-    setCanvasAreaHeight(Math.max(available, 200));
+  // Medir la distancia desde el top del viewport hasta donde empieza nuestro componente
+  // Eso nos da el alto del header externo para usarlo como `top` en sticky
+  const measureHeaderOffset = useCallback(() => {
+    if (!wrapperRef.current) return;
+    const rect = wrapperRef.current.getBoundingClientRect();
+    // rect.top = distancia desde el top del viewport al inicio de nuestro componente
+    // Si es negativa (ya hicieron scroll) la ignoramos y usamos 0
+    setHeaderOffset(Math.max(rect.top, 0));
   }, []);
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
-      measureCanvasHeight();
+      measureHeaderOffset();
     };
     window.addEventListener('resize', handleResize);
-    // Medir tras render inicial y con pequeño delay por si el layout aún no asentó
-    const t1 = setTimeout(measureCanvasHeight, 50);
-    const t2 = setTimeout(measureCanvasHeight, 300);
+    window.addEventListener('scroll', measureHeaderOffset, { passive: true });
+    measureHeaderOffset();
+    const t = setTimeout(measureHeaderOffset, 200);
     return () => {
       window.removeEventListener('resize', handleResize);
-      clearTimeout(t1);
-      clearTimeout(t2);
+      window.removeEventListener('scroll', measureHeaderOffset);
+      clearTimeout(t);
     };
-  }, [measureCanvasHeight]);
-
-  // Re-medir cuando cambia el tab en móvil
-  useEffect(() => {
-    if (isMobile) {
-      const t = setTimeout(measureCanvasHeight, 50);
-      return () => clearTimeout(t);
-    }
-  }, [mobileTab, isMobile, measureCanvasHeight]);
+  }, [measureHeaderOffset]);
 
   const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   const daysOfWeek = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
@@ -123,11 +114,10 @@ const CalendarioCreator = () => {
       const data = await response.json();
       if (data.success) {
         const designsByDay = {};
-        data.diseños.forEach(design => { designsByDay[new Date(design.fecha).getDate()] = design; });
+        data.diseños.forEach(d => { designsByDay[new Date(d.fecha).getDate()] = d; });
         setCalendarDesigns(designsByDay);
       }
-    } catch (error) { console.error('Error cargando diseños:', error); }
-    finally { setIsLoading(false); }
+    } catch (e) { console.error(e); } finally { setIsLoading(false); }
   };
 
   const loadDesignForDate = async (date) => {
@@ -147,7 +137,7 @@ const CalendarioCreator = () => {
           if (first.type === 'text') { setText(first.content); setFontSize(first.fontSize); setSelectedColor(first.color); setSelectedFont(first.fontFamily); }
         }
       } else { resetToDefault(); }
-    } catch (error) { resetToDefault(); }
+    } catch { resetToDefault(); }
   };
 
   const cleanPreviousMonths = async () => {
@@ -156,7 +146,7 @@ const CalendarioCreator = () => {
       const mes = currentDate.getMonth() + 1;
       const endpoint = selectedCategory === 'cursos' ? 'cursos/limpiar-mes-anterior' : 'running/limpiar-mes-anterior';
       await fetch(`${API_URL}/api/${endpoint}/${userId}/${año}/${mes}`, { method: 'DELETE' });
-    } catch (error) { console.error('Error limpiando meses:', error); }
+    } catch (e) { console.error(e); }
   };
 
   const resetToDefault = () => {
@@ -169,14 +159,13 @@ const CalendarioCreator = () => {
     setIsLoading(true); setSaveStatus('Guardando...');
     try {
       const response = await fetch(`${API_URL}/api/${selectedCategory}/guardar-diseno`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ usuario_id: userId, fecha: formatDate(selectedDate), titulo: designTitle, elementos: elements, fondo: background })
       });
       const data = await response.json();
       if (data.success) { setSaveStatus('✅ Guardado correctamente'); await loadMonthDesigns(); setTimeout(() => setSaveStatus(''), 3000); }
       else { setSaveStatus('❌ Error al guardar'); setTimeout(() => setSaveStatus(''), 3000); }
-    } catch (error) { setSaveStatus('❌ Error al guardar'); setTimeout(() => setSaveStatus(''), 3000); }
+    } catch { setSaveStatus('❌ Error al guardar'); setTimeout(() => setSaveStatus(''), 3000); }
     finally { setIsLoading(false); }
   };
 
@@ -268,9 +257,9 @@ const CalendarioCreator = () => {
     if (el?.type === 'text') { setText(el.content); setFontSize(el.fontSize); setSelectedColor(el.color); setSelectedFont(el.fontFamily); }
   };
 
-  // Dimensiones del canvas en móvil
+  // Canvas en móvil: ocupa 75% del viewport height menos el offset del header
   const mobileCanvasW = Math.min(window.innerWidth - 20, 500);
-  const mobileCanvasH = Math.max(canvasAreaHeight - 20, 200);
+  const mobileCanvasH = Math.max(Math.round(window.innerHeight * 0.75) - headerOffset - 48, 220);
 
   // ===== SIDEBAR =====
   const sidebarContent = (
@@ -371,36 +360,20 @@ const CalendarioCreator = () => {
 
   // ===== CANVAS =====
   const canvasContent = (
-    <div style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'flex-start',
-      padding: '10px',
-      background: '#f8f9fa',
-      width: '100%',
-      boxSizing: 'border-box',
-    }}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', padding: '10px', background: '#f8f9fa', width: '100%', boxSizing: 'border-box' }}>
       <div
         ref={canvasRef}
         style={{
           width: isMobile ? `${mobileCanvasW}px` : '800px',
           height: isMobile ? `${mobileCanvasH}px` : '600px',
-          position: 'relative',
-          borderRadius: '12px',
-          boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-          overflow: 'hidden',
-          flexShrink: 0,
+          position: 'relative', borderRadius: '12px',
+          boxShadow: '0 10px 30px rgba(0,0,0,0.1)', overflow: 'hidden', flexShrink: 0,
           ...getBackgroundStyle()
         }}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
+        onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}
       >
         {elements.map(element => (
-          <div
-            key={element.id}
-            onClick={() => handleElementClick(element.id)}
-            onMouseDown={(e) => handleMouseDown(e, element.id)}
+          <div key={element.id} onClick={() => handleElementClick(element.id)} onMouseDown={(e) => handleMouseDown(e, element.id)}
             style={{
               position: 'absolute', left: `${element.x}px`, top: `${element.y}px`,
               fontSize: `${element.fontSize}px`, color: element.color, fontFamily: element.fontFamily,
@@ -408,11 +381,9 @@ const CalendarioCreator = () => {
               textShadow: element.textShadow || 'none', WebkitTextStroke: element.webkitTextStroke || 'none',
               cursor: 'move', userSelect: 'none', padding: '4px',
               border: selectedElement === element.id ? '2px dashed #007bff' : '2px dashed transparent',
-              borderRadius: '4px',
-              background: selectedElement === element.id ? 'rgba(0,123,255,0.1)' : 'transparent',
+              borderRadius: '4px', background: selectedElement === element.id ? 'rgba(0,123,255,0.1)' : 'transparent',
               minWidth: '20px', minHeight: '20px'
-            }}
-          >
+            }}>
             {element.content}
           </div>
         ))}
@@ -427,77 +398,53 @@ const CalendarioCreator = () => {
   );
 
   return (
-    <div
-      ref={wrapperRef}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        // ⚠️ NO usar height:100vh — el componente vive dentro de una página con su propio header
-        // En desktop: altura fija. En móvil: fluye naturalmente
-        height: isMobile ? 'auto' : '100vh',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
-        background: '#f8f9fa',
-      }}
-    >
-      {/* TAB BAR MÓVIL
-          - NO es sticky ni fixed: fluye debajo del header externo de la página
-          - marginTop: 10px para separarse del header */}
+    <div ref={wrapperRef} style={{ display: 'flex', flexDirection: 'column', width: '100%', height: isMobile ? 'auto' : '100vh', fontFamily: 'system-ui, -apple-system, sans-serif', background: '#f8f9fa' }}>
+
+      {/* ── TAB BAR MÓVIL ──
+          position: sticky + top = headerOffset  →  se queda visible pegado
+          justo debajo del header externo, sin solaparse con él               */}
       {isMobile && (
-        <div
-          ref={tabBarRef}
-          style={{
-            display: 'flex',
-            background: 'white',
-            borderBottom: '2px solid #e9ecef',
-            marginTop: '10px',
-            flexShrink: 0,
-          }}
-        >
-          <button
-            onClick={() => setMobileTab('controls')}
-            style={{ flex: 1, padding: '12px', background: mobileTab === 'controls' ? '#007bff' : 'white', color: mobileTab === 'controls' ? 'white' : '#333', border: 'none', cursor: 'pointer', fontWeight: '600', fontSize: '14px' }}
-          >
+        <div style={{
+          display: 'flex',
+          background: 'white',
+          borderBottom: '2px solid #e9ecef',
+          borderTop: '1px solid #e9ecef',
+          position: 'sticky',
+          top: `${headerOffset}px`,   // respeta la altura real del header externo
+          zIndex: 100,
+          flexShrink: 0,
+        }}>
+          <button onClick={() => setMobileTab('controls')}
+            style={{ flex: 1, padding: '12px', background: mobileTab === 'controls' ? '#007bff' : 'white', color: mobileTab === 'controls' ? 'white' : '#333', border: 'none', cursor: 'pointer', fontWeight: '600', fontSize: '14px' }}>
             🎨 Controles
           </button>
-          <button
-            onClick={() => setMobileTab('canvas')}
-            style={{ flex: 1, padding: '12px', background: mobileTab === 'canvas' ? '#007bff' : 'white', color: mobileTab === 'canvas' ? 'white' : '#333', border: 'none', cursor: 'pointer', fontWeight: '600', fontSize: '14px' }}
-          >
+          <button onClick={() => setMobileTab('canvas')}
+            style={{ flex: 1, padding: '12px', background: mobileTab === 'canvas' ? '#007bff' : 'white', color: mobileTab === 'canvas' ? 'white' : '#333', border: 'none', cursor: 'pointer', fontWeight: '600', fontSize: '14px' }}>
             🖼️ Canvas
           </button>
         </div>
       )}
 
-      {/* CONTENIDO PRINCIPAL */}
-      <div style={{
-        display: 'flex',
-        flex: isMobile ? 'none' : 1,
-        flexDirection: 'row',
-        overflow: isMobile ? 'visible' : 'hidden',
-        minHeight: 0,
-      }}>
+      {/* CONTENIDO */}
+      <div style={{ display: 'flex', flex: isMobile ? 'none' : 1, flexDirection: 'row', overflow: isMobile ? 'visible' : 'hidden', minHeight: 0 }}>
+
         {/* SIDEBAR */}
         <div style={{
-          width: isMobile ? '100%' : '320px',
-          minWidth: isMobile ? 'unset' : '320px',
-          background: 'white',
-          padding: '15px',
+          width: isMobile ? '100%' : '320px', minWidth: isMobile ? 'unset' : '320px',
+          background: 'white', padding: '15px',
           boxShadow: isMobile ? 'none' : '2px 0 10px rgba(0,0,0,0.1)',
-          overflowY: 'auto',
-          height: isMobile ? 'auto' : '100%',
+          overflowY: 'auto', height: isMobile ? 'auto' : '100%',
           display: isMobile ? (mobileTab === 'controls' ? 'block' : 'none') : 'block',
           boxSizing: 'border-box',
         }}>
           {sidebarContent}
         </div>
 
-        {/* CANVAS — en móvil: altura = espacio medido desde el tab bar al fondo del viewport */}
+        {/* CANVAS */}
         <div style={{
           display: isMobile ? (mobileTab === 'canvas' ? 'block' : 'none') : 'flex',
-          flex: isMobile ? 'none' : 1,
-          width: '100%',
-          height: isMobile ? `${canvasAreaHeight}px` : 'auto',
+          flex: isMobile ? 'none' : 1, width: '100%',
+          height: isMobile ? `${mobileCanvasH + 20}px` : 'auto',
           overflow: 'hidden',
         }}>
           {canvasContent}
