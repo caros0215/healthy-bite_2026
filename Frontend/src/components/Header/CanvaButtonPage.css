@@ -10,23 +10,18 @@
 }
 
 .canva-content {
-  flex: 1 1;
-  width: 1573px;
+  flex: 1;
+  width: 100%;
+  max-width: 1573px;
   margin: 30px auto;
+  box-sizing: border-box;
+  padding: 0 15px;
 }
 
 .canva-integration-wrapper {
   max-width: 1200px;
   margin: 0 auto;
   padding: 30px;
-}
-
-/* ==== TÍTULOS PRINCIPALES ==== */
-.main-title {
-  font-size: 32px;
-  text-align: center;
-  margin-bottom: 30px;
-  color: #333;
 }
 
 .canva-info-box {
@@ -44,7 +39,6 @@
   text-align: center;
 }
 
-/* ==== CONTENEDORES PRINCIPALES ==== */
 .canva-main-container {
   background-color: #f8f9fa;
   padding: 30px;
@@ -104,30 +98,15 @@
   flex-direction: column;
 }
 
-.card h3 {
-  font-size: 24px;
-  margin-bottom: 15px;
-  color: #333;
-}
-
-.card p {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 25px;
-  line-height: 1.5;
-}
-
-/* ==== SUBCUADROS Y TARJETAS ==== */
+/* ==== SUBCUADROS ==== */
 .canva-sub-card {
   width: 100%;
-  max-width: none;
   background-color: #fafbfc;
   padding: 20px;
   border-radius: 6px;
   border: 2px solid #dee2e6;
   display: flex;
   flex-direction: column;
-  height: fit-content;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
@@ -136,7 +115,6 @@
   font-size: 1.2rem;
   margin-bottom: 12px;
   text-align: center;
-  line-height: 1.3;
 }
 
 .canva-sub-card p {
@@ -147,12 +125,7 @@
   text-align: center;
 }
 
-/* ==== BOTONES DE CANVA ==== */
-.canva-button-main {
-  text-align: center;
-  margin: 15px 0;
-}
-
+/* ==== BOTONES CANVA ==== */
 .canva-button-container {
   display: flex;
   justify-content: center;
@@ -184,11 +157,6 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
-.canva-animated-button:active {
-  transform: translateY(1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
 .ir {
   margin-left: -25%;
 }
@@ -199,26 +167,18 @@
   filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.3));
 }
 
-/* ==== PASOS Y NUMERACIÓN ==== */
-.canva-steps,
-.steps {
+/* ==== PASOS ==== */
+.canva-steps {
   margin: 15px 0;
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-.step-item,
-.step {
+.step-item {
   display: flex;
   align-items: flex-start;
-  margin-bottom: 10px;
   gap: 8px;
-}
-
-.step {
-  align-items: center;
-  gap: 15px;
 }
 
 .step-number {
@@ -234,15 +194,12 @@
   justify-content: center;
   font-weight: bold;
   flex-shrink: 0;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  position: relative;
-  overflow: hidden;
   font-size: 0.75rem;
   margin-top: 2px;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Efecto de brillo para los números */
 .step-number::after {
   content: "";
   position: absolute;
@@ -258,7 +215,6 @@
   );
   transform: rotate(30deg);
   animation: shimmer 3s infinite;
-  pointer-events: none;
 }
 
 .step-item span:last-child {
@@ -267,13 +223,7 @@
   line-height: 1.3;
 }
 
-.step-text {
-  font-size: 16px;
-  color: #555;
-  line-height: 1.4;
-}
-
-/* ==== SECCIÓN DE SUBIDA DE ARCHIVOS ==== */
+/* ==== SUBIDA DE ARCHIVOS ==== */
 .upload-section {
   margin-top: 18px;
 }
@@ -302,10 +252,9 @@
 .file-label:hover {
   background-color: #5856eb;
   transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(99, 102, 241, 0.3);
 }
 
-/* ==== VISTA PREVIA DE IMAGEN ==== */
+/* ==== VISTA PREVIA ==== */
 .image-preview {
   background-color: #f0f9ff;
   padding: 10px;
@@ -319,7 +268,6 @@
   max-width: 80px;
   max-height: 80px;
   border-radius: 4px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 6px;
   object-fit: cover;
 }
@@ -332,7 +280,12 @@
   word-break: break-all;
 }
 
-/* ==== BOTONES DE GUARDAR ==== */
+.file-size {
+  font-size: 0.65rem;
+  color: #666;
+}
+
+/* ==== BOTONES GUARDAR ==== */
 .save-button {
   width: 100%;
   padding: 8px 14px;
@@ -346,15 +299,9 @@
   transition: all 0.3s ease;
 }
 
-.save-button:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(139, 92, 246, 0.3);
-}
-
 .save-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  transform: none;
 }
 
 .save-animated-button {
@@ -370,27 +317,14 @@
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   animation: gradientBg 6s ease infinite;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   width: 100%;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-.save-animated-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-}
-
-.save-animated-button:active:not(:disabled) {
-  transform: translateY(1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .save-animated-button:disabled {
   background: linear-gradient(90deg, #a0a0a0, #c0c0c0, #a0a0a0);
   cursor: not-allowed;
-  opacity: 0.8;
 }
 
 .save-icon {
@@ -398,14 +332,7 @@
   margin-right: 10px;
 }
 
-/* ==== FORMULARIOS Y INPUTS ==== */
-.save-instructions {
-  margin-bottom: 25px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
+/* ==== FORMULARIOS ==== */
 .save-form {
   display: flex;
   flex-direction: column;
@@ -419,20 +346,9 @@
   border-radius: 8px;
   font-size: 16px;
   width: 100%;
+  box-sizing: border-box;
 }
 
-.design-url-input:focus {
-  border-color: #00c4cc;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(0, 196, 204, 0.2);
-}
-
-.design-url-input:disabled {
-  background-color: #f5f5f5;
-  cursor: not-allowed;
-}
-
-/* ==== ESTILOS PARA EL CAMPO DE FECHA ==== */
 .date-selector {
   margin-bottom: 12px;
   display: flex;
@@ -446,8 +362,31 @@
   color: #555;
 }
 
-/* Estilos para el botón que abre el DatePicker */
-.date-picker-button {
+.date-input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* ==== SELECTOR CATEGORÍA ==== */
+.category-selector {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.category-selector label,
+.category-selector-label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+}
+
+.category-selector select {
   padding: 8px 12px;
   border-radius: 6px;
   border: 1px solid #ddd;
@@ -456,34 +395,9 @@
   cursor: pointer;
   width: 100%;
   box-sizing: border-box;
-  height: auto; /* Permitir que el padding defina la altura */
-  min-height: 38px; /* Altura mínima para consistencia */
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  color: #333; /* Color de texto por defecto */
 }
 
-.date-picker-button:hover {
-  border-color: #00c4cc;
-  background-color: #f0f9ff;
-}
-
-.date-picker-button[data-state="open"] {
-  border-color: #00c4cc;
-  box-shadow: 0 0 0 2px rgba(0, 196, 204, 0.2);
-}
-
-.date-picker-button:disabled {
-  background-color: #f5f5f5;
-  cursor: not-allowed;
-  opacity: 0.8;
-}
-
-/* Estilos para el calendario dentro del Popover (shadcn/ui por defecto) */
-/* Puedes añadir más estilos aquí si quieres personalizar el calendario en sí */
-
-/* ==== ESTADOS Y MENSAJES ==== */
+/* ==== ESTADOS ==== */
 .upload-status {
   margin-top: 10px;
   padding: 6px;
@@ -512,11 +426,6 @@
   text-align: center;
 }
 
-.status-message p {
-  margin: 0;
-  font-size: 16px;
-}
-
 .status-message.success {
   background-color: #e6f7ef;
   border-left: 4px solid #38a169;
@@ -524,6 +433,7 @@
 
 .status-message.success p {
   color: #2f855a;
+  margin: 0;
 }
 
 .status-message.error {
@@ -533,9 +443,10 @@
 
 .status-message.error p {
   color: #c53030;
+  margin: 0;
 }
 
-/* ==== SPINNER Y ANIMACIONES ==== */
+/* ==== SPINNER ==== */
 .spinner {
   width: 18px;
   height: 18px;
@@ -546,34 +457,7 @@
   margin-right: 10px;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes gradientBg {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%) rotate(30deg);
-  }
-  100% {
-    transform: translateX(100%) rotate(30deg);
-  }
-}
-
-/* ==== SECCIÓN DE INFORMACIÓN ADICIONAL ==== */
+/* ==== INFO ADICIONAL ==== */
 .additional-info {
   margin-top: 50px;
   padding: 30px;
@@ -625,113 +509,214 @@
   line-height: 1.5;
 }
 
-/* ==== SELECTOR DE CATEGORÍA ==== */
-.category-selector {
-  margin-bottom: 12px;
-  display: flex;
-  flex-direction: column;
+/* ==== ANIMACIONES ==== */
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
-.category-selector label {
-  margin-bottom: 5px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #555;
+@keyframes gradientBg {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-.category-selector select {
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  background-color: white;
-  font-size: 14px;
-  cursor: pointer;
+@keyframes shimmer {
+  0% { transform: translateX(-100%) rotate(30deg); }
+  100% { transform: translateX(100%) rotate(30deg); }
 }
 
-.category-selector select:required:invalid {
-  border-color: #ff6b6b;
-  box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
-}
-
-.category-selector select:focus {
-  outline: none;
-  border-color: #00c4cc;
-  box-shadow: 0 0 0 2px rgba(0, 196, 204, 0.2);
-}
-
-/* ==== RESPONSIVE DESIGN ==== */
-@media (max-width: 1200px) {
+/* ============================================
+   RESPONSIVE - TABLET (max-width: 1024px)
+   ============================================ */
+@media (max-width: 1024px) {
   .three-columns {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
+  }
+
+  .canva-info-box {
+    padding: 25px;
+  }
+
+  .canva-main-container {
+    padding: 20px;
+  }
+
+  .canva-main-card {
+    padding: 20px;
   }
 }
 
-@media (max-width: 900px) {
+/* ============================================
+   RESPONSIVE - MÓVIL GRANDE (max-width: 768px)
+   ============================================ */
+@media (max-width: 768px) {
+  .canva-content {
+    margin: 15px auto;
+    padding: 0 10px;
+  }
+
+  .canva-info-box {
+    padding: 20px 15px;
+    margin-bottom: 15px;
+  }
+
+  .canva-info-box h1 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .canva-main-container {
+    padding: 15px;
+    margin-top: 20px;
+  }
+
+  .canva-main-card {
+    padding: 15px;
+  }
+
+  .three-columns {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
   .two-columns,
   .two-column-layout {
     grid-template-columns: 1fr;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
   }
-  .three-columns {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  .benefits {
-    flex-direction: column;
-  }
-  .benefit {
-    margin-bottom: 20px;
-  }
-}
 
-@media (max-width: 768px) {
-  .canva-info-box {
-    padding: 20px;
-    margin: 15px;
-  }
-  .canva-main-container {
-    padding: 20px;
-  }
-  .canva-main-card {
-    padding: 20px;
-  }
   .canva-sub-card {
     padding: 15px;
   }
-  .canva-info-box h1 {
-    font-size: 1.8rem;
-  }
+
   .canva-sub-card h2 {
     font-size: 1.1rem;
   }
+
   .canva-sub-card p {
     font-size: 0.8rem;
   }
-  .step-item span:last-child {
-    font-size: 0.7rem;
+
+  .canva-animated-button {
+    width: 100%;
+    font-size: 15px;
+    padding: 14px 20px;
   }
+
+  .canva-logo {
+    height: 36px;
+    margin-right: 15px;
+  }
+
+  .ir {
+    margin-left: 0;
+  }
+
+  .step-item span:last-child {
+    font-size: 0.75rem;
+  }
+
+  .benefits {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .benefit {
+    margin-bottom: 0;
+  }
+
+  .additional-info {
+    padding: 20px 15px;
+    margin-top: 30px;
+  }
+
+  .additional-info h3 {
+    font-size: 1.3rem;
+  }
+
+  .design-url-input {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .save-animated-button {
+    font-size: 14px;
+    padding: 12px;
+  }
+
   .preview-image {
     max-width: 60px;
     max-height: 60px;
   }
-  .category-selector {
-    flex-direction: column;
+}
+
+/* ============================================
+   RESPONSIVE - MÓVIL PEQUEÑO (max-width: 480px)
+   ============================================ */
+@media (max-width: 480px) {
+  .canva-content {
+    margin: 10px auto;
+    padding: 0 8px;
   }
-  .category-selector label {
-    margin-bottom: 5px;
+
+  .canva-info-box {
+    padding: 15px 12px;
+    border-radius: 6px;
   }
-  /* Responsive para el campo de fecha */
-  .date-selector {
-    flex-direction: column;
+
+  .canva-info-box h1 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
   }
-  .date-selector-label {
-    margin-bottom: 5px;
+
+  .canva-main-container {
+    padding: 12px;
   }
-  .date-picker-button {
-    font-size: 12px;
-    padding: 6px 10px;
-    min-height: 32px;
+
+  .canva-main-card {
+    padding: 12px;
+  }
+
+  .canva-sub-card {
+    padding: 12px;
+  }
+
+  .canva-sub-card h2 {
+    font-size: 1rem;
+  }
+
+  .step-number {
+    width: 24px;
+    height: 24px;
+    font-size: 0.65rem;
+  }
+
+  .file-label {
+    font-size: 0.75rem;
+    padding: 10px;
+  }
+
+  .save-animated-button {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .additional-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+  }
+
+  .benefit-icon {
+    font-size: 28px;
+  }
+
+  .benefit h4 {
+    font-size: 16px;
+  }
+
+  .benefit p {
+    font-size: 13px;
   }
 }
