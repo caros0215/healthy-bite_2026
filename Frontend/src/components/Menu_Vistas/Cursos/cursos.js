@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import "./WelcomeOverlay.css";
+import "../../pagina_principal/WelcomeOverlay/WelcomeOverlay.css";
 import API_URL from "../../../config/api";
 
 const loaderGif = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620330/logo_oscillate_dfzlda.gif";
