@@ -3,6 +3,8 @@ import { useState, useEffect, useRef } from "react"
 import styles from "./WelcomeOverlayCursos.module.css"
 import API_URL from "../../../config/api"
 
+const DEFAULT_IMAGE = "https://res.cloudinary.com/dxh5zrylb/image/upload/artes_Mesa_de_trabajo_1_oytyhc.webp"
+
 const WelcomeOverlayCursos = ({ onClose, usuario_id = 1 }) => {
   const [imageUrl, setImageUrl] = useState("")
   const [loading, setLoading] = useState(true)
@@ -13,9 +15,9 @@ const WelcomeOverlayCursos = ({ onClose, usuario_id = 1 }) => {
   const [imageLoadError, setImageLoadError] = useState(false)
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imagePreloaded, setImagePreloaded] = useState(false)
+  const [sinCursos, setSinCursos] = useState(false)
   const imageRef = useRef(null)
 
-  // Precargar imagen tan pronto como tengamos la URL
   const preloadImage = (url) => {
     return new Promise((resolve, reject) => {
       const img = new Image()
@@ -24,10 +26,9 @@ const WelcomeOverlayCursos = ({ onClose, usuario_id = 1 }) => {
         resolve(img)
       }
       img.onerror = reject
-      // Optimizaciones para carga más rápida
-      img.loading = 'eager' // Carga inmediata
-      img.decoding = 'async' // Decodificación asíncrona
-      img.fetchPriority = 'high' // Alta prioridad
+      img.loading = "eager"
+      img.decoding = "async"
+      img.fetchPriority = "high"
       img.src = url
     })
   }
@@ -36,17 +37,12 @@ const WelcomeOverlayCursos = ({ onClose, usuario_id = 1 }) => {
     loadCourseData()
   }, [usuario_id])
 
-  // Precargar imagen cuando tengamos la URL
   useEffect(() => {
     if (imageUrl && !imagePreloaded) {
-      preloadImage(imageUrl)
-        .then(() => {
-          console.log('Imagen precargada exitosamente')
-        })
-        .catch((err) => {
-          console.error('Error precargando imagen:', err)
-          setImageLoadError(true)
-        })
+      preloadImage(imageUrl).catch(() => {
+        // Si falla la imagen propia, caemos al default
+        setImageUrl(DEFAULT_IMAGE)
+      })
     }
   }, [imageUrl, imagePreloaded])
 
@@ -57,76 +53,73 @@ const WelcomeOverlayCursos = ({ onClose, usuario_id = 1 }) => {
       setImageLoadError(false)
       setImageLoaded(false)
       setImagePreloaded(false)
+      setSinCursos(false)
 
-      console.log(`Cargando datos del usuario: ${usuario_id}`)
-      
-      // Usar AbortController para cancelar requests si es necesario
       const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 10000) // 10s timeout
+      const timeoutId = setTimeout(() => controller.abort(), 10000)
 
       const response = await fetch(`${API_URL}/api/cursos/ultima-imagen/${usuario_id}`, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          // Headers para optimizar cache
-          'Cache-Control': 'max-age=300', // 5 minutos de cache
+          "Content-Type": "application/json",
+          "Cache-Control": "max-age=300",
         },
-        signal: controller.signal
+        signal: controller.signal,
       })
-      
+
       clearTimeout(timeoutId)
-      console.log(`Response status: ${response.status}`)
-      
+
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: Error en la API`)
       }
-      
+
       const data = await response.json()
-      console.log('Datos recibidos:', data)
 
       if (!data.success) {
         throw new Error(data.message || "La API no devolvió datos exitosos")
       }
-      
-      if (!data.hasImage) {
-        throw new Error("No hay imagen disponible para este usuario")
+
+      // Si no hay imagen usamos la imagen por defecto y marcamos sinCursos
+      if (!data.hasImage || !data.imagen) {
+        setSinCursos(true)
+        setImageUrl(DEFAULT_IMAGE)
+        setMensaje("No hay cursos a la fecha")
+      } else {
+        setImageUrl(data.imagen)
+        setSinCursos(false)
+        setMensaje(data.mensaje || "Curso disponible")
       }
 
-      // Procesar los datos y configurar la imagen para precarga
-      if (data.imagen) {
-        setImageUrl(data.imagen)
-      }
-      
       if (data.fechaEvento) {
         setFechaEvento(data.fechaEvento)
         setEsFuturo(data.esFuturo || false)
       }
-      
-      setMensaje(data.mensaje || "Curso disponible")
-      
+
     } catch (err) {
-      if (err.name === 'AbortError') {
-        console.error("Request timeout")
+      if (err.name === "AbortError") {
         setError("La carga tardó demasiado. Intenta de nuevo.")
       } else {
         console.error("Error loading course data:", err)
         setError(`Error al cargar el curso: ${err.message}`)
       }
-      setImageLoadError(true)
+      // Aunque haya error, mostramos la imagen por defecto
+      setSinCursos(true)
+      setImageUrl(DEFAULT_IMAGE)
+      setMensaje("No hay cursos a la fecha")
     } finally {
       setLoading(false)
     }
   }
 
-  const handleImageError = () => {
-    console.error("Error al cargar la imagen:", imageUrl)
-    setImageLoadError(true)
-    setImageLoaded(false)
-    setError("Error al mostrar la imagen - verifique el formato")
+  const handleImageError = (e) => {
+    // Si falla cualquier imagen, ponemos la por defecto
+    if (e.target.src !== DEFAULT_IMAGE) {
+      e.target.src = DEFAULT_IMAGE
+    }
+    setImageLoaded(true)
   }
 
   const handleImageLoad = () => {
-    console.log("Imagen cargada correctamente")
     setImageLoadError(false)
     setImageLoaded(true)
     setError(null)
@@ -152,19 +145,17 @@ const WelcomeOverlayCursos = ({ onClose, usuario_id = 1 }) => {
   }
 
   const handlePedirAhora = () => {
-  const fechaFormateada = formatearFecha(fechaEvento)
-  const diasRestantes = calcularDiasRestantes(fechaEvento)
+    const fechaFormateada = formatearFecha(fechaEvento)
+    const diasRestantes = calcularDiasRestantes(fechaEvento)
 
-  const mensajeWhatsApp = `Hola! Quiero inscribirme al curso del ${fechaFormateada}${
-    esFuturo ? ` (en ${diasRestantes} días)` : ""
-  }`
+    const mensajeWhatsApp = sinCursos
+      ? `Hola! Me interesa inscribirme a un curso, ¿cuándo tienen disponibilidad?`
+      : `Hola! Quiero inscribirme al curso del ${fechaFormateada}${esFuturo ? ` (en ${diasRestantes} días)` : ""}`
 
-  const url = `https://wa.me/573147139843?text=${encodeURIComponent(mensajeWhatsApp)}`
-
-  window.open(url, "_blank")
-
-  onClose()
-}
+    const url = `https://wa.me/573147139843?text=${encodeURIComponent(mensajeWhatsApp)}`
+    window.open(url, "_blank")
+    onClose()
+  }
 
   return (
     <div className={styles.welcomeOverlay} onClick={(e) => e.target === e.currentTarget && onClose()}>
@@ -176,15 +167,16 @@ const WelcomeOverlayCursos = ({ onClose, usuario_id = 1 }) => {
         </button>
 
         <div className={styles.welcomeContentWrapper}>
-          {/* Left side - Text content */}
+
+          {/* ===== LEFT — texto ===== */}
           <div className={styles.welcomeTextSection}>
             <h3 className={`${styles.welcomeTitle} ${esFuturo ? styles.futureEvent : ""}`}>
-              {esFuturo ? "¡Próximo Curso!" : "¡Bienvenido!"}
+              {sinCursos ? "¡Próximamente!" : esFuturo ? "¡Próximo Curso!" : "¡Bienvenido!"}
             </h3>
 
             {mensaje && <p className={styles.courseTitle}>{mensaje}</p>}
 
-            {fechaEvento && (
+            {!sinCursos && fechaEvento && (
               <p className={styles.eventDate}>
                 <strong>{formatearFecha(fechaEvento)}</strong>
                 {esFuturo && ` (en ${calcularDiasRestantes(fechaEvento)} días)`}
@@ -192,23 +184,42 @@ const WelcomeOverlayCursos = ({ onClose, usuario_id = 1 }) => {
             )}
 
             <p className={styles.welcomeText}>
-              Si deseas explorar el resto de la página dale click a la X,
-              <br />
-              <br />
-              {esFuturo
-                ? "si deseas pedir este diseño para tu próximo curso, dale click al botón"
-                : "si deseas pedir este diseño para cursos, dale click al botón"}
+              {sinCursos ? (
+                <>
+                  Estamos preparando nuevos cursos para ti.
+                  <br />
+                  <br />
+                  Si deseas explorar el resto de la página dale click a la X,
+                  <br />
+                  o contáctanos para más información.
+                </>
+              ) : (
+                <>
+                  Si deseas explorar el resto de la página dale click a la X,
+                  <br />
+                  <br />
+                  {esFuturo
+                    ? "si deseas pedir este diseño para tu próximo curso, dale click al botón"
+                    : "si deseas pedir este diseño para cursos, dale click al botón"}
+                </>
+              )}
             </p>
 
             <button
               onClick={handlePedirAhora}
               className={`${styles.pedirButton} ${esFuturo ? styles.futureEvent : ""}`}
-              disabled={imageLoadError || loading || !imageUrl}
+              disabled={loading}
             >
-              {loading ? "Cargando..." : esFuturo ? "Reservar Ahora" : "Inscribete Ahora"}
+              {loading
+                ? "Cargando..."
+                : sinCursos
+                ? "Contáctanos"
+                : esFuturo
+                ? "Reservar Ahora"
+                : "Inscríbete Ahora"}
             </button>
 
-            {error && (
+            {error && !sinCursos && (
               <div className={styles.errorContainer}>
                 <p className={styles.errorMessage}>{error}</p>
                 <button onClick={loadCourseData} className={styles.retryButton}>
@@ -218,7 +229,7 @@ const WelcomeOverlayCursos = ({ onClose, usuario_id = 1 }) => {
             )}
           </div>
 
-          {/* Right side - Image */}
+          {/* ===== RIGHT — imagen ===== */}
           <div className={styles.welcomeImageSection}>
             {loading ? (
               <div className={styles.imageLoading}>
@@ -227,54 +238,58 @@ const WelcomeOverlayCursos = ({ onClose, usuario_id = 1 }) => {
               </div>
             ) : (
               <div className={styles.imageWrapper}>
-                {!imageLoadError && imageUrl ? (
-                  <>
-                    {/* Skeleton/Placeholder mientras carga la imagen */}
-                    {!imageLoaded && (
-                      <div className={styles.imageSkeleton}>
-                        <div className={styles.skeletonContent}>
-                          <div className={styles.skeletonShimmer}></div>
-                        </div>
-                      </div>
-                    )}
-                    
-                    <img
-                      ref={imageRef}
-                      src={imageUrl}
-                      alt={`Imagen del curso: ${mensaje || formatearFecha(fechaEvento)}`}
-                      className={`${styles.welcomeImage} ${imageLoaded ? styles.loaded : styles.loading}`}
-                      onError={handleImageError}
-                      onLoad={handleImageLoad}
-                      // Optimizaciones HTML para carga rápida
-                      loading="eager"
-                      decoding="async"
-                      fetchPriority="high"
-                      // Preconnect hint para dominios externos (si aplica)
-                      crossOrigin="anonymous"
-                      style={{
-                        opacity: imageLoaded ? 1 : 0,
-                        transition: 'opacity 0.3s ease-in-out'
-                      }}
-                    />
-                    
-                    {esFuturo && fechaEvento && imageLoaded && (
-                      <div className={styles.eventBadge}>
-                        <span>{calcularDiasRestantes(fechaEvento)} días restantes</span>
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <div className={styles.imageError}>
-                    <h3>No hay imagen disponible</h3>
-                    <p>No se encontró una imagen para mostrar.</p>
-                    <button onClick={loadCourseData} className={styles.retryButton}>
-                      Reintentar
-                    </button>
+
+                {/* Skeleton mientras carga */}
+                {!imageLoaded && (
+                  <div className={styles.imageSkeleton}>
+                    <div className={styles.skeletonContent}>
+                      <div className={styles.skeletonShimmer}></div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Siempre mostramos imagen — propia o DEFAULT_IMAGE */}
+                <img
+                  ref={imageRef}
+                  src={imageUrl || DEFAULT_IMAGE}
+                  alt={
+                    sinCursos
+                      ? "Próximos cursos"
+                      : `Imagen del curso: ${mensaje || formatearFecha(fechaEvento)}`
+                  }
+                  className={`${styles.welcomeImage} ${imageLoaded ? styles.loaded : styles.loading}`}
+                  onError={handleImageError}
+                  onLoad={handleImageLoad}
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
+                  crossOrigin="anonymous"
+                  style={{
+                    opacity: imageLoaded ? 1 : 0,
+                    transition: "opacity 0.3s ease-in-out",
+                  }}
+                />
+
+                {/* Badge evento futuro */}
+                {esFuturo && fechaEvento && imageLoaded && !sinCursos && (
+                  <div className={styles.eventBadge}>
+                    <span>{calcularDiasRestantes(fechaEvento)} días restantes</span>
+                  </div>
+                )}
+
+                {/* Badge sin cursos */}
+                {sinCursos && imageLoaded && (
+                  <div
+                    className={styles.eventBadge}
+                    style={{ background: "rgba(181, 190, 0, 0.95)" }}
+                  >
+                    <span>¡Próximamente!</span>
                   </div>
                 )}
               </div>
             )}
           </div>
+
         </div>
       </div>
     </div>

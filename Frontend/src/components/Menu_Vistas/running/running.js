@@ -6,9 +6,8 @@ import WelcomeOverlayRunning from "../../pagina_principal/WelcomeOverlay/Welcome
 import styles from "./running.module.css"
 import API_URL from "../../../config/api"
 
-const imagen_3 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620309/IMG_8719_r03hoo.webp"
-const image2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620321/IMG_8784_k585w9.webp"
-const DEFAULT_EVENT_IMAGE = "https://res.cloudinary.com/dxh5zrylb/image/upload/artes-01_hliqvm.webp"
+const imagen_3 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620309/IMG_8719_r03hoo.webp";
+const image2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620321/IMG_8784_k585w9.webp";
 
 export default function RunningPage() {
   const [showWelcome, setShowWelcome] = useState(true)
@@ -177,11 +176,6 @@ export default function RunningPage() {
     return null
   }
 
-  // Retorna la imagen del evento o la imagen por defecto
-  const getEventImage = (fecha) => {
-    return getImageByDate(fecha) || DEFAULT_EVENT_IMAGE
-  }
-
   const getElementsText = (elements) => {
     if (!elements) return null
     if (typeof elements === "string") return elements
@@ -192,8 +186,11 @@ export default function RunningPage() {
 
   const handleDayClick = (dayData) => {
     if (dayData.day && dayData.design) {
-      setHoveredDesign(dayData.design)
-      setShowHoverModal(true)
+      const imageUrl = getImageByDate(dayData.design.fecha)
+      if (imageUrl) {
+        setHoveredDesign(dayData.design)
+        setShowHoverModal(true)
+      }
     }
   }
 
@@ -232,9 +229,6 @@ export default function RunningPage() {
     }
     return () => document.removeEventListener("keydown", handleKeyDown)
   }, [showHoverModal, showPhotoViewer])
-
-  // ¿Hay algún evento este mes?
-  const hasEventsThisMonth = runningDesigns.length > 0
 
   return (
     <main className={styles.mainContainer}>
@@ -375,6 +369,7 @@ export default function RunningPage() {
                     key={day}
                     className="text-center py-1.5 sm:py-4 font-bold text-white text-[10px] sm:text-lg bg-black rounded-md sm:rounded-xl"
                   >
+                    {/* Mostrar solo primera letra en móvil muy pequeño */}
                     <span className="hidden xs:inline">{day}</span>
                     <span className="inline xs:hidden">{day.charAt(0)}</span>
                   </div>
@@ -394,9 +389,11 @@ export default function RunningPage() {
                   ⚠️ {errorDesigns}
                 </div>
               ) : (
-                <>
-                  <div className="grid grid-cols-7 gap-1 sm:gap-4">
-                    {generateCalendar().map((dayData, index) => (
+                <div className="grid grid-cols-7 gap-1 sm:gap-4">
+                  {generateCalendar().map((dayData, index) => {
+                    const hasImage = dayData.design ? !!getImageByDate(dayData.design.fecha) : false
+
+                    return (
                       <div
                         key={index}
                         className={`
@@ -404,7 +401,7 @@ export default function RunningPage() {
                           min-h-[44px] sm:min-h-[140px]
                           p-1 sm:p-4
                           ${
-                            dayData.design
+                            dayData.design && hasImage
                               ? "bg-gradient-to-br from-gray-800 to-black border border-gray-700 hover:border-gray-500 hover:shadow-xl active:scale-95 sm:hover:scale-105 sm:hover:-translate-y-1 cursor-pointer"
                               : dayData.day
                                 ? "bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200"
@@ -412,16 +409,16 @@ export default function RunningPage() {
                           }
                           ${!dayData.day ? "" : "group"}
                         `}
-                        onClick={() => dayData.day && dayData.design && handleDayClick(dayData)}
+                        onClick={() => dayData.day && dayData.design && hasImage && handleDayClick(dayData)}
                       >
                         {dayData.day && (
                           <>
-                            <div className={`text-[11px] sm:text-xl font-bold mb-0 sm:mb-3 leading-none ${dayData.design ? "text-white" : "text-gray-800"}`}>
+                            <div className={`text-[11px] sm:text-xl font-bold mb-0 sm:mb-3 leading-none ${dayData.design && hasImage ? "text-white" : "text-gray-800"}`}>
                               {dayData.day}
                             </div>
 
-                            {/* Móvil: puntos indicadores si hay evento */}
-                            {dayData.design && (
+                            {/* Móvil: solo puntos indicadores si hay evento */}
+                            {dayData.design && hasImage && (
                               <div className="flex gap-0.5 mt-1 sm:hidden">
                                 <span className="w-1 h-1 bg-white rounded-full opacity-80"></span>
                                 <span className="w-1 h-1 bg-gray-400 rounded-full opacity-60"></span>
@@ -429,7 +426,7 @@ export default function RunningPage() {
                             )}
 
                             {/* Desktop: información completa */}
-                            {dayData.design ? (
+                            {dayData.design && hasImage ? (
                               <div className="hidden sm:flex flex-1 flex-col justify-between">
                                 <div>
                                   <div className="text-sm font-bold text-gray-200 mb-2 line-clamp-2">
@@ -451,30 +448,19 @@ export default function RunningPage() {
                                 </div>
                               </div>
                             ) : (
-                              <div className="hidden sm:flex flex-1 flex-col items-center justify-center text-center">
-                                <div className="text-2xl mb-2 opacity-50">📅</div>
-                                <div className="text-xs text-gray-600 font-medium">Sin eventos</div>
-                              </div>
+                              !dayData.design && (
+                                <div className="hidden sm:flex flex-1 flex-col items-center justify-center text-center">
+                                  <div className="text-2xl mb-2 opacity-50">📅</div>
+                                  <div className="text-xs text-gray-600 font-medium">Sin eventos</div>
+                                </div>
+                              )
                             )}
                           </>
                         )}
                       </div>
-                    ))}
-                  </div>
-
-                  {/* Mensaje cuando no hay eventos este mes */}
-                  {!hasEventsThisMonth && (
-                    <div className="text-center py-10 sm:py-16 mt-6 border-t border-gray-100">
-                      <div className="text-5xl sm:text-7xl mb-4">🏃‍♂️</div>
-                      <p className="text-xl sm:text-2xl font-bold text-gray-700">
-                        No hay running a la fecha
-                      </p>
-                      <p className="text-gray-500 mt-2 text-sm sm:text-base">
-                        Vuelve pronto, ¡estamos preparando nuevos eventos!
-                      </p>
-                    </div>
-                  )}
-                </>
+                    )
+                  })}
+                </div>
               )}
 
               {/* Leyenda móvil */}
@@ -501,9 +487,9 @@ export default function RunningPage() {
 
       {/* {<CookieConsent />} */}
 
-      {/* ===== MODAL ===== */}
+      {/* ===== MODAL — sheet en móvil, popup centrado en desktop ===== */}
       {showHoverModal && hoveredDesign && (() => {
-        const imageUrl = getEventImage(hoveredDesign.fecha)
+        const imageUrl = getImageByDate(hoveredDesign.fecha)
         return (
           <>
             {/* Backdrop */}
@@ -516,9 +502,8 @@ export default function RunningPage() {
             <div className="fixed inset-x-0 bottom-0 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 z-[9999]">
               <div className="bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl border border-gray-200 p-6 sm:p-8 w-full sm:max-w-lg max-h-[90vh] overflow-y-auto relative">
 
-                {/* Franja superior negra en desktop */}
+                {/* Franja superior — negra en desktop, handle en móvil */}
                 <div className="absolute top-0 left-0 right-0 h-1 bg-black rounded-t-3xl hidden sm:block"></div>
-                {/* Handle en móvil */}
                 <div className="flex justify-center mb-4 sm:hidden">
                   <div className="w-10 h-1 bg-gray-300 rounded-full"></div>
                 </div>
@@ -529,30 +514,31 @@ export default function RunningPage() {
                   </h3>
                 </div>
 
-                {/* Imagen — siempre visible (propia o por defecto) */}
-                <div className="mb-5 sm:mb-6">
-                  <div
-                    className="relative rounded-2xl overflow-hidden cursor-pointer group shadow-lg hover:shadow-2xl transition-all duration-300"
-                    onClick={() => openPhotoViewer(imageUrl, hoveredDesign.titulo)}
-                  >
-                    <img
-                      src={imageUrl}
-                      alt={hoveredDesign.titulo || "Imagen del evento"}
-                      className="w-full h-48 sm:h-56 object-cover group-hover:scale-110 transition-transform duration-500"
-                      onError={(e) => { e.target.src = DEFAULT_EVENT_IMAGE }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent group-hover:from-black/70 transition-all duration-300 flex items-center justify-center">
-                      <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white/95 rounded-full p-3 sm:p-4">
-                        <svg className="w-6 h-6 sm:w-8 sm:h-8 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
-                        </svg>
+                {imageUrl && (
+                  <div className="mb-5 sm:mb-6">
+                    <div
+                      className="relative rounded-2xl overflow-hidden cursor-pointer group shadow-lg hover:shadow-2xl transition-all duration-300"
+                      onClick={() => openPhotoViewer(imageUrl, hoveredDesign.titulo)}
+                    >
+                      <img
+                        src={imageUrl || "/placeholder.svg"}
+                        alt={hoveredDesign.titulo || "Imagen del evento"}
+                        className="w-full h-48 sm:h-56 object-cover group-hover:scale-110 transition-transform duration-500"
+                        onError={(e) => { e.target.src = "/running-event.webp" }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent group-hover:from-black/70 transition-all duration-300 flex items-center justify-center">
+                        <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white/95 rounded-full p-3 sm:p-4">
+                          <svg className="w-6 h-6 sm:w-8 sm:h-8 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                          </svg>
+                        </div>
                       </div>
                     </div>
+                    <p className="text-center text-xs sm:text-sm text-gray-600 mt-2 sm:mt-3 font-medium">
+                      🔍 Toca para ver en pantalla completa
+                    </p>
                   </div>
-                  <p className="text-center text-xs sm:text-sm text-gray-600 mt-2 sm:mt-3 font-medium">
-                    🔍 Toca para ver en pantalla completa
-                  </p>
-                </div>
+                )}
 
                 <div className="flex gap-3 sm:gap-4">
                   <button
@@ -596,10 +582,10 @@ export default function RunningPage() {
             </button>
             <div className="relative">
               <img
-                src={photoViewerImage.url}
+                src={photoViewerImage.url || "/placeholder.svg"}
                 alt={photoViewerImage.title || "Imagen del evento"}
                 className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
-                onError={(e) => { e.target.src = DEFAULT_EVENT_IMAGE }}
+                onError={(e) => { e.target.src = "/running-event.webp" }}
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 sm:p-6 rounded-b-lg">
                 <h3 className="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2">
