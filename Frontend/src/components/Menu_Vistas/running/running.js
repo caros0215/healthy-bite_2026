@@ -78,7 +78,7 @@ const WelcomeOverlayRunning = ({ onClose }) => {
 
   return (
     <div className="welcome-overlay" onClick={handleBackgroundClick}>
-      <div className="welcome-main-container">
+      <div className="welcome-main-container" onClick={(e) => e.stopPropagation()}>
 
         {/* Imagen */}
         <div className="welcome-content">
