@@ -1,28 +1,33 @@
 "use client"
 import { useState, useEffect } from "react"
-import styles from "./WelcomeOverlayRunning.module.css"
-import API_URL from "../../../config/api" // ✅ importar
+import "./WelcomeOverlay.css"
+import API_URL from "../../../config/api"
+
+const loaderGif = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620330/logo_oscillate_dfzlda.gif"
+const DEFAULT_IMAGE = "https://res.cloudinary.com/dxh5zrylb/image/upload/artes-01_hliqvm.webp"
 
 const WelcomeOverlayRunning = ({ onClose, usuario_id = 1 }) => {
   const [imageUrl, setImageUrl] = useState("")
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [noImage, setNoImage] = useState(false)
   const [fechaEvento, setFechaEvento] = useState(null)
   const [esFuturo, setEsFuturo] = useState(false)
   const [mensaje, setMensaje] = useState("")
-  const [imageLoadError, setImageLoadError] = useState(false)
 
-  useEffect(() => { loadRunningData() }, [usuario_id])
+  useEffect(() => {
+    loadRunningData()
+  }, [usuario_id])
 
   const loadRunningData = async () => {
     try {
       setLoading(true)
       setError(null)
-      setImageLoadError(false)
+      setNoImage(false)
 
-      const response = await fetch(`${API_URL}/api/running/ultima-imagen/${usuario_id}`, { // ✅ corregido
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch(`${API_URL}/api/running/ultima-imagen/${usuario_id}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
       })
 
       if (!response.ok) throw new Error(`HTTP ${response.status}: Error en la API`)
@@ -30,32 +35,41 @@ const WelcomeOverlayRunning = ({ onClose, usuario_id = 1 }) => {
       const data = await response.json()
 
       if (!data.success) throw new Error(data.message || "La API no devolvió datos exitosos")
-      if (!data.hasImage) throw new Error("No hay imagen disponible para este usuario")
 
-      if (data.imagen) setImageUrl(data.imagen)
+      if (data.hasImage && data.imagen) {
+        const img = data.imagen.startsWith("data:image")
+          ? data.imagen
+          : data.imagen.startsWith("http")
+          ? data.imagen
+          : `data:image/jpeg;base64,${data.imagen}`
+        setImageUrl(img)
+        setNoImage(false)
+      } else {
+        setNoImage(true)
+        setImageUrl(DEFAULT_IMAGE)
+      }
+
       if (data.fechaEvento) {
         setFechaEvento(data.fechaEvento)
         setEsFuturo(data.esFuturo || false)
       }
-      setMensaje(data.mensaje || "Evento de running disponible")
 
+      setMensaje(data.mensaje || "")
     } catch (err) {
       console.error("Error loading running data:", err)
-      setError(`Error al cargar el evento de running: ${err.message}`)
-      setImageLoadError(true)
+      setNoImage(true)
+      setImageUrl(DEFAULT_IMAGE)
+      setError("No hay eventos de running disponibles en este momento")
     } finally {
       setLoading(false)
     }
   }
 
-  const handleImageError = () => {
-    setImageLoadError(true)
-    setError("Error al mostrar la imagen - verifique el formato")
-  }
-
-  const handleImageLoad = () => {
-    setImageLoadError(false)
-    setError(null)
+  const handleImageError = (e) => {
+    if (e.target.src !== DEFAULT_IMAGE) {
+      e.target.src = DEFAULT_IMAGE
+    }
+    setNoImage(true)
   }
 
   const formatearFecha = (fecha) => {
@@ -65,91 +79,131 @@ const WelcomeOverlayRunning = ({ onClose, usuario_id = 1 }) => {
     })
   }
 
-  const calcularDiasRestantes = (fechaEvento) => {
-    if (!fechaEvento) return 0
-    return Math.ceil((new Date(fechaEvento) - new Date()) / (1000 * 60 * 60 * 24))
+  const calcularDiasRestantes = (fecha) => {
+    if (!fecha) return 0
+    return Math.ceil((new Date(fecha) - new Date()) / (1000 * 60 * 60 * 24))
   }
 
   const handlePedirAhora = () => {
-    window.open("https://chat.whatsapp.com/GWWflT8RNzRAIabnojZ4va?mode=hqctcli", "_blank")
+    const mensajeWA = noImage
+      ? `Hola! Me interesa inscribirme a un evento de running, ¿cuándo tienen disponibilidad?`
+      : `Hola! Quiero inscribirme al evento de running${
+          fechaEvento
+            ? ` del ${formatearFecha(fechaEvento)}${esFuturo ? ` (en ${calcularDiasRestantes(fechaEvento)} días)` : ""}`
+            : ""
+        }`
+
+    window.open(
+      `https://wa.me/573147139843?text=${encodeURIComponent(mensajeWA)}`,
+      "_blank"
+    )
     onClose()
   }
 
+  const handleBackgroundClick = (e) => {
+    if (e.target === e.currentTarget) onClose()
+  }
+
   return (
-    <div className={styles.welcomeOverlay} onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div className={styles.welcomeModal}>
-        <button onClick={onClose} className={styles.closeButton} aria-label="Cerrar">
-          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+    <div className="welcome-overlay" onClick={handleBackgroundClick}>
+      <div className="welcome-main-container">
 
-        <div className={styles.welcomeContentWrapper}>
-          <div className={styles.welcomeTextSection}>
-            <h3 className={`${styles.welcomeTitle} ${esFuturo ? styles.futureEvent : ""}`}>
-              {esFuturo ? "¡Próximo Running!" : "¡Bienvenido al Running!"}
-            </h3>
-            {mensaje && <p className={styles.courseTitle}>{mensaje}</p>}
-            {fechaEvento && (
-              <p className={styles.eventDate}>
-                <strong>{formatearFecha(fechaEvento)}</strong>
-                {esFuturo && ` (en ${calcularDiasRestantes(fechaEvento)} días)`}
-              </p>
-            )}
-            <p className={styles.welcomeText}>
-              Si deseas explorar el resto de la página dale click a la X,
-              <br /><br />
-              {esFuturo ? "si deseas pedir este diseño para tu próximo evento de running, dale click al botón" : "si deseas pedir este diseño para eventos de running, dale click al botón"}
-            </p>
-            <button
-              onClick={handlePedirAhora}
-              className={`${styles.pedirButton} ${esFuturo ? styles.futureEvent : ""}`}
-              disabled={imageLoadError || loading || !imageUrl}
-            >
-              {loading ? "Cargando..." : esFuturo ? "Reservar Ahora" : "Inscribete Ahora"}
-            </button>
-            {error && (
-              <div className={styles.errorContainer}>
-                <p className={styles.errorMessage}>{error}</p>
-                <button onClick={loadRunningData} className={styles.retryButton}>Reintentar</button>
-              </div>
-            )}
-          </div>
+        {/* ===== IZQUIERDA / ARRIBA en móvil — imagen ===== */}
+        <div className="welcome-content">
+          <button onClick={onClose} className="close-button" aria-label="Cerrar">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
 
-          <div className={styles.welcomeImageSection}>
+          <div className="image-container">
             {loading ? (
-              <div className={styles.imageLoading}>
-                <div className={styles.spinner}></div>
-                <p>Cargando imagen...</p>
+              <div className="image-loading">
+                <div className="spinner">
+                  <img src={loaderGif} alt="Cargando..." className="loading-gif" />
+                </div>
               </div>
             ) : (
-              <div className={styles.imageWrapper}>
-                {!imageLoadError && imageUrl ? (
-                  <>
-                    <img
-                      src={imageUrl}
-                      alt={`Imagen del evento de running: ${mensaje || formatearFecha(fechaEvento)}`}
-                      className={styles.welcomeImage}
-                      onError={handleImageError}
-                      onLoad={handleImageLoad}
-                    />
-                    {esFuturo && fechaEvento && (
-                      <div className={styles.eventBadge}>
-                        <span>🏃‍♂️ {calcularDiasRestantes(fechaEvento)} días restantes</span>
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <div className={styles.imageError}>
-                    <h3>No hay imagen disponible</h3>
-                    <p>No se encontró una imagen para mostrar.</p>
-                    <button onClick={loadRunningData} className={styles.retryButton}>Reintentar</button>
+              <div className="image-wrapper">
+                <img
+                  src={imageUrl || DEFAULT_IMAGE}
+                  alt={noImage ? "Próximos eventos de running" : `Evento: ${mensaje || formatearFecha(fechaEvento)}`}
+                  className="welcome-image"
+                  onError={handleImageError}
+                  crossOrigin="anonymous"
+                />
+
+                {/* Badge días restantes */}
+                {esFuturo && fechaEvento && !noImage && (
+                  <div className="canva-badge">
+                    <span>🏃‍♂️ {calcularDiasRestantes(fechaEvento)} días</span>
+                  </div>
+                )}
+
+                {/* Badge sin eventos */}
+                {noImage && (
+                  <div className="canva-badge" style={{ background: "rgba(181,190,0,0.95)" }}>
+                    <span>¡Próximamente!</span>
                   </div>
                 )}
               </div>
             )}
           </div>
         </div>
+
+        {/* ===== DERECHA / ABAJO en móvil — texto y botón ===== */}
+        <div className="welcome-text-content">
+          <h3 className="welcome-title">
+            {noImage ? "¡Próximamente!" : esFuturo ? "¡Próximo Running!" : "¡Bienvenido!"}
+          </h3>
+
+          {mensaje && !noImage && (
+            <p style={{ color: "#fff", fontWeight: 600, marginBottom: "0.5rem", textAlign: "center" }}>
+              {mensaje}
+            </p>
+          )}
+
+          {fechaEvento && !noImage && (
+            <p style={{ color: "#b5be00", fontWeight: 700, marginBottom: "0.75rem", textAlign: "center", fontSize: "0.9rem" }}>
+              📅 {formatearFecha(fechaEvento)}
+              {esFuturo && ` · ${calcularDiasRestantes(fechaEvento)} días`}
+            </p>
+          )}
+
+          <p className="welcome-text">
+            {noImage ? (
+              <>
+                Estamos preparando nuevos eventos de running para ti.
+                <br /><br />
+                Si deseas explorar el resto de la página dale click a la X,
+                <br />
+                o contáctanos para más información.
+              </>
+            ) : (
+              <>
+                Si deseas explorar el resto de la página dale click a la X,
+                <br /><br />
+                {esFuturo
+                  ? "si deseas reservar tu cupo, dale click al botón"
+                  : "si deseas inscribirte dale click al botón"}
+              </>
+            )}
+          </p>
+
+          <button onClick={handlePedirAhora} className="pedir-button">
+            {noImage ? "Contáctanos" : esFuturo ? "Reservar Ahora" : "Inscríbete Ahora"}
+          </button>
+
+          {error && (
+            <div className="error-container">
+              <p className="error-message">⚠️ {error}</p>
+              <button onClick={loadRunningData} className="retry-button">
+                Reintentar
+              </button>
+            </div>
+          )}
+        </div>
+
       </div>
     </div>
   )
