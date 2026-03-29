@@ -15,6 +15,9 @@ const WHATSAPP_NUMBER = "573001234567"
 const WHATSAPP_MESSAGE = "Hola, quiero comenzar mi viaje saludable con Healthy Bite 💚"
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`
 
+// Año de fundación de la empresa
+const FOUNDING_YEAR = 2021
+
 const Star = ({ className }) => (
   <svg className={className} fill="currentColor" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
@@ -67,6 +70,11 @@ const HealthyFoodStory = () => {
   const [scrollY, setScrollY] = useState(0)
   const [currentWord, setCurrentWord] = useState(0)
   const [hoveredFounder, setHoveredFounder] = useState(null)
+  // ✅ NUEVO: hint solo aparece una vez y desaparece
+  const [showHint, setShowHint] = useState(true)
+
+  // ✅ NUEVO: años dinámicos calculados automáticamente
+  const yearsActive = new Date().getFullYear() - FOUNDING_YEAR
 
   const dynamicWords = ["Deliciosa", "Nutritiva", "Sostenible", "Auténtica", "Transformadora"]
 
@@ -117,6 +125,17 @@ const HealthyFoodStory = () => {
     }, 2000)
     return () => clearInterval(interval)
   }, [])
+
+  // ✅ NUEVO: ocultar hint después de 4 segundos
+  useEffect(() => {
+    const timer = setTimeout(() => setShowHint(false), 4000)
+    return () => clearTimeout(timer)
+  }, [])
+
+  // ✅ NUEVO: handler para click en móvil
+  const handleFounderClick = (founderId) => {
+    setHoveredFounder(prev => prev === founderId ? null : founderId)
+  }
 
   return (
     <div className={styles.healthyFoodStory}>
@@ -183,7 +202,16 @@ const HealthyFoodStory = () => {
                 className={`${styles.founderCard} ${index % 2 === 1 ? styles.offset : ""}`}
                 onMouseEnter={() => setHoveredFounder(founder.id)}
                 onMouseLeave={() => setHoveredFounder(null)}
+                // ✅ NUEVO: click para móvil
+                onClick={() => handleFounderClick(founder.id)}
               >
+                {/* ✅ NUEVO: hint solo en el primer card, solo en móvil, desaparece a los 4s */}
+                {index === 0 && showHint && (
+                  <div className={styles.mobileHint}>
+                    👆 Toca para ver la foto
+                  </div>
+                )}
+
                 <div className={styles.founderContent}>
                   <div className={styles.founderInfo}>
                     <h3>{founder.name}</h3>
@@ -210,7 +238,8 @@ const HealthyFoodStory = () => {
 
           <div className={styles.hoverHint}>
             <div className={styles.hintIndicator} />
-            <p>Pasa el cursor sobre las tarjetas para conocer a nuestros fundadores</p>
+            {/* ✅ NUEVO: mensaje solo visible en desktop */}
+            <p className={styles.desktopHintText}>Pasa el cursor sobre las tarjetas para conocer a nuestros fundadores</p>
           </div>
         </div>
       </section>
@@ -241,11 +270,12 @@ const HealthyFoodStory = () => {
 
             <div className={styles.missionHighlight}>
               <div className={styles.highlightCard}>
-                <div className={styles.highlightNumber}>4</div>
+                {/* ✅ NUEVO: años dinámicos */}
+                <div className={styles.highlightNumber}>{yearsActive}</div>
                 <div className={styles.highlightLabel}>Años</div>
               </div>
               <p className={styles.highlightText}>
-                Hoy, después de 4 años, Healthy Bite es mucho más que un mercado y un restaurante saludable. Es una <strong>comunidad</strong> que cree en el bienestar, en los procesos, en la educación nutricional y en el poder de los hábitos.
+                Hoy, después de {yearsActive} años, Healthy Bite es mucho más que un mercado y un restaurante saludable. Es una <strong>comunidad</strong> que cree en el bienestar, en los procesos, en la educación nutricional y en el poder de los hábitos.
               </p>
             </div>
           </div>
@@ -315,7 +345,7 @@ const HealthyFoodStory = () => {
         </div>
       </section>
 
-        {/* ── Customer Journey ── */}
+      {/* ── Customer Journey ── */}
       <section className={styles.customerJourney}>
         <div className={styles.journeyBackground}>
           <div className={`${styles.journeyBlob} ${styles.journeyBlob1}`}></div>
@@ -372,15 +402,13 @@ const HealthyFoodStory = () => {
           </div>
 
           {/* ── CTA ── */}
-        <div className={styles.journeyCta}>
-  <h3>¿Listo para comenzar tu propia transformación?</h3>
-  <p>Únete a miles de personas que ya han cambiado sus vidas con nuestra alimentación consciente.</p>
-  
-
- <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className={styles.ctaButton}>
-  Comenzar Mi Viaje Saludable 💚
-</a>
-</div>
+          <div className={styles.journeyCta}>
+            <h3>¿Listo para comenzar tu propia transformación?</h3>
+            <p>Únete a miles de personas que ya han cambiado sus vidas con nuestra alimentación consciente.</p>
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className={styles.ctaButton}>
+              Comenzar Mi Viaje Saludable 💚
+            </a>
+          </div>
         </div>
       </section>
 
