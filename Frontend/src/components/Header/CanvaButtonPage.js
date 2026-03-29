@@ -70,7 +70,7 @@ function CanvaButtonPage() {
     });
   };
 
-  // Función para guardar DISEÑO (ENLACE) - CORREGIDA
+  // Función para guardar DISEÑO (ENLACE)
   const saveDesignToDatabase = async (content, category, fecha_evento) => {
     if (!content) {
       setSaveStatus("error");
@@ -98,7 +98,7 @@ function CanvaButtonPage() {
     try {
       const response = await axios.post(endpoint, {
         usuario_id: Number.parseInt(userId),
-        fecha: fecha_evento, // Para guardar-diseno usa "fecha"
+        fecha: fecha_evento,
         elementos: elementosData,
       });
 
@@ -126,7 +126,7 @@ function CanvaButtonPage() {
     }
   };
 
-  // Función para guardar IMAGEN - CORREGIDA
+  // Función para guardar IMAGEN
   const saveImageToDatabase = async (base64Image, category, fecha_evento) => {
     if (!base64Image) {
       setUploadStatus("Error: No hay imagen para guardar");
@@ -141,12 +141,12 @@ function CanvaButtonPage() {
       return false;
     }
 
-   const endpoint = `${API_URL}/api/${category}/guardar-imagen`;
+    const endpoint = `${API_URL}/api/${category}/guardar-imagen`;
 
     try {
       const response = await axios.post(endpoint, {
         usuario_id: Number.parseInt(userId),
-        fecha_evento: fecha_evento, // Para guardar-imagen usa "fecha_evento"
+        fecha_evento: fecha_evento,
         imagen_base64: base64Image,
       });
 
@@ -196,7 +196,7 @@ function CanvaButtonPage() {
         setUploadStatus("Error: Por favor selecciona solo archivos de imagen");
         return;
       }
-      const maxSize = 50 * 1024 * 1024; // Aumentado a 50 MB
+      const maxSize = 50 * 1024 * 1024;
       if (file.size > maxSize) {
         setUploadStatus("Error: El archivo es demasiado grande. Máximo 50MB");
         return;
@@ -211,7 +211,7 @@ function CanvaButtonPage() {
     }
   };
 
-  // Guardar foto
+  // ✅ FIX: Guardar foto sin resetear categoría ni fecha entre imágenes
   const handleSavePhoto = async () => {
     if (!selectedFile) {
       setUploadStatus("Error: Por favor selecciona una foto");
@@ -234,21 +234,23 @@ function CanvaButtonPage() {
       const success = await saveImageToDatabase(base64Image, selectedCategoryForPhoto, selectedDateForPhoto);
 
       if (success) {
+        // ✅ Solo limpia el archivo y la preview
+        // NO se resetea categoría ni fecha para poder guardar la siguiente imagen sin reconfigurar
         setTimeout(() => {
           setSelectedFile(null);
           setPreviewUrl("");
           setUploadStatus("");
-          setSelectedDateForPhoto("");
-          setCategorySelectedForPhoto(false);
-          setSelectedCategoryForPhoto("");
+
+          // Solo resetea el input de archivo
           const fileInput = document.getElementById("photo-upload");
           if (fileInput) fileInput.value = "";
-        }, 3000);
+        }, 2000);
       }
     } catch (error) {
       console.error("❌ Error al guardar foto:", error);
       setUploadStatus("Error: No se pudo guardar la foto");
     } finally {
+      // ✅ Siempre desbloquea el botón, incluso si hay error
       setIsUploadingPhoto(false);
     }
   };
