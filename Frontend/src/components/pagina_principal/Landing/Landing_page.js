@@ -8,7 +8,7 @@ import MenuSlider from "../MenuSlider/MenuSlider"
 import EventosSlider from "../EventosSlider/EventosSliders"
 import GridSections from "../GridSections/GridSections"
 import FrasesSections from "../frases_2/frases_2"
-import "../MenuSlider/MenuSlider.css"
+import "../MenuSlider/MenuSlider.module.css"
 import "../EventosSlider/EventosSliders.module.css"
 const imagen1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620321/IMG_8784_k585w9.webp";
 const imagen2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620151/23_jhas5b.webp";
