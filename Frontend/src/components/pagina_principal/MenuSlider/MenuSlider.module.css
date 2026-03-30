@@ -1,32 +1,45 @@
-.menu-slider-section {
+.menuslidersection {
   width: 100%;
   padding: 2rem 0;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
 }
 
-.menu-header {
+.menuslidersection.visible {
+  opacity: 1;
+}
+
+.menuheader {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 2rem;
 }
 
-.menu-title {
-  margin-left: -17%;
+.menutitle {
   color: #000000;
   font-size: 6rem;
   font-weight: 900;
   line-height: 0.9;
   text-transform: uppercase;
   margin: 0;
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 1s ease-in-out 0.3s;
 }
 
-.menu-controls {
+.menutitle.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.menucontrols {
   margin-top: 13%;
   display: flex;
   gap: 1rem;
 }
 
-.menu-control-button {
+.menucontrolbutton {
   width: 60px;
   height: 58px;
   border-radius: 50%;
@@ -40,38 +53,39 @@
   transition: background-color 0.3s ease;
 }
 
-.menu-control-button:hover {
+.menucontrolbutton:hover {
   background-color: #e0e0e0;
 }
 
-.menu-items-container {
+.menuitemscontainer {
   display: flex;
-  width: 99% !important;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin-left: 3%;
+  width: 98%;
   gap: 2rem;
-  /* ✅ FIX SAFARI: cambiar hidden → auto para permitir scroll programático */
   overflow-x: auto;
   overflow-y: hidden;
-  /* ✅ FIX SAFARI / iOS: scroll momentum nativo */
   -webkit-overflow-scrolling: touch;
-  padding: 1rem 0;
   scroll-behavior: smooth;
-  /* ✅ Ocultar scrollbar en todos los navegadores */
-  scrollbar-width: none;       /* Firefox */
-  -ms-overflow-style: none;    /* IE / Edge legacy */
-  touch-action: pan-x;
+  padding: 1rem 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  box-sizing: border-box;
 }
 
-.menu-items-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+.menuitemscontainer::-webkit-scrollbar {
+  display: none;
 }
 
-.menu-item {
+.menuitem {
   min-width: 400px;
   flex-shrink: 0;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
-.menu-item-image-container {
+.menuitemimagecontainer {
   width: 100%;
   height: 533px;
   overflow: hidden;
@@ -79,92 +93,73 @@
   margin-bottom: 0.75rem;
 }
 
-.menu-item-image {
+.menuitemimage {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
+  max-width: 100%;
+  display: block;
 }
 
-.menu-item:hover .menu-item-image {
+.menuitem:hover .menuitemimage {
   transform: scale(1.05);
 }
 
-.menu-item-footer {
+.menuitemfooter {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.menu-item-title {
+.menuitemtitle {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
   color: #2e7d32;
 }
 
-.menu-item-icon {
+.menuitemicon {
   font-size: 1.5rem;
   color: #2e7d32;
-}
-
-/* Integration with white-section */
-.white-section .menu-slider-section {
-  width: 100%;
-  max-width: 100%;
-}
-
-.white-section .section-lead {
-  margin-left: -16%;
-  font-weight: 700;
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #000000;
-  text-align: left;
-  margin-bottom: 1rem;
-}
-
-.white-section .section-heading {
-  margin-bottom: 2rem;
 }
 
 /* ============================================
    MAC RETINA 14" / LAPTOPS ~1280-1440px
    ============================================ */
 @media (max-width: 1440px) {
-  .menu-item {
+  .menuitem {
     min-width: 280px;
     max-width: 280px;
   }
 
-  .menu-item-image-container {
+  .menuitemimagecontainer {
     height: 340px;
   }
 
-  .menu-title {
+  .menutitle {
     font-size: 5rem;
   }
 }
 
 /* ============================================
-   LAPTOPS 13"-14" con zoom alto (~1280px lógicos)
+   LAPTOPS 13"-14" (~1280px)
    ============================================ */
 @media (max-width: 1280px) {
-  .menu-item {
+  .menuitem {
     min-width: 240px;
     max-width: 240px;
   }
 
-  .menu-item-image-container {
+  .menuitemimagecontainer {
     height: 300px;
   }
 
-  .menu-title {
+  .menutitle {
     font-size: 4.5rem;
   }
 
-  .menu-items-container {
+  .menuitemscontainer {
     gap: 1.25rem;
   }
 }
@@ -173,20 +168,20 @@
    TABLET GRANDE (max 1024px)
    ============================================ */
 @media (max-width: 1024px) {
-  .menu-title {
+  .menutitle {
     font-size: 3.5rem;
   }
 
-  .menu-item {
+  .menuitem {
     min-width: 210px;
     max-width: 210px;
   }
 
-  .menu-item-image-container {
+  .menuitemimagecontainer {
     height: 260px;
   }
 
-  .menu-items-container {
+  .menuitemscontainer {
     gap: 1rem;
   }
 }
@@ -195,58 +190,60 @@
    MÓVIL (max 768px)
    ============================================ */
 @media (max-width: 768px) {
-  .menu-slider-section {
+  .menuslidersection {
     padding: 1rem 0;
   }
 
-  .menu-header {
+  .menuheader {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.75rem;
     margin-bottom: 1rem;
   }
 
-  .menu-title {
+  .menutitle {
     font-size: 1.8rem !important;
     margin-left: 0 !important;
     line-height: 1.1;
   }
 
-  .menu-controls {
+  .menucontrols {
     margin-top: 0;
     align-self: flex-end;
   }
 
-  .menu-control-button {
+  .menucontrolbutton {
     width: 40px;
     height: 40px;
     font-size: 1.2rem;
   }
 
-  .menu-item {
-    min-width: 200px !important;
-    max-width: 200px !important;
+  .menuitem {
+    min-width: 72vw;
+    max-width: 72vw;
+    height: auto;
   }
 
-  .menu-item-image-container {
-    height: 150px !important;
+  .menuitemimagecontainer {
+    height: 52vw;
+    min-height: 190px;
+    max-height: 260px;
   }
 
-  .menu-items-container {
-    gap: 1rem !important;
-    width: 100% !important;
+  .menuitemscontainer {
+    margin-left: 4%;
+    width: 100%;
+    gap: 1rem;
+    padding: 0.75rem 0 0.75rem 4%;
+    box-sizing: border-box;
   }
 
-  .menu-item-title {
+  .menuitemtitle {
     font-size: 0.9rem;
   }
 
-  .menu-item-icon {
+  .menuitemicon {
     font-size: 0.9rem;
-  }
-
-  .white-section .section-lead {
-    margin-left: 0 !important;
   }
 }
 
@@ -254,20 +251,20 @@
    MÓVIL PEQUEÑO (max 480px)
    ============================================ */
 @media (max-width: 480px) {
-  .menu-title {
+  .menutitle {
     font-size: 1.5rem !important;
   }
 
-  .menu-item {
+  .menuitem {
     min-width: 170px !important;
     max-width: 170px !important;
   }
 
-  .menu-item-image-container {
+  .menuitemimagecontainer {
     height: 130px !important;
   }
 
-  .menu-control-button {
+  .menucontrolbutton {
     width: 36px;
     height: 36px;
     font-size: 1rem;
