@@ -62,6 +62,7 @@
   transition: all 0.2s ease;
   line-height: 1;
   padding: 0;
+  z-index: 10;  /* AGREGAR ESTA LINEA */
 }
 
 .modal-close-btn:hover {
@@ -297,7 +298,7 @@
    LOADING OVERLAY
    ============================================ */
 .loading-overlay {
-  position: fixed;
+  position: absolute;  /* CAMBIAR de fixed a absolute */
   top: 0;
   left: 0;
   right: 0;
@@ -308,7 +309,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 5;  /* CAMBIAR a z-index menor que el botón */
+  border-radius: 20px;  /* AGREGAR para que coincida con el modal */
 }
 
 .loading-gif {

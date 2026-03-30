@@ -111,10 +111,11 @@ function LoginModal({ isOpen, onClose }) {
               </div>
 
               <div className="form-actions">
-                <button type="button" className="cancel-btn" onClick={onClose}>Cancelar</button>
+               
                 <button type="submit" className="login-btn" disabled={loading}>
                   {loading ? "Procesando..." : "Iniciar Sesión"}
                 </button>
+                 <button type="button" className="cancel-btn" onClick={onClose}>Cancelar</button>
               </div>
             </form>
           )}
