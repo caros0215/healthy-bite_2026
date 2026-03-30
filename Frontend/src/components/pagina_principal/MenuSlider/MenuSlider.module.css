@@ -80,6 +80,8 @@
 
 .menuitem {
   min-width: 400px;
+  width: 400px;
+  flex: 0 0 400px;
   flex-shrink: 0;
   cursor: pointer;
   box-sizing: border-box;
@@ -131,6 +133,8 @@
   .menuitem {
     min-width: 280px;
     max-width: 280px;
+    width: 280px;
+    flex: 0 0 280px;
   }
 
   .menuitemimagecontainer {
@@ -149,6 +153,8 @@
   .menuitem {
     min-width: 240px;
     max-width: 240px;
+    width: 240px;
+    flex: 0 0 240px;
   }
 
   .menuitemimagecontainer {
@@ -175,6 +181,8 @@
   .menuitem {
     min-width: 210px;
     max-width: 210px;
+    width: 210px;
+    flex: 0 0 210px;
   }
 
   .menuitemimagecontainer {
@@ -221,6 +229,8 @@
   .menuitem {
     min-width: 72vw;
     max-width: 72vw;
+    width: 72vw;
+    flex: 0 0 72vw;
     height: auto;
   }
 
@@ -258,6 +268,8 @@
   .menuitem {
     min-width: 170px !important;
     max-width: 170px !important;
+    width: 170px !important;
+    flex: 0 0 170px !important;
   }
 
   .menuitemimagecontainer {
