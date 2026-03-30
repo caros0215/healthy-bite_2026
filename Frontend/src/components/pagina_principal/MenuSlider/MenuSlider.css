@@ -48,15 +48,21 @@
   display: flex;
   width: 99% !important;
   gap: 2rem;
-  overflow-x: hidden;
+  /* ✅ FIX SAFARI: cambiar hidden → auto para permitir scroll programático */
+  overflow-x: auto;
+  overflow-y: hidden;
+  /* ✅ FIX SAFARI / iOS: scroll momentum nativo */
+  -webkit-overflow-scrolling: touch;
   padding: 1rem 0;
   scroll-behavior: smooth;
-  scrollbar-width: none;
+  /* ✅ Ocultar scrollbar en todos los navegadores */
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;    /* IE / Edge legacy */
   touch-action: pan-x;
 }
 
 .menu-items-container::-webkit-scrollbar {
-  display: none;
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .menu-item {
