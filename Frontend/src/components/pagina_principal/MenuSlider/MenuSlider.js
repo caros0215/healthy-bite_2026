@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useState, useEffect } from "react"
-import styles from "./MenuSlider.module.css"
+import styles from "../MenuSlider/MenuSlider.module.css"
 
 const imagen1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620151/21_biljox.webp";
 const imagen2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620133/1_fvkwsy.webp";
