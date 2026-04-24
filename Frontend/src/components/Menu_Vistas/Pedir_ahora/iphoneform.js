@@ -1,19 +1,19 @@
 import { useState, useEffect } from "react"
 import styles from './IPhoneForm.module.css'
-const imagen1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620337/phone_14_01-Photoroom-1_znku7l.webp";
-const imagen2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620318/ipad21_2_uocoir.webp";
-const imagen3 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620367/senal_3_wtvntt.webp";
-const imagen4 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620189/artes-04_rthq5e.webp";
-const menu1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620165/2026_MENU_HEALTHYBITE-1_qdl8px.webp";
-const menu2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620165/2026_MENU_HEALTHYBITE-2_gvr7th.webp";
-const menu3 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620167/2026_MENU_HEALTHYBITE-3_wgz2sh.webp";
-const menu4 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620171/2026_MENU_HEALTHYBITE-4_ur8hh3.webp";
-const menu5 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620171/2026_MENU_HEALTHYBITE-5_uaz1fj.webp";
-const menu6 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620172/2026_MENU_HEALTHYBITE-6_gootga.webp";
-const menu7 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620175/2026_MENU_HEALTHYBITE-7_fg2q3z.webp";
-const menu8 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620175/2026_MENU_HEALTHYBITE-8_bzhpmp.webp";
-const menu9 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620175/2026_MENU_HEALTHYBITE-9_oqc5pn.webp";
-const menu10 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620176/2026_MENU_HEALTHYBITE-10_adp7gp.webp";
+const imagen1 = "https://ik.imagekit.io/b4rykldk3/phone_14_01-Photoroom-1.webp?updatedAt=1777044895649";
+const imagen2 = "https://ik.imagekit.io/b4rykldk3/ipad21_2.webp?updatedAt=1777044896882";
+const imagen3 = "https://ik.imagekit.io/b4rykldk3/senal_3.webp?updatedAt=1777044895868";
+const imagen4 = "https://ik.imagekit.io/b4rykldk3/artes-04.webp?updatedAt=1777044887985";
+const menu1 = "https://ik.imagekit.io/b4rykldk3/2026%20MENU%20HEALTHYBITE-1.webp?updatedAt=1777044890836";
+const menu2 = "https://ik.imagekit.io/b4rykldk3/2026%20MENU%20HEALTHYBITE-2.webp?updatedAt=1777044889855";
+const menu3 = "https://ik.imagekit.io/b4rykldk3/2026%20MENU%20HEALTHYBITE-3.webp?updatedAt=1777044889794";
+const menu4 = "https://ik.imagekit.io/b4rykldk3/2026%20MENU%20HEALTHYBITE-4.webp?updatedAt=1777044890103";
+const menu5 = "https://ik.imagekit.io/b4rykldk3/2026%20MENU%20HEALTHYBITE-5.webp?updatedAt=1777044890756";
+const menu6 = "https://ik.imagekit.io/b4rykldk3/2026%20MENU%20HEALTHYBITE-6.webp?updatedAt=1777044890320";
+const menu7 = "https://ik.imagekit.io/b4rykldk3/2026%20MENU%20HEALTHYBITE-7.webp?updatedAt=1777044889940";
+const menu8 = "https://ik.imagekit.io/b4rykldk3/2026%20MENU%20HEALTHYBITE-8.webp?updatedAt=1777044889664";
+const menu9 = "https://ik.imagekit.io/b4rykldk3/2026%20MENU%20HEALTHYBITE-9.webp?updatedAt=1777044889941";
+const menu10 = "https://ik.imagekit.io/b4rykldk3/2026%20MENU%20HEALTHYBITE-10.webp?updatedAt=1777044889129";
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000"
 

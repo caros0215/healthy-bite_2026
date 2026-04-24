@@ -2,13 +2,13 @@
 
 import { useRef, useState, useEffect } from "react"
 import styles from "./EventosSliders.module.css"
-const video1 = "https://res.cloudinary.com/dxh5zrylb/video/upload/video_21_jtdofg.webm";
-const video2 = "https://res.cloudinary.com/dxh5zrylb/video/upload/cursos_zdc30f.mp4";
-const video4 = "https://res.cloudinary.com/dxh5zrylb/video/upload/vid_1_r9eijh.webm";
-const video3 = "https://res.cloudinary.com/dxh5zrylb/video/upload/vid_2_pvlukp.webm";
-const imagen5 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620301/imagen_3_pba6t4.webp";
-const imagen6 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620305/imagen_5_j3tk3k.webp";
-const logo = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620188/artes_Mesa_de_trabajo_1_oytyhc.webp";
+const video1 = "https://ik.imagekit.io/b4rykldk3/video_21.webm/ik-video.mp4?updatedAt=1777044935106";
+const video2 = "https://ik.imagekit.io/b4rykldk3/cursos.mp4?updatedAt=1777044908325";
+const video4 = "https://ik.imagekit.io/b4rykldk3/vid_1.webm/ik-video.mp4?updatedAt=1777044959009";
+const video3 = "https://ik.imagekit.io/b4rykldk3/vid_2.webm/ik-video.mp4?updatedAt=1777044923692";
+const imagen5 = "https://ik.imagekit.io/b4rykldk3/imagen_1.webp?updatedAt=1777044888817";
+const imagen6 = "https://ik.imagekit.io/b4rykldk3/imagen_5.webp?updatedAt=1777044888759";
+const logo = "https://ik.imagekit.io/b4rykldk3/artes_Mesa%20de%20trabajo%201.webp?updatedAt=1777044887554";
 
 const EventosSlider = () => {
   const containerRef = useRef(null)

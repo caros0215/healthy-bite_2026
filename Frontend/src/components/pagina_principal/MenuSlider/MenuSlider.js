@@ -3,12 +3,12 @@
 import { useRef, useState, useEffect } from "react"
 import styles from "../../pagina_principal/MenuSlider/MenuSlider.module.css"
 
-const imagen1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620151/21_biljox.webp";
-const imagen2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620133/1_fvkwsy.webp";
-const imagen3 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620147/18_ghcud8.webp";
-const imagen4 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620134/2_gzl2jz.webp";
-const imagen5 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620147/17_r0vqqz.webp";
-const imagen6 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620143/14_tkuhg7.webp";
+const imagen1 = "https://ik.imagekit.io/b4rykldk3/21.webp?updatedAt=1777044905513";
+const imagen2 = "https://ik.imagekit.io/b4rykldk3/1.webp?updatedAt=1777044892924";
+const imagen3 = "https://ik.imagekit.io/b4rykldk3/18.webp?updatedAt=1777044901471";
+const imagen4 = "https://ik.imagekit.io/b4rykldk3/2.webp?updatedAt=1777044900772";
+const imagen5 = "https://ik.imagekit.io/b4rykldk3/17.webp?updatedAt=1777044897995";
+const imagen6 = "https://ik.imagekit.io/b4rykldk3/14.webp?updatedAt=1777044898865";
 
 const MenuSlider = () => {
   const containerRef = useRef(null)

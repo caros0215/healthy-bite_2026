@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import DashboardHeader from "../Header/DashboardHeader";
 import "./CanvaButtonPage.css";
-const imagen1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620215/canva_xtx6mo.webp";
+const imagen1 = "https://ik.imagekit.io/b4rykldk3/canva.webp?updatedAt=1777044888139";
 
 
 function CanvaButtonPage() {

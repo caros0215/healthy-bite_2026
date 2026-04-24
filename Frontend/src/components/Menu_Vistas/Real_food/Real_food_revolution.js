@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react"
 import CookieConsent from "../../pagina_principal/CookieConsent/CookieConsent"
-const LogoWhite = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620329/logo_blanco_speogo.webp";
+const LogoWhite = "https://ik.imagekit.io/b4rykldk3/logo_blanco.webp?updatedAt=1777044896597";
 import styles from "./Real_food_revolution.module.css"
-const imagen_1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620340/plato_2_rw0img.webp";
+const imagen_1 = "https://ik.imagekit.io/b4rykldk3/plato_2.webp";
 import Proposito from "./Proposito"
 import MenuSlider2 from "../Real_food/MenuSliderFood"
 import Frases2 from "../Real_food/Frases2"

@@ -2,8 +2,8 @@
 import { useState, useEffect } from "react";
 import "./WelcomeOverlay.css";
 
-const loaderGif = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620330/logo_oscillate_dfzlda.gif";
-const defaultImage = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620189/artes-04_rthq5e.webp";
+const loaderGif = "https://ik.imagekit.io/b4rykldk3/logo_oscillate.gif?updatedAt=1777044898795";
+const defaultImage = "https://ik.imagekit.io/b4rykldk3/artes-04.webp?updatedAt=1777044887985";
 import API_URL from "../../../config/api"
 const DEFAULT_IMAGE = defaultImage;
 

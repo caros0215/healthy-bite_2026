@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react"
 import styles from "./historia.module.css"
-const imagen1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620142/12_i0jxep.webp";
-const imagen2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620253/fundador_3-_gy9lxf.webp";
-const imagen3 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620309/IMG_8719_r03hoo.webp";
-const imagen4 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620191/bowl_e2zgbf.webp";
-const imagen5 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620294/helado_2_hpgmjj.webp";
-const heroCollage = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620294/hero_2_efwbq4.webp";
-const bgHealthy = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620240/fondo_ykmrm0.jpg";
+const imagen1 = "https://ik.imagekit.io/b4rykldk3/12.webp?updatedAt=1777044898992";
+const imagen2 = "https://ik.imagekit.io/b4rykldk3/fundador_3-.webp?updatedAt=1777044889890";
+const imagen3 = "https://ik.imagekit.io/b4rykldk3/IMG_8719.webp?updatedAt=1777044888605";
+const imagen4 = "https://ik.imagekit.io/b4rykldk3/bowl.webp?updatedAt=1777044890308";
+const imagen5 = "https://ik.imagekit.io/b4rykldk3/helado_2.webp?updatedAt=1777044887456";
+const heroCollage = "https://ik.imagekit.io/b4rykldk3/hero_2.webp?updatedAt=1777044888675";
+const bgHealthy = "https://ik.imagekit.io/b4rykldk3/fondo.jpeg?updatedAt=1777044892723";
 
 // ← Cambiá este número por el tuyo
 const WHATSAPP_NUMBER = "573001234567"

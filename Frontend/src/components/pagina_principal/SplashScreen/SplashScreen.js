@@ -1,8 +1,8 @@
 "use client"
 import { useState, useEffect } from "react"
 import "./SplashScreen.css"
-const imagen1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620188/artes_Mesa_de_trabajo_1_oytyhc.webp";
-const imagen2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620189/artes-04_rthq5e.webp";
+const imagen1 = "https://ik.imagekit.io/b4rykldk3/artes_Mesa%20de%20trabajo%201.webp?updatedAt=1777044887554";
+const imagen2 = "https://ik.imagekit.io/b4rykldk3/artes-04.webp?updatedAt=1777044887985";
 
 function SplashScreen({ onLoadingComplete }) {
   const [progress, setProgress] = useState(0)

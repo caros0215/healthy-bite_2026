@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import "./Header.css"
-const logoColor = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620188/artes_Mesa_de_trabajo_1_oytyhc.webp";
-const logoWhite = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620189/artes-01_hliqvm.webp";
+const logoColor = "https://ik.imagekit.io/b4rykldk3/artes_Mesa%20de%20trabajo%201.webp?updatedAt=1777044887554";
+const logoWhite = "https://ik.imagekit.io/b4rykldk3/artes-01.webp?updatedAt=1777044887103";
 import LoginModal from "./Login"
 
 function Header() {

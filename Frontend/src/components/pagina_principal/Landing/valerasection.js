@@ -1,7 +1,7 @@
 import { useRef, useState } from "react"
 import styles from "./valerasection.module.css"
-const videoValera = "https://res.cloudinary.com/dxh5zrylb/video/upload/video_104_d6i0kk.mp4";
-const bgHealthy = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620240/fondo_ykmrm0.jpg";
+const videoValera = "https://ik.imagekit.io/b4rykldk3/video_104.mp4?updatedAt=1777044926719";
+const bgHealthy = "https://ik.imagekit.io/b4rykldk3/fondo.jpeg?updatedAt=1777044892723";
 
 export default function ValeraSection() {
   const videoRef = useRef(null)

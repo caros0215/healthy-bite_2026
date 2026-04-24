@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 import "./Login.css"
-const image1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620188/artes_Mesa_de_trabajo_1.1_xt3pwb.webp";
-const image2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620326/logo_animado_nk1nkt.gif";
+const image1 = "https://ik.imagekit.io/b4rykldk3/artes_Mesa%20de%20trabajo%201.1.webp?updatedAt=1777044887228";
+const image2 = "https://ik.imagekit.io/b4rykldk3/logo_animado.gif?updatedAt=1777044897392";
 import API_URL from "../../config/api" // ✅ importar
 
 function LoginModal({ isOpen, onClose }) {

@@ -6,8 +6,8 @@ import WelcomeOverlayCursos from "../../pagina_principal/WelcomeOverlay/WelcomeO
 import styles from "./cursos.module.css"
 import API_URL from "../../../config/api" 
 
-const imagen_3 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620309/IMG_8719_r03hoo.webp";
-const image2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620321/IMG_8784_k585w9.webp";
+const imagen_3 = "https://ik.imagekit.io/b4rykldk3/IMG_8719.webp?updatedAt=1777044888605";
+const image2 = "https://ik.imagekit.io/b4rykldk3/IMG_8784.webp?updatedAt=1777044890394";
 
 export default function CursosPage() {
   const [showWelcome, setShowWelcome] = useState(true)

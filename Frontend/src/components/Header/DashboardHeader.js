@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import "./Header.css"
 import "./DashboardHeader.css"
-const logoColor = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620188/artes_Mesa_de_trabajo_1.1_xt3pwb.webp";
+const logoColor = "https://ik.imagekit.io/b4rykldk3/artes_Mesa%20de%20trabajo%201.webp?updatedAt=1777044887554";
 
 function DashboardHeader() {
   const navigate = useNavigate()

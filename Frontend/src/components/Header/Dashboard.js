@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import DashboardHeader from "./DashboardHeader"
-const image2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620189/artes-04_rthq5e.webp";
+const image2 = "https://ik.imagekit.io/b4rykldk3/artes-04.webp?updatedAt=1777044887985";
 import "./Dashboard.css"
 
 function Dashboard() {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './pedido.module.css';
-const imagen_1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620321/IMG_8784_k585w9.webp";
+const imagen_1 = "https://ik.imagekit.io/b4rykldk3/IMG_8784.webp?updatedAt=1777044890394";
 
 export default function HonestiCatering() {
   const [hovering, setHovering] = useState(false);

@@ -1,11 +1,11 @@
 import styles from "./Menuslider.module.css"
-const heroImage = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620366/run_2_apufyf.webp";
-import imagen_1 from "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620366/101_fsjpga.webp"
-import imagen_2 from "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620366/102_qhqgul.webp"
-import imagen_3 from "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620366/103_hqowin.webp"
-import imagen_4 from "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620366/104_xpyzsx.webp"
-import imagen_5 from "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620366/105_xn2cqo.webp"
-import imagen_6 from "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620366/101_fsjpga.webp"
+const heroImage = "https://ik.imagekit.io/b4rykldk3/run_2.webp?updatedAt=1777044900326";
+import imagen_1 from "https://ik.imagekit.io/b4rykldk3/101.webp?updatedAt=1777044903247"
+import imagen_2 from "https://ik.imagekit.io/b4rykldk3/run_2.webp?updatedAt=1777044900326"
+import imagen_3 from "https://ik.imagekit.io/b4rykldk3/103.webp?updatedAt=1777044894173"
+import imagen_4 from "https://ik.imagekit.io/b4rykldk3/104.webp?updatedAt=1777044900870"
+import imagen_5 from "https://ik.imagekit.io/b4rykldk3/105.webp?updatedAt=1777044900679"
+import imagen_6 from "hhttps://ik.imagekit.io/b4rykldk3/101.webp?updatedAt=1777044903247"
 
 const MenuRestaurant = () => {
   // Datos de los platos

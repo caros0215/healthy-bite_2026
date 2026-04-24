@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import "./WelcomeOverlay.css"; // mismo CSS que almuerzos
 import API_URL from "../../../config/api";
 
-const loaderGif = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620330/logo_oscillate_dfzlda.gif";
-const DEFAULT_IMAGE = "https://res.cloudinary.com/dxh5zrylb/image/upload/artes_Mesa_de_trabajo_1_oytyhc.webp";
+const loaderGif = "https://ik.imagekit.io/b4rykldk3/logo_oscillate.gif?updatedAt=1777044898795";
+const DEFAULT_IMAGE = "https://ik.imagekit.io/b4rykldk3/artes_Mesa%20de%20trabajo%201.webp?updatedAt=1777044887554";
 
 const WelcomeOverlayCursos = ({ onClose, usuario_id = 1 }) => {
   const [imageUrl, setImageUrl] = useState("");
