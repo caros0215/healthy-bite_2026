@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
 import styles from "./valerasection.module.css"
-const videoValera = "https://ik.imagekit.io/b4rykldk3/video_104.mp4?updatedAt=1777044926719";
+const videoValera = "https://ik.imagekit.io/b4rykldk3/video_104_V1.mp4";
 const bgHealthy = "https://ik.imagekit.io/b4rykldk3/fondo.jpeg?updatedAt=1777044892723";
 
 export default function ValeraSection() {

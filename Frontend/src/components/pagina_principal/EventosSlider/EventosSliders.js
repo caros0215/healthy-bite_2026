@@ -2,10 +2,10 @@
 
 import { useRef, useState, useEffect } from "react"
 import styles from "./EventosSliders.module.css"
-const video1 = "https://ik.imagekit.io/b4rykldk3/video_21.webm/ik-video.mp4?updatedAt=1777044935106";
-const video2 = "https://ik.imagekit.io/b4rykldk3/cursos.mp4?updatedAt=1777044908325";
-const video4 = "https://ik.imagekit.io/b4rykldk3/vid_1.webm/ik-video.mp4?updatedAt=1777044959009";
-const video3 = "https://ik.imagekit.io/b4rykldk3/vid_2.webm/ik-video.mp4?updatedAt=1777044923692";
+const video1 = "https://ik.imagekit.io/b4rykldk3/vid_1_V1.mp4";
+const video2 = "https://ik.imagekit.io/b4rykldk3/cursos_V1.mp4";
+const video4 = "https://ik.imagekit.io/b4rykldk3/vid_1_V1.mp4";
+const video3 = "https://ik.imagekit.io/b4rykldk3/vid_2_V1.mp4";
 const imagen5 = "https://ik.imagekit.io/b4rykldk3/imagen_1.webp?updatedAt=1777044888817";
 const imagen6 = "https://ik.imagekit.io/b4rykldk3/imagen_5.webp?updatedAt=1777044888759";
 const logo = "https://ik.imagekit.io/b4rykldk3/artes_Mesa%20de%20trabajo%201.webp?updatedAt=1777044887554";
