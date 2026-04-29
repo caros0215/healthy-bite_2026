@@ -19,6 +19,8 @@ app.use(cors({
   credentials: true,
 }));
 
+app.options('*', cors()); // <- línea nueva
+
 app.use((req, res, next) => {
   res.setHeader('ngrok-skip-browser-warning', 'true');
   next();
