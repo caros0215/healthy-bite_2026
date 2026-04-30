@@ -12,11 +12,20 @@ const port = process.env.PORT || 5000;
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
 
+const allowedOrigins = [
+  'https://www.healthybite.com.co',
+  'http://localhost:3000'
+];
+
 app.use(cors({
   origin: function(origin, callback) {
-    callback(null, true);
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
   },
-  credentials: true,
+  credentials: true
 }));
 
 app.options('*', cors()); // <- línea nueva
