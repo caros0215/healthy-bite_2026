@@ -160,7 +160,7 @@ app.post("/api/auth/login", async (req, res) => {
   const query = `
     SELECT id, nombre_usuario, nombre_completo, email, tipo_usuario
     FROM usuarios
-    WHERE nombre_usuario = $1 AND contraseña = $2
+    WHERE nombre_usuario = $1 AND contrasena = $2
     LIMIT 1
   `;
 
