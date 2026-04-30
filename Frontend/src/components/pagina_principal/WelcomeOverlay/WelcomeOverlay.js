@@ -4,8 +4,18 @@ import "./WelcomeOverlay.css";
 
 const loaderGif = "https://ik.imagekit.io/b4rykldk3/logo_oscillate.gif?updatedAt=1777044898795";
 const defaultImage = "https://ik.imagekit.io/b4rykldk3/artes-04.webp?updatedAt=1777044887985";
-import API_URL from "../../../config/api"
+import API_URL from "../../../config/api";
+
 const DEFAULT_IMAGE = defaultImage;
+
+// 🔥 CACHE GLOBAL EN MEMORIA
+let cachedImage = null;
+let fetchingPromise = null;
+
+// 🔥 CLAVE POR DÍA
+const getTodayKey = () => {
+  return `almuerzo_${new Date().toISOString().split("T")[0]}`;
+};
 
 const WelcomeOverlay = ({ onClose }) => {
   const [imageUrl, setImageUrl] = useState("");
@@ -15,72 +25,121 @@ const WelcomeOverlay = ({ onClose }) => {
   const [isCanvaLink, setIsCanvaLink] = useState(false);
 
   useEffect(() => {
-    fetchLatestImage();
+    loadImage();
   }, []);
 
-  const fetchLatestImage = async () => {
+  const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
+
+  const loadImage = async () => {
     try {
       setLoading(true);
       setError(null);
       setNoImage(false);
 
-      const usuario_id = 1;
-      const response = await fetch(`${API_URL}/api/almuerzos/ultima-imagen/${usuario_id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const storageKey = getTodayKey();
 
-      if (!response.ok) {
-        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      // 🔥 1. CACHE EN MEMORIA
+      if (cachedImage) {
+        setImageUrl(cachedImage.url);
+        setIsCanvaLink(cachedImage.isCanva);
+        setLoading(false);
+        return;
       }
 
-      const data = await response.json();
-      console.log("📊 Respuesta del servidor:", data);
+      // 🔥 2. CACHE EN LOCALSTORAGE (POR DÍA)
+      const stored = localStorage.getItem(storageKey);
 
-      if (data.success && data.hasImage) {
-        if (data.link_canva) {
-          setImageUrl(data.link_canva);
-          setIsCanvaLink(true);
-          console.log("🔗 Es link de Canva:", true);
-        } else if (data.imagen) {
-          const base64Image = data.imagen.startsWith("data:image")
-            ? data.imagen
-            : `data:image/png;base64,${data.imagen}`;
-          setImageUrl(base64Image);
-          setIsCanvaLink(false);
-          console.log("✅ Imagen base64 cargada");
-        } else {
-          throw new Error("No hay imagen o enlace disponible");
-        }
-        console.log("✅ Imagen cargada exitosamente");
-      } else {
-        setNoImage(true);
-        setImageUrl(DEFAULT_IMAGE || "");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+
+        cachedImage = parsed;
+
+        setImageUrl(parsed.url);
+        setIsCanvaLink(parsed.isCanva);
+        setLoading(false);
+        return;
       }
+
+      // 🔥 3. EVITAR MÚLTIPLES REQUESTS
+      if (fetchingPromise) {
+        const result = await fetchingPromise;
+        setImageUrl(result.url);
+        setIsCanvaLink(result.isCanva);
+        setLoading(false);
+        return;
+      }
+
+      // 🔥 4. HACER FETCH CON RETRY
+      fetchingPromise = fetchWithRetry();
+
+      const result = await fetchingPromise;
+
+      // 🔥 5. GUARDAR EN CACHE
+      cachedImage = result;
+
+      localStorage.setItem(storageKey, JSON.stringify(result));
+
+      setImageUrl(result.url);
+      setIsCanvaLink(result.isCanva);
+
     } catch (err) {
-      console.error("❌ Error fetching latest image:", err);
+      console.error("❌ Error:", err);
       setNoImage(true);
-      setImageUrl(DEFAULT_IMAGE || "");
+      setImageUrl(DEFAULT_IMAGE);
       setError("No hay imagen creada");
     } finally {
       setLoading(false);
+      fetchingPromise = null;
     }
   };
 
-  const handlePedirAhora = () => {
-    console.log("🛒 Botón Pedir Ahora clickeado");
-    console.log("🎨 Imagen actual:", imageUrl);
-    console.log("🔗 Es link de Canva:", isCanvaLink);
+  const fetchWithRetry = async () => {
+    const usuario_id = 1;
 
-    if (isCanvaLink) {
-      const mensaje = `Hola! Me interesa este diseño de Canva: ${imageUrl}`;
-      console.log("📱 Mensaje para WhatsApp:", mensaje);
-    } else {
-      console.log("📱 Se puede crear mensaje con la imagen base64 o usar otro método");
+    for (let i = 0; i < 3; i++) {
+      try {
+        const response = await fetch(
+          `${API_URL}/api/almuerzos/ultima-imagen/${usuario_id}`
+        );
+
+        if (!response.ok) throw new Error("Backend dormido");
+
+        const data = await response.json();
+
+        if (data.success && data.hasImage) {
+          if (data.link_canva) {
+            return {
+              url: data.link_canva,
+              isCanva: true,
+            };
+          }
+
+          if (data.imagen) {
+            const base64Image = data.imagen.startsWith("data:image")
+              ? data.imagen
+              : `data:image/png;base64,${data.imagen}`;
+
+            return {
+              url: base64Image,
+              isCanva: false,
+            };
+          }
+        }
+
+        return {
+          url: DEFAULT_IMAGE,
+          isCanva: false,
+        };
+      } catch (err) {
+        console.log(`⏳ Intento ${i + 1} falló`);
+        await sleep(2000); // espera 2s para despertar Railway
+      }
     }
 
+    throw new Error("No se pudo conectar al backend");
+  };
+
+  const handlePedirAhora = () => {
     onClose();
     window.location.href = "/pedir";
   };
@@ -92,69 +151,43 @@ const WelcomeOverlay = ({ onClose }) => {
   };
 
   const handleImageError = () => {
-    console.error("❌ Error loading image from URL/Base64:", imageUrl);
-    console.error("🔗 Es link de Canva:", isCanvaLink);
     setNoImage(true);
-    setImageUrl(DEFAULT_IMAGE || "");
+    setImageUrl(DEFAULT_IMAGE);
   };
 
   return (
     <div className="welcome-overlay" onClick={handleBackgroundClick}>
-      {/* Contenedor principal con imagen y texto lado a lado */}
       <div className="welcome-main-container">
-        {/* Contenedor de la imagen */}
+
+        {/* IZQUIERDA */}
         <div className="welcome-content">
-          {/* Botón X para cerrar */}
-          <button
-            onClick={onClose}
-            className="close-button"
-            aria-label="Cerrar"
-          >
-            <svg
-              width="24"
-              height="24"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+          <button onClick={onClose} className="close-button">
+            ✖
           </button>
 
-          {/* Imagen con estados de carga */}
           <div className="image-container">
             {loading ? (
               <div className="image-loading">
-                <div className="spinner">
-                  <img
-                    src={loaderGif}
-                    alt="Cargando..."
-                    className="loading-gif"
-                  />
-                </div>
+                <img
+                  src={loaderGif}
+                  alt="Cargando..."
+                  className="loading-gif"
+                />
               </div>
             ) : noImage && !DEFAULT_IMAGE ? (
               <div className="no-image-container">
                 <div className="no-image-icon">🍽️</div>
-                <p className="no-image-text">No hay imagen creada</p>
+                <p>No hay imagen creada</p>
               </div>
             ) : (
               <div className="image-wrapper">
                 <img
-                  src={
-                    imageUrl ||
-                    "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjNEY0NkU1Ii8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTUwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE2Ij5TaW4gSW1hZ2VuPC90ZXh0Pgo8L3N2Zz4K"
-                  }
+                  src={imageUrl || DEFAULT_IMAGE}
                   alt="Última imagen"
                   className="welcome-image"
                   onError={handleImageError}
-                  crossOrigin="anonymous"
                 />
+
                 {isCanvaLink && (
                   <div className="canva-badge">
                     <span>🎨 Canva</span>
@@ -165,17 +198,14 @@ const WelcomeOverlay = ({ onClose }) => {
           </div>
         </div>
 
-        {/* Contenedor del texto y botón al lado derecho */}
+        {/* DERECHA */}
         <div className="welcome-text-content">
           <h3 className="welcome-title">¡Bienvenido!</h3>
 
           <p className="welcome-text">
             Si deseas explorar el resto de la página dale click a la X,
-            <br />
-            <br />
-            si deseas pedir dale click
-            <br />
-            al botón Pedir Ahora
+            <br /><br />
+            o pide directamente aquí:
           </p>
 
           <button onClick={handlePedirAhora} className="pedir-button">
@@ -184,13 +214,12 @@ const WelcomeOverlay = ({ onClose }) => {
 
           {error && (
             <div className="error-container">
-              <p className="error-message">⚠️ {error}</p>
-              <button onClick={fetchLatestImage} className="retry-button">
-                Reintentar
-              </button>
+              <p>⚠️ {error}</p>
+              <button onClick={loadImage}>Reintentar</button>
             </div>
           )}
         </div>
+
       </div>
     </div>
   );

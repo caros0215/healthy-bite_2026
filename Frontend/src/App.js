@@ -11,6 +11,41 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [showOverlay, setShowOverlay] = useState(false)
 
+  // 🔥 NUEVO: imagen global
+  const [imagenGlobal, setImagenGlobal] = useState(null)
+
+  // 🔥 FETCH TEMPRANO (mientras splash corre)
+  useEffect(() => {
+    const fetchImagen = async () => {
+      try {
+        const res = await fetch("https://backend-healthybite.up.railway.app/api/almuerzos/ultima-imagen/1")
+        const data = await res.json()
+
+        if (data.success && data.hasImage) {
+          if (data.link_canva) {
+            setImagenGlobal({
+              url: data.link_canva,
+              isCanva: true
+            })
+          } else if (data.imagen) {
+            const base64 = data.imagen.startsWith("data:image")
+              ? data.imagen
+              : `data:image/png;base64,${data.imagen}`
+
+            setImagenGlobal({
+              url: base64,
+              isCanva: false
+            })
+          }
+        }
+      } catch (e) {
+        console.error("Error global fetch:", e)
+      }
+    }
+
+    fetchImagen()
+  }, [])
+
   useEffect(() => {
     window.scrollTo(0, 0)
     document.body.style.overflow = isLoading ? "hidden" : ""
@@ -22,16 +57,14 @@ const App = () => {
 
   const handleLoadingComplete = () => {
     setIsLoading(false)
-    
-    // Verificar si estamos en la página principal (no en dashboard u otras rutas internas)
+
     const currentPath = window.location.pathname
     const isMainPage = currentPath === '/' || currentPath === '/login' || currentPath === ''
-    
-    // Solo mostrar overlay si estamos en página principal
+
     if (isMainPage) {
       setShowOverlay(true)
     }
-    
+
     setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: "auto" }), 100)
   }
 
@@ -48,8 +81,14 @@ const App = () => {
           <Router>
             <RoutesComponent />
           </Router>
-          {/* Overlay que aparece solo en páginas principales */}
-          {showOverlay && <WelcomeOverlay onClose={handleOverlayClose} />}
+
+          {/* 🔥 Overlay con imagen precargada */}
+          {showOverlay && (
+            <WelcomeOverlay
+              onClose={handleOverlayClose}
+              imagenGlobal={imagenGlobal}
+            />
+          )}
         </>
       )}
     </>
