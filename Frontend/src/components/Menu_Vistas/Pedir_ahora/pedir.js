@@ -16,7 +16,7 @@ import Verde from "../catering/verde"
 const image1 = "https://ik.imagekit.io/b4rykldk3/plato_2.webp?updatedAt=1777063127446";
 const image2 = "https://ik.imagekit.io/b4rykldk3/portada_2.webp";
 const imagen_1 = "https://ik.imagekit.io/b4rykldk3/1.webp?updatedAt=1777044892924";
-const imagenAlimentacion = "https://ik.imagekit.io/b4rykldk3/16.webp?updatedAt=1777044902301";
+const imagenAlimentacion = "https://ik.imagekit.io/b4rykldk3/16.webp";
 
 // Debug: verificar imágenes importadas
 const debugImages = () => {
