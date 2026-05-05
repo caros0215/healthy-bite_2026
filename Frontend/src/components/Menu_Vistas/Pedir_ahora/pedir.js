@@ -14,9 +14,9 @@ import Verde from "../catering/verde"
 
 // Importar las imágenes directamente
 const image1 = "https://ik.imagekit.io/b4rykldk3/plato_2.webp?updatedAt=1777063127446";
-const image2 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620356/portada_2_suvktk.webp";
-const imagen_1 = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620133/1_fvkwsy.webp";
-const imagenAlimentacion = "https://res.cloudinary.com/dxh5zrylb/image/upload/v1774620146/16_wlbdwz.webp";
+const image2 = "https://ik.imagekit.io/b4rykldk3/portada_2.webp";
+const imagen_1 = "https://ik.imagekit.io/b4rykldk3/1.webp?updatedAt=1777044892924";
+const imagenAlimentacion = "https://ik.imagekit.io/b4rykldk3/16.webp?updatedAt=1777044902301";
 
 // Debug: verificar imágenes importadas
 const debugImages = () => {
