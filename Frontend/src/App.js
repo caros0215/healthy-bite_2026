@@ -83,12 +83,12 @@ const App = () => {
           </Router>
 
           {/* 🔥 Overlay con imagen precargada */}
-          {showOverlay && (
+          {/* {showOverlay && (
             <WelcomeOverlay
               onClose={handleOverlayClose}
               imagenGlobal={imagenGlobal}
             />
-          )}
+          )} */}
         </>
       )}
     </>
