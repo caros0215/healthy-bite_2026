@@ -117,7 +117,7 @@ const RealFoodRevolution = () => {
   const getPrecioDomicilio = () => {
     if (!formData.barrio) return 0
     const found = preciosDomicilio.find(i => i.barrio === formData.barrio)
-    return found ? found.precio : 0
+    return found ? parseFloat(found.precio) : 0
   }
 
   const getRecargoDatafono = () => Math.round(getPrecioDomicilio() * 0.5)
@@ -130,7 +130,7 @@ const RealFoodRevolution = () => {
       const plato = opcionesMenu.find(p =>
         `${p.nombre} - ${p.precio.toLocaleString()}` === formData.platoSeleccionado
       )
-      if (plato) subtotal = plato.precio
+      if (plato) subtotal = parseFloat(plato.precio)
     }
     const empaque   = 2000
     const domicilio = getPrecioDomicilio()
@@ -323,7 +323,7 @@ Pedido realizado desde pagina Healthybite manizales`
                           </option>
                           {preciosDomicilio.map((item) => (
                             <option key={item.id ?? item.barrio} value={item.barrio}>
-                              {item.barrio} - ${item.precio.toLocaleString()}
+                              {item.barrio} - ${parseFloat(item.precio).toLocaleString()}
                             </option>
                           ))}
                         </select>

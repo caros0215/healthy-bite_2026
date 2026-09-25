@@ -1148,7 +1148,8 @@ app.get("/api/running/imagen/:usuario_id/:fecha_evento", async (req, res) => {
 app.get("/api/menu", async (req, res) => {
   try {
     const r = await db.query("SELECT id, nombre, precio FROM menu WHERE activo = 1 ORDER BY nombre");
-    res.json(r.rows);
+    const data = r.rows.map(row => ({ ...row, precio: parseFloat(row.precio) }));
+    res.json(data);
   } catch (err) {
     console.error("Error obteniendo menú:", err);
     return res.status(500).json({ success: false, error: "Error en base de datos" });
@@ -1158,7 +1159,8 @@ app.get("/api/menu", async (req, res) => {
 app.get("/api/precios-domicilio", async (req, res) => {
   try {
     const r = await db.query(`SELECT id, barrio, precio FROM precios_domicilio WHERE activo = 1 ORDER BY barrio`);
-    res.json(r.rows);
+    const data = r.rows.map(row => ({ ...row, precio: parseFloat(row.precio) }));
+    res.json(data);
   } catch (err) {
     console.error("Error obteniendo domicilios:", err);
     return res.status(500).json({ success: false, error: "Error en base de datos" });
